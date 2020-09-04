@@ -106,6 +106,7 @@ function randomWord(randomFlag, min, max){
 }
 
 function msgShow() {
+  let url ={"open-url" : "jdmobile://share?jumpType=7&jumpUrl=https%3A%2F%2Fm.jr.jd.com%2Fmember%2Fmc%2F%23%2Fhome"}
   $.message = "";
   for (var i in $.Prize) {
     if ($.message == "") $.message = `用户名：${$.Prize[i].nickName}\n`;
@@ -116,7 +117,7 @@ function msgShow() {
       $.message += `${$.Prize[i].Desc}：${typeof($.Prize[i].failDesc) == "undefined" ? $.Prize[i].respDesc : $.Prize[i].failDesc}\n`;
     }
   }
-  $.msg($.name, '', `${$.message.substr(0,$.message.length - 1)}`);
+  $.msg($.name, '', `${$.message.substr(0,$.message.length - 1)}`, url);
 }
 
 
