@@ -1,7 +1,9 @@
 /*
+京东金融领白条券
+更新时间：2020-09-09
 [task_local]
-# 京东金融领白条券  9点执行（周五券要9点开始领）
-0 9 * * * jd_baiTiao.js
+# 京东金融领白条券  9点执行（非天天领券要9点开始领）
+0 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
 */
 const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -16,105 +18,120 @@ if ($.isNode()) {
   cookiesArr.push($.getdata('CookieJD2'));
 }
 const JR_API_HOST = 'https://jrmkt.jd.com/activity/newPageTake/takePrize';
-const Prize = {
-  //每周五领55-5券 每月两次
-  PrizeFriday :{ Id : `Q529284818011r8O2Y8L07082T9kE`, Body : `activityId=Q529284818011r8O2Y8L07082T9kE&eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+let prize =
   //每日领随机白条券
-  PrizeDaily : { Id : `Q72m9P5k3K94223q5k5O1w228U2S8B040D2B9qt`, Body : `activityId=Q72m9P5k3K94223q5k5O1w228U2S8B040D2B9qt&eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`}
-}
-	
+  [
+    {name : `prizeDaily`, desc : `天天领`, id : `Q72m9P5k3K94223q5k5O1w228U2S8B040D2B9qt`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+    //周一领
+    {name : `prizeMonday`, desc : `周一领`, id : `Q1295372232228280029Aw`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+    //周二领
+    {name : `prizeTuesday`, desc : `周二领`, id : `Q9293947555491r1b3U870x0D2V95X`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+    //周三领
+    {name : `prizeWednesday`, desc : `周三领`, id : `Q8299679592g5N1Y1r3j8X0004269Ll`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+    //周四领
+    {name : `prizeThursday`, desc : `周四领`, id : `X9D2l0f0P8S31154947512923QU`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+    //每周五领55-5券
+    {name : `prizeFriday`, desc : `周五领`, id : `Q529284818011r8O2Y8L07082T9kE`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`},
+    //周六领
+    {name : `prizeSaturday`, desc : `周六领`, id : `i9200831161952186922QB`, body : `eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`}
+  ]
+
 !(async () => {
   if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
+    $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
+
+  for (let i = 0; i < prize.length; i++) {
+    prize[i].body =`activityId=${prize[i].id}&${prize[i].body}`
+  }
+
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
-      $.Prize = {};
+      $.prize = {};
       let date = new Date();
-      //await  QueryJDUserInfo();
-      await takePrize(Prize.PrizeDaily.Body, "PrizeDaily", "天天领");
-      if ($.Prize["PrizeDaily"].respCode == "00001" )
+      await takePrize(prize[0]);
+      if ($.prize["prizeDaily"].respCode == "00001" )
       {
-        $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
+        $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
-      if (date.getDay() == 5) {
+      if (date.getDay() !== 7) {
         await $.wait(800); //延迟执行，防止提示活动火爆
-        await takePrize(Prize.PrizeFriday.Body,"PrizeFriday","周五领");
+        await takePrize(prize[date.getDay()]);
       }
       await msgShow();
-      }
-    }
-})()
-    .catch((e) => {
-      $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
-    })
-    .finally(() => {
-      $.done();
-    })
-
-
-function takePrize(body,PrizeName,Desc,timeout = 0) {
-    return new Promise((resolve) => {
-    setTimeout( ()=>{
-	let url = {
-	url: JR_API_HOST,
-    body : body,
-    headers: {
-	  'Cookie' : cookie,
-	  'X-Requested-With' : `XMLHttpRequest`,
-	  'Accept' : `application/json, text/javascript, */*; q=0.01`,
-	  'Origin' : `https://jrmkt.jd.com`,
-	  'Accept-Encoding' : `gzip, deflate, br`,
-	  'Content-Type' : `application/x-www-form-urlencoded;charset=UTF-8`,
-	  'Host' : `jrmkt.jd.com`,
-	  'Connection' : `keep-alive`,
-	  'Referer' : `https://jrmkt.jd.com/ptp/wl/vouchers.html?activityId=${Prize[PrizeName].Id}`,
-	  'Accept-Language' : `zh-cn`
     }
   }
-    $.post(url, (err, resp, data) => {
-      try {
-        data = JSON.parse(data);
-        $.Prize[PrizeName] = data;
-		$.Prize[PrizeName].Desc = Desc;
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve()
+})()
+  .catch((e) => {
+    $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
+  })
+  .finally(() => {
+    $.done();
+  })
+
+
+function takePrize(prize,timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url: JR_API_HOST,
+        body : prize.body,
+        headers: {
+          'Cookie' : cookie,
+          'X-Requested-With' : `XMLHttpRequest`,
+          'Accept' : `application/json, text/javascript, */*; q=0.01`,
+          'Origin' : `https://jrmkt.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Content-Type' : `application/x-www-form-urlencoded;charset=UTF-8`,
+          'Host' : `jrmkt.jd.com`,
+          'Connection' : `keep-alive`,
+          'Referer' : `https://jrmkt.jd.com/ptp/wl/vouchers.html?activityId=${prize.id}`,
+          'Accept-Language' : `zh-cn`
+        }
       }
-    })
+      $.post(url, (err, resp, data) => {
+        try {
+          data = JSON.parse(data);
+          $.prize[prize.name] = data;
+          $.prize[prize.name].desc = prize.desc;
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
     },timeout)
   })
 }
 
 function randomWord(randomFlag, min, max){
-    let str = "",
-        range = min,
-        arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-    // 随机产生
-    if(randomFlag){
-      range = Math.round(Math.random() * (max-min)) + min;
-    }
-    for(let i=0; i<range; i++){
-      pos = Math.round(Math.random() * (arr.length-1));
-      str += arr[pos];
-    }
-    return str;
+  let str = "",
+    range = min,
+    arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  // 随机产生
+  if(randomFlag){
+    range = Math.round(Math.random() * (max-min)) + min;
+  }
+  for(let i=0; i<range; i++){
+    pos = Math.round(Math.random() * (arr.length-1));
+    str += arr[pos];
+  }
+  return str;
 }
 
 function msgShow() {
   let url ={"open-url" : "jdmobile://share?jumpType=7&jumpUrl=https%3A%2F%2Fm.jr.jd.com%2Fmember%2Fmc%2F%23%2Fhome"}
   $.message = "";
-  for (var i in $.Prize) {
-    if ($.message == "") $.message = `用户名：${$.Prize[i].nickName}\n`;
-    if ($.Prize[i].respCode === "00000") {
-      $.message += `${$.Prize[i].Desc}：${$.Prize[i].prizeModels[0].prizeName + $.Prize[i].prizeModels[0].prizeAward}\n`;
+  for (let i in $.prize) {
+    if ($.message == "") $.message = `用户名：${$.prize[i].nickName}\n`;
+    if ($.prize[i].respCode === "00000") {
+      $.message += `${$.prize[i].desc}：${$.prize[i].prizeModels[0].prizeName + $.prize[i].prizeModels[0].prizeAward}\n`;
     }
     else {
-      $.message += `${$.Prize[i].Desc}：${typeof($.Prize[i].failDesc) == "undefined" ? $.Prize[i].respDesc : $.Prize[i].failDesc}\n`;
+      $.message += `${$.prize[i].desc}：${typeof($.prize[i].failDesc) == "undefined" ? $.prize[i].respDesc : $.prize[i].failDesc}\n`;
     }
   }
   $.msg($.name, '', `${$.message.substr(0,$.message.length - 1)}`, url);
