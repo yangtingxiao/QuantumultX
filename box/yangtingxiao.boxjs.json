@@ -11,10 +11,10 @@
       "keys": ["yangtingxiao_sample"],
       "settings": [
         { "id": "yangtingxiao_sample", "name": "设置sample", "val": false, "type": "boolean", "desc": "设置样例" }
-      ]
+      ],
       "author": "@yangtingxiao",
       "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/jd/",
-	    "scripts":[
+      "scripts":[
         {
           "name" : "天天领白条券",
           "script" : "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js"
