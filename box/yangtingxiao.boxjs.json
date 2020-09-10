@@ -19,7 +19,7 @@
           "name" : "天天领白条券",
           "script" : "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js"
         }
-      ]
+      ],
       "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png"]
 	}
   ]
