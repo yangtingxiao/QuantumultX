@@ -1,0 +1,26 @@
+{
+  "id": "yangtingxiao.app.sub",
+  "name": "yangtingxiao 应用订阅",
+  "author": "@yangtingxiao",
+  "icon": "https://avatars3.githubusercontent.com/u/2059081",
+  "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/",
+  "apps": [
+    {
+      "id": "yangtingxiao_baitiao",
+      "name": "京东白条",
+      "keys": ["yangtingxiao_sample"],
+      "settings": [
+        { "id": "yangtingxiao_sample", "name": "设置sample", "val": false, "type": "boolean", "desc": "设置样例" }
+      ],
+      "author": "@yangtingxiao",
+      "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/jd/",
+      "scripts":[
+        {
+          "name" : "天天领白条券",
+          "script" : "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js"
+        }
+      ],
+      "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png"]
+	}
+  ]
+}
