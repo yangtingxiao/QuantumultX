@@ -157,7 +157,14 @@ function smtg_queryPrize(timeout = 0){
             return
           }
           if (data.data.bizCode === 0) {
-            console.log(`【京东账号】${merge.nickname} 查询换京豆ID成功，ID:${data.data.result.prizeList[0].prizeId}`)
+            if (data.data.result.prizeList[0].beanType) {
+              console.log(`【京东账号】${merge.nickname} 查询换京豆ID成功，ID:${data.data.result.prizeList[0].prizeId}`)
+            } else {
+              console.log(`【京东账号】${merge.nickname} 查询换京豆ID失败，没有查询到`)
+              merge.jdBeans.fail++;
+              merge.jdBeans.notify = `东哥今天不给换`;
+              return ;
+            }
             if (data.data.result.prizeList[0].targetNum === data.data.result.prizeList[0].finishNum) {
               merge.jdBeans.fail++;
               merge.jdBeans.notify = `${data.data.result.prizeList[0].subTitle}`;
