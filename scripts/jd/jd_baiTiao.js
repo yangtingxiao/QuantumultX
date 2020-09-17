@@ -57,7 +57,7 @@ let prize =
         continue;
       }
       if (date.getDay() !== 7) {
-        await $.wait(800); //延迟执行，防止提示活动火爆
+        await $.wait(820); //延迟执行，防止提示活动火爆
         await takePrize(prize[date.getDay()]);
       }
       if (date.getDay() === 7) {
@@ -135,7 +135,7 @@ function queryMissionWantedDetail(timeout = 0) {
               await receivePlay(data.resultData.data.mission.missionId);
               break;
             case 0,1 : //不知道是几，都写上  2 已完成  -1未领取
-              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue}/6，剩余数量${data.resultData.data.residueAwardNum}\n`
+              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue || 0}/6，剩余数量${data.resultData.data.residueAwardNum}\n`
               break;
           }
         } catch (e) {
