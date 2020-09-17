@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-09-09
+更新时间：2020-09-17
 [task_local]
 # 京东金融领白条券  9点执行（非天天领券要9点开始领）
 0 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -49,11 +49,10 @@ let prize =
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
-      $.prize = {};
+      $.prize = {addMsg : ``};
       let date = new Date();
       await takePrize(prize[0]);
-      if ($.prize["prizeDaily"].respCode == "00001" )
-      {
+      if ($.prize["prizeDaily"].respCode == "00001" ) {
         $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
@@ -61,6 +60,10 @@ let prize =
         await $.wait(800); //延迟执行，防止提示活动火爆
         await takePrize(prize[date.getDay()]);
       }
+      if (date.getDay() === 7) {
+        $.prize.addMsg = `提　醒：请于今天使用周日专享白条券\n`
+      }
+      await queryMissionWantedDetail();
       await msgShow();
     }
   }
@@ -107,6 +110,75 @@ function takePrize(prize,timeout = 0) {
   })
 }
 
+function queryMissionWantedDetail(timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url: `https://ms.jr.jd.com/gw/generic/mission/h5/m/queryMissionWantedDetail?reqData=%7B%22playId%22:%2281%22,%22channelCode%22:%22MISSIONCENTER%22,%22timeStamp%22:%2${$.time(`yyyy-MM-ddTHH:mm:ss.SZ`)}%22%7D`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://m.jr.jd.com/member/task/RewardDetail/?playId=81&platformCode=MISSIONCENTER&channel=baitiao&jrcontainer=h5&jrcloseweb=false`,
+          'Host' : `ms.jr.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      $.post(url, async (err, resp, data) => {
+        try {
+          data = JSON.parse(data);
+          switch (data.resultData.data.mission.status ) {
+            case -1 :
+              $.prize.addMsg += `周任务：${data.resultData.data.mission.name}`;
+              await receivePlay(data.resultData.data.mission.missionId);
+              break;
+            case 0,1 : //不知道是几，都写上  2 已完成  -1未领取
+              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue}/6，剩余数量${data.resultData.data.residueAwardNum}\n`
+              break;
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+function receivePlay(missionId,timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url: `https://ms.jr.jd.com/gw/generic/mission/h5/m/receivePlay?reqData=%7B%22playId%22:%2281%22,%22channelCode%22:%22MISSIONCENTER%22,%22playType%22:1,%22missionId%22:${missionId},%22timeStamp%22:%22${$.time(`yyyy-MM-ddTHH:mm:ss.SZ`)}%22%7D`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://m.jr.jd.com/member/task/RewardDetail/?playId=81&platformCode=MISSIONCENTER&channel=baitiao&jrcontainer=h5&jrcloseweb=false`,
+          'Host' : `ms.jr.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      $.post(url, (err, resp, data) => {
+        try {
+          data = JSON.parse(data);
+          $.prize.addMsg += `-${data.resultData.msg.replace(`该任务`,``)}\n`;
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+
 function randomWord(randomFlag, min, max){
   let str = "",
     range = min,
@@ -126,6 +198,7 @@ function msgShow() {
   let url ={"open-url" : "jdmobile://share?jumpType=7&jumpUrl=https%3A%2F%2Fm.jr.jd.com%2Fmember%2Fmc%2F%23%2Fhome"}
   $.message = "";
   for (let i in $.prize) {
+    if (typeof ($.prize[i]) !== "object" ) continue;
     if ($.message == "") $.message = `用户名：${$.prize[i].nickName}\n`;
     if ($.prize[i].respCode === "00000") {
       $.message += `${$.prize[i].desc}：${$.prize[i].prizeModels[0].prizeName + $.prize[i].prizeModels[0].prizeAward}\n`;
@@ -134,6 +207,7 @@ function msgShow() {
       $.message += `${$.prize[i].desc}：${typeof($.prize[i].failDesc) == "undefined" ? $.prize[i].respDesc : $.prize[i].failDesc}\n`;
     }
   }
+  $.message += $.prize.addMsg ? $.prize.addMsg : "";
   $.msg($.name, '', `${$.message.substr(0,$.message.length - 1)}`, url);
 }
 
