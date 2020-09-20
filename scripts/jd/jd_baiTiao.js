@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-09-17
+更新时间：2020-09-20
 [task_local]
 # 京东金融领白条券  9点执行（非天天领券要9点开始领）
 0 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -56,11 +56,11 @@ let prize =
         $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
-      if (date.getDay() !== 7) {
+      if (date.getDay() !== 0) {
         await $.wait(820); //延迟执行，防止提示活动火爆
         await takePrize(prize[date.getDay()]);
       }
-      if (date.getDay() === 7) {
+      if (date.getDay() === 0) {
         $.prize.addMsg = `提　醒：请于今天使用周日专享白条券\n`
       }
       await queryMissionWantedDetail();
