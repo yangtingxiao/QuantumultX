@@ -24,6 +24,9 @@ jobs:
       - name: npm install
         run: |
           npm install
+      - name: npm got
+        run: |
+          npm install --save got
       - name: '领京东白条券'
         run: |
           node 'scripts/remote/runRemoteScript.js'
