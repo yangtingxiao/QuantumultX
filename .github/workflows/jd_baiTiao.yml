@@ -24,9 +24,8 @@ jobs:
       - name: npm install
         run: |
           npm install
-      - name: npm got
-        run: |
           npm install --save got
+          npm install tough-cookie
       - name: '领京东白条券'
         run: |
           node 'scripts/remote/runRemoteScript.js'
