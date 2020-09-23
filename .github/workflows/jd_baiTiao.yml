@@ -26,4 +26,4 @@ jobs:
           npm install
       - name: '领京东白条券'
         run: |
-          node .\scripts\remote\runRemoteScript.js
+          node \scripts\remote\runRemoteScript.js
