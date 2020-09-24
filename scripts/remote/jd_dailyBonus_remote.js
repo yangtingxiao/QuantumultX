@@ -1,5 +1,6 @@
 const $ = new Env()
 const exec = require('child_process').execSync
+const fs = require('fs')
 !(async () => {
   const url = `https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js`;
   let script_text = null
@@ -12,8 +13,8 @@ const exec = require('child_process').execSync
   if (CookieJDs.length === 0) CookieJDs.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < CookieJDs.length; i++) {
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i}个账号开始`)
-    //await apiRunScript()
-    await exec(script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`))
+    await fs.writeFileSync( './JD_DailyBonus.js', script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`), 'utf8')
+    await exec("node JD_DailyBonus.js")
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i}个账号结束`)
   }
 })()
