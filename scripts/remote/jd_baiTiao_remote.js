@@ -8,6 +8,8 @@ const $ = new Env()
       try {
         eval(script_text)
       } catch (e) {
+        $.logErr(e)
+      } finally {
         resolve()
       }
     })
