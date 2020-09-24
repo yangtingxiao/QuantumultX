@@ -5,7 +5,7 @@ const $ = new Env('京东白条远程执行测试')
   let script_text = null
   await $.getScript(url).then((script) => (script_text = script))
   {
-    console.log(script_text);
+    //console.log(script_text);
     await new Promise((resolve) => {
       try {
         eval(script_text)
