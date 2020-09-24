@@ -8,9 +8,11 @@ const $ = new Env()
     CookieJDs = process.env.JD_COOKIE.split('&');
   }
   script_text = script_text.replace(/var Name.+$/,'var Name = "【签到帐号】:  " + DName\n').replace('!$nobyda.isNode','$nobyda.isNode').replace(/if \(isNode\) (console.log\(.+?\))/,'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,``)\n}')
+  console.log(script_text)
   if (CookieJDs.length === 0) CookieJDs.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < CookieJDs.length; i++) {
-    let script = script_text.replace(/(var Key = )''/,`$1'${(CookieJDs[i])}'`);
+    console.log(CookieJDs[i])
+    script_text = script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`);
     await new Promise((resolve) => {
       try {
         eval(script)
