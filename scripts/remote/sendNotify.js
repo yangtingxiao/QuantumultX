@@ -41,12 +41,9 @@ if (process.env.BARK_PUSH) {
   if (process.env.BARK_SOUND) {
     BARK_SOUND = process.env.BARK_SOUND
   }
-} else {
-  if(BARK_PUSH.indexOf('https') === -1 && BARK_PUSH.indexOf('http') === -1) {
-    //兼容BARK自建用户
-    BARK_PUSH = `https://api.day.app/${BARK_PUSH}`
-  }
 }
+
+
 if (process.env.TG_BOT_TOKEN) {
   TG_BOT_TOKEN = process.env.TG_BOT_TOKEN;
 }
