@@ -6,6 +6,9 @@ const $ = new Env()
   if (process.env.JD_COOKIE && process.env.JD_COOKIE.split('&') && process.env.JD_COOKIE.split('&').length > 0) {
     CookieJDs = process.env.JD_COOKIE.split('&');
   }
+
+  script_text = script_text.replace(/if \(isNode\) console.log\(.+?\)/,'if (isNode) {let notify = require(\'./sendNotify\');notify.sendNotify(\'${title}\\n${subtitle}\\n${message}\')}')
+
   for (let i = 0; i < CookieJDs.length; i++) {
     let script = script_text.replace(/(var Key = )''/,`$1'${(CookieJDs[i])}'`);
     await new Promise((resolve) => {
