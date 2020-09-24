@@ -14,17 +14,17 @@ const fs = require('fs')
   for (let i = 0; i < CookieJDs.length; i++) {
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号开始`)
     await fs.writeFileSync( './scripts/remote/JD_DailyBonus.js', script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`), 'utf8')
-    await fork('./scripts/remote/JD_DailyBonus.js')
+    await apiRunScript()
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号结束`)
   }
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
 
-async function apiRunScript(script) {
+async function apiRunScript() {
     await new Promise((resolve) => {
       try {
-        eval(script)
+        fork('./scripts/remote/JD_DailyBonus.js')
       } catch (e) {
         $.logErr(e)
       } finally {
