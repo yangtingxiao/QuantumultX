@@ -28,4 +28,4 @@ jobs:
           npm install tough-cookie
       - name: '领京东白条券'
         run: |
-          node 'scripts/jd/jd_baiTiao.js'
+          node 'scripts/remote/runRemoteScript.js'
