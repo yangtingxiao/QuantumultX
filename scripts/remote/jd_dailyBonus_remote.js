@@ -7,17 +7,12 @@ const $ = new Env()
   if (process.env.JD_COOKIE && process.env.JD_COOKIE.split('&') && process.env.JD_COOKIE.split('&').length > 0) {
     CookieJDs = process.env.JD_COOKIE.split('&');
   }
-  //replace(/var Name.+$/,'var Name = "【签到帐号】:  " + DName +"\\n"')
-  console.log(script_text.match(/var Name.+$/))
-  script_text = script_text.replace('!$nobyda.isNode','$nobyda.isNode').replace(/if \(isNode\) (console.log\(.+?\))/,'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,``)\n}')
-
+  script_text = script_text.replace(/var Name.+/,'var Name = "【签到帐号】:  " + DName +"\\n"').replace('!$nobyda.isNode','$nobyda.isNode').replace(/if \(isNode\) (console.log\(.+?\))/,'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,``)\n}')
   if (CookieJDs.length === 0) CookieJDs.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < CookieJDs.length; i++) {
-    console.log(CookieJDs[i])
-    let script = script_text.replace(/(var Key = )''/,`$1'${(CookieJDs[i])}'`);
     await new Promise((resolve) => {
       try {
-        eval(script)
+        eval(script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`))
       } catch (e) {
         $.logErr(e)
       } finally {
