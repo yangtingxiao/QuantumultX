@@ -11,7 +11,7 @@ const $ = new Env()
   if (CookieJDs.length === 0) CookieJDs.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < CookieJDs.length; i++) {
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i}个账号开始`)
-    await apiRunScript(script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`))
+    await apiRunScript(script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`)).then()
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i}个账号结束`)
   }
 })()
@@ -24,8 +24,7 @@ async function apiRunScript(script) {
         eval(script)
       } catch (e) {
         $.logErr(e)
-      }
-      finally {
+      } finally {
         resolve()
       }
     })
