@@ -1,5 +1,5 @@
 const $ = new Env()
-const fork = require('child_process').fork
+const exec = require('child_process').execSync
 const fs = require('fs')
 !(async () => {
   const url = `https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js`;
@@ -14,17 +14,17 @@ const fs = require('fs')
   for (let i = 0; i < CookieJDs.length; i++) {
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号开始`)
     await fs.writeFileSync( './scripts/remote/JD_DailyBonus.js', script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`), 'utf8')
-    await apiRunScript()
+    await exec('node "./scripts/remote/JD_DailyBonus.js"',{stdio: 'inherit'})
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号结束`)
   }
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
 
-async function apiRunScript() {
+async function apiRunScript(script) {
     await new Promise((resolve) => {
       try {
-        fork('./scripts/remote/JD_DailyBonus.js')
+        eval(script)
       } catch (e) {
         $.logErr(e)
       } finally {
