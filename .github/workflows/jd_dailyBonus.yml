@@ -30,5 +30,7 @@ jobs:
       - name: '京东签到'
         env: 
             JD_COOKIE: ${{secrets.JD_COOKIE}}
+            TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
+            TG_USER_ID :  ${{secrets.TG_USER_ID}}  
         run: |
           node 'scripts/remote/jd_dailyBonus_remote.js'
