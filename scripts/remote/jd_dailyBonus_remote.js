@@ -10,17 +10,18 @@ const $ = new Env()
   script_text = script_text.replace(/var Name.+/,'var Name = "【签到帐号】:  " + DName +"\\n"').replace('!$nobyda.isNode','$nobyda.isNode').replace(/if \(isNode\) (console.log\(.+?\))/,'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,``)\n}')
   if (CookieJDs.length === 0) CookieJDs.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < CookieJDs.length; i++) {
-    await apiRunScript()
-
+    console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i}个账号开始`)
+    await apiRunScript(script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`))
+    console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i}个账号结束`)
   }
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
 
-async function apiRunScript() {
+async function apiRunScript(script) {
     await new Promise((resolve) => {
       try {
-        eval(script_text.replace(/(var Key = )'.*?'/,`$1'${(CookieJDs[i])}'`))
+        eval(script)
       } catch (e) {
         $.logErr(e)
       }
