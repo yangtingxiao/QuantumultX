@@ -27,7 +27,8 @@ jobs:
           npm install --save got
           npm install tough-cookie
       - name: '领京东白条券'
+        env: 
+            JD_COOKIE: ${{secrets.JD_COOKIE}}
         run: |
           node 'scripts/remote/runRemoteScript.js'
-        env:
-        JD_COOKIE: ${{ secrets.JD_COOKIE }}
+        
