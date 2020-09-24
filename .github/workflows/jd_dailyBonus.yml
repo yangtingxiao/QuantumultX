@@ -24,6 +24,7 @@ jobs:
       - name: npm install
         run: |
           npm install
+          npm install request
           npm install --save got
           npm install tough-cookie
       - name: '京东签到'
