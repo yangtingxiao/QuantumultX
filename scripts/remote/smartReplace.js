@@ -7,11 +7,12 @@ const Secrets = {
 };
 
 async function replaceText(content, index) {
-  console.log(Secrets.MULT_CUSTOM_REPLACE)
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
-  if (eval(Secrets.MULT_CUSTOM_REPLACE).length > 0 && eval(Secrets.MULT_CUSTOM_REPLACE).length <= index) {
-    replacements.push(eval(Secrets.MULT_CUSTOM_REPLACE)[index].toString())
-    //console.log(eval(Secrets.MULT_CUSTOM_REPLACE)[index])
+  const replacementslist = eval(ecrets.MULT_CUSTOM_REPLACE);
+  console.log(replacementslist)
+  if (replacementslist.length > 0 && replacementslist.length <= index) {
+    replacements.push(replacementslist[index].toString())
+    console.log(replacementslist[index])
   }
   //console.log(replacements)
   if (content) {
