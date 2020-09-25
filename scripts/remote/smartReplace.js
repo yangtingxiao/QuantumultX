@@ -20,7 +20,7 @@ async function replaceText(content, index) {
         });
       }
       if (content.match(/jdCookie\.js/)) {
-        replacements.push({ key: "require('./jdCookie.js')", value: JSON.stringify(Secrets.JD_COOKIE.split("&")[index])});
+        replacements.push({ key: "require('./jdCookie.js')", value: `['${Secrets.JD_COOKIE.split("&")[index]}']` });
       }
     }
   }
