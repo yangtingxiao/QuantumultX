@@ -24,6 +24,12 @@
 
 通知模块使用了([@lxk0301](https://github.com/lxk0301/scripts))的sendNotify.js
 
+优点：
+1、替换灵活，仅需要掌握少量知识，基本上无脑替换即可，即可实现自己想要的效果
+
+2、使用 ([@chavyleung](https://github.com/chavyleung))Env开发的脚本，smartReplace中自动替换notify模块，实现可以自动调用sendNotify来实现推送通知到手机上
+
+
 ### Thanks to(排名不分先后)：
 * [@NobyDa](https://github.com/NobyDa)
 
