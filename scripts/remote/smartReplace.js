@@ -25,7 +25,7 @@ async function replaceText(content, index) {
       }
     }
   }
-  console.log(replacements)
+  //console.log(replacements)
   return batchReplace(content, replacements);
 }
 function batchReplace(content, replacements) {
