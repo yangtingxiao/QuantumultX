@@ -7,6 +7,7 @@ const Secrets = {
 };
 
 async function replaceText(content, index) {
+  console.log(Secrets.MULT_CUSTOM_REPLACE)
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
   const replacementslist = eval(Secrets.MULT_CUSTOM_REPLACE);
   if (replacementslist.length > 0 && replacementslist.length >= index) {
