@@ -6,7 +6,7 @@ name: 京东每日签到
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 16 * * *'
+    - cron: '0 16 * * *'
   watch:
     types: started
 
@@ -32,5 +32,6 @@ jobs:
             JD_COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}  
+            REMOTE_URL: https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
         run: |
-          node 'scripts/remote/jd_dailyBonus_remote.js'
+          node 'scripts/remote/runRemoteScripts.js'
