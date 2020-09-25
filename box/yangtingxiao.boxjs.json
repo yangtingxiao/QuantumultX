@@ -6,7 +6,7 @@
   "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/",
   "apps": [
     {
-      "id": "yangtingxiao_baitiao",
+      "id": "领白条券",
       "name": "京东白条",
       "keys": ["yangtingxiao_sample"],
       "settings": [
