@@ -2,11 +2,11 @@
 const Secrets = {
   JD_COOKIE: process.env.JD_COOKIE, //cokie,多个用&隔开即可
   REMOTE_URL: process.env.REMOTE_URL, //签到地址,方便随时变动
-  CUSTOM_REPLACE : eval(process.env.CUSTOM_REPLACE)  // 自定义替换 格式[{key : key1 ,value : value1},{key : key1 ,value : value2}]
+  CUSTOM_REPLACE : process.env.CUSTOM_REPLACE  // 自定义替换 格式[{key : key1 ,value : value1},{key : key1 ,value : value2}]
 };
 
 async function replaceText(content, index) {
-  const replacements = Secrets.CUSTOM_REPLACE || [];
+  const replacements = eval(Secrets.CUSTOM_REPLACE) || [];
   if (content) {
     if (Secrets.REMOTE_URL.match(/JD_DailyBonus/)) {              //京东多合一签到
       replacements.push({key : /var Name.+/, value : 'var Name = "【签到帐号】:  " + DName +"\\n"'});
