@@ -2,7 +2,7 @@
 const Secrets = {
   JD_COOKIE: process.env.JD_COOKIE, //cokie,多个用&隔开即可
   REMOTE_URL: process.env.REMOTE_URL, //签到地址,方便随时变动
-  CUSTOM_REPLACE : process.env.CUSTOM_REPLACE // 自定义替换 格式[{key : key1 ,value : value1},{key : key1 ,value : value2}]
+  CUSTOM_REPLACE : eval(process.env.CUSTOM_REPLACE)  // 自定义替换 格式[{key : key1 ,value : value1},{key : key1 ,value : value2}]
 };
 
 async function replaceText(content, index) {
