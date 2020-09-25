@@ -7,12 +7,13 @@ const Secrets = {
 };
 
 async function replaceText(content, index) {
+  console.log(Secrets.MULT_CUSTOM_REPLACE)
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
   if (eval(Secrets.MULT_CUSTOM_REPLACE).length > 0 && eval(Secrets.MULT_CUSTOM_REPLACE).length <= index) {
     replacements.push(eval(Secrets.MULT_CUSTOM_REPLACE)[index].toString())
-    console.log(eval(Secrets.MULT_CUSTOM_REPLACE)[index])
+    //console.log(eval(Secrets.MULT_CUSTOM_REPLACE)[index])
   }
-  console.log(replacements)
+  //console.log(replacements)
   if (content) {
     if (Secrets.REMOTE_URL.match(/JD_DailyBonus/)) {              //京东多合一签到
       replacements.push({key : /var Name.+/, value : 'var Name = "【签到帐号】:  " + DName +"\\n"'});
