@@ -2,7 +2,7 @@
 # QuantumultX
 脚本，自用
 
-##关于Actions自动化执行
+## 关于Actions自动化执行
 
 受到([@sazs34](https://github.com/sazs34/MyActions))使用的smartReplace.js启发，重写了smartReplace.js，
 可以在env中使用CUSTOM_REPLACE和MULT_CUSTOM_REPLACE自定义进行替换操作。
@@ -12,7 +12,7 @@
 替换是否需要通知 CUSTOM_REPLACE: '[{key : /let jdNotify.+/,value : "let jdNotify = true"}]'
 
 替换是否需要通知,同时替换蓝币换京豆数量CUSTOM_REPLACE: '[{key : /let jdNotify.+/,value : "let jdNotify = true"},{key : /const coinToBeans.+/,value : "const coinToBeans = 20"}]'
-以此类推，可以通知增加多个替换操作
+以此类推，可以同时增加多个替换操作
 
 **MULT_CUSTOM_REPLACE示例**
 
