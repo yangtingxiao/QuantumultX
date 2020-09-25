@@ -33,6 +33,6 @@ jobs:
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_example.js
-            CUSTOM_REPLACE: '[{key : /const coinToBeans.+/,value : `const coinToBeans = 20`}]'
+            
         run: |
           node 'scripts/remote/runRemoteScripts.js'
