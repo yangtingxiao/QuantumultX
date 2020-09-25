@@ -9,10 +9,10 @@ const Secrets = {
 async function replaceText(content, index) {
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
   const replacementslist = eval(Secrets.MULT_CUSTOM_REPLACE);
-  console.log(replacementslist)
+  //console.log(replacementslist)
   if (replacementslist.length > 0 && replacementslist.length >= index) {
-    replacements.push(replacementslist[index].toString())
-    console.log(replacementslist[index])
+    replacements.push(replacementslist[index][0])
+    console.log(replacementslist[index][0])
   }
   //console.log(replacements)
   if (content) {
