@@ -33,6 +33,6 @@ jobs:
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}  
             REMOTE_URL: https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
-            CUSTOM_REPLACE : "[{key : /var Name.+/, value : 'var Name = \\'【签到帐号】:  \\' + DName +\\'\\\\n\\''},{key : '!$nobyda.isNode', value :'$nobyda.isNode'},{key : /if \\(isNode\\) (console.log\\(.+?\\))/, value : 'if (isNode) {\nlet remotenotify = require(\\'./sendNotify\\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,\\'\\')\n}'},{key : /(var Key = )'.*?'/, value : `$1'${(Secrets.JD_COOKIE.split('&')[index])}'`}]"
+
         run: |
           node 'scripts/remote/runRemoteScripts.js'
