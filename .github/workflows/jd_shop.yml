@@ -1,12 +1,12 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: jd_baiTiao
+name: 京东进店领豆
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 16 * * *'
   watch:
     types: started
 
@@ -27,11 +27,11 @@ jobs:
           npm install request
           npm install --save got
           npm install tough-cookie
-      - name: '京东领白条券'
+      - name: '京东进店领豆'
         env: 
             JD_COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js
+            REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_shop.js
         run: |
           node 'scripts/remote/runRemoteScripts.js'
