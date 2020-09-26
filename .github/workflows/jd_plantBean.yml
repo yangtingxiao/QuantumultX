@@ -34,6 +34,9 @@ jobs:
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_plantBean.js
             CUSTOM_REPLACE: '[{key : /let jdNotify.+/,value : "let jdNotify = true"},{key : /newShareCodes = shareCodes.+/,value : "newShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}]'
-            MULT_CUSTOM_REPLACE: '[[{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`uqxphhjuyv4prshagyxrns5i4u5ac3f4ijdgqji`,`6gqunvc6pqurlxqun5z4kq4cvymvarmageqo5ny`,`fqiuif3ihmddqlj2gp5fx3m6bq`] "}],[{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}],[{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}]]'
+            MULT_CUSTOM_REPLACE: '[[{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`uqxphhjuyv4prshagyxrns5i4u5ac3f4ijdgqji@6gqunvc6pqurlxqun5z4kq4cvymvarmageqo5ny@fqiuif3ihmddqlj2gp5fx3m6bq`] "}],
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}],
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}]
+                                  ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
