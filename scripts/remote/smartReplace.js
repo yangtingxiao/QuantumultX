@@ -7,6 +7,7 @@ const Secrets = {
 };
 
 async function replaceText(content, index) {
+  try {
   console.log(Secrets.CUSTOM_REPLACE)
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
   console.log(eval(Secrets.MULT_CUSTOM_REPLACE))
@@ -15,7 +16,10 @@ async function replaceText(content, index) {
     for (let i = 0; i < replacementslist[index].length; i++) {
       replacements.push(replacementslist[index][i])
     }
+  } } catch (e) {
+    console.log(e)
   }
+
   if (content) {
     if (Secrets.REMOTE_URL.match(/JD_DailyBonus/)) {              //京东多合一签到
       replacements.push({key : /var Name.+/, value : 'var Name = \'【签到帐号】:  \' + DName +\'\\n\''});
