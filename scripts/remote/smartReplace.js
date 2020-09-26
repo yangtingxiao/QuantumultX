@@ -19,22 +19,14 @@ async function replaceText(content, index) {
   }
 
   if (content) {
-    if (Secrets.REMOTE_URL.match(/JD_DailyBonus/)) {              //京东多合一签到
-      //replacements.push({key : /var Name.+/, value : 'var Name = \'【签到帐号】:  \' + DName +\'\\n\''});
-      //console.log(replacements)
-      //replacements.push({key : '!$nobyda.isNode', value :'$nobyda.isNode'});
-      //replacements.push({key : /if \(isNode\) (console.log\(.+?\))/, value : 'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,\'\')\n}'});
-      //replacements.push({key : /(var Key = )'.*?'/, value : `$1'${(Secrets.JD_COOKIE.split('&')[index])}'`});
-    } else {
-      if (!content.match(/sendNotify\.js/)) {
-        replacements.push({
-          key: /(this\.isMute\|\|\()?this\.isSurge\(\)\|\|this\.isLoon\(\)\?\$notification\.post\((\w),(\w),(\w).*?\)(;|,)/,
-          value: 'let remotenotify = require(\'./sendNotify\');remotenotify.sendNotify(`${$2}\\n${$3}\\n${$4}`,``)$5'
-        });
-      }
-      if (content.match(/jdCookie\.js/)) {
-        replacements.push({key: "require('./jdCookie.js')", value: `['${Secrets.JD_COOKIE.split("&")[index]}']` });
-      }
+    if (!content.match(/sendNotify\.js/)) {
+      replacements.push({
+        key: /(this\.isMute\|\|\()?this\.isSurge\(\)\|\|this\.isLoon\(\)\?\$notification\.post\((\w),(\w),(\w).*?\)(;|,)/,
+        value: 'let remotenotify = require(\'./sendNotify\');remotenotify.sendNotify(`${$2}\\n${$3}\\n${$4}`,``)$5'
+      });
+    }
+    if (content.match(/jdCookie\.js/)) {
+      replacements.push({key: "require('./jdCookie.js')", value: `['${Secrets.JD_COOKIE.split("&")[index]}']` });
     }
   }
   //console.log(replacements)
