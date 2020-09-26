@@ -18,7 +18,8 @@ async function replaceText(content, index) {
   }
   if (content) {
     if (Secrets.REMOTE_URL.match(/JD_DailyBonus/)) {              //京东多合一签到
-      //replacements.push({key : /var Name.+/, value : 'var Name = \'【签到帐号】:  \' + DName +\'\\n\''});
+      replacements.push({key : /var Name.+/, value : 'var Name = \'【签到帐号】:  \' + DName +\'\\n\''});
+      console.log(replacements)
       replacements.push({key : '!$nobyda.isNode', value :'$nobyda.isNode'});
       replacements.push({key : /if \(isNode\) (console.log\(.+?\))/, value : 'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,\'\')\n}'});
       replacements.push({key : /(var Key = )'.*?'/, value : `$1'${(Secrets.JD_COOKIE.split('&')[index])}'`});
