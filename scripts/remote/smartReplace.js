@@ -7,7 +7,6 @@ const Secrets = {
 };
 
 async function replaceText(content, index) {
-  try {
   console.log(Secrets.CUSTOM_REPLACE)
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
   console.log(replacements)
@@ -17,14 +16,12 @@ async function replaceText(content, index) {
     for (let i = 0; i < replacementslist[index].length; i++) {
       replacements.push(replacementslist[index][i])
     }
-  } } catch (e) {
-    console.log(e)
   }
 
   if (content) {
     if (Secrets.REMOTE_URL.match(/JD_DailyBonus/)) {              //京东多合一签到
       //replacements.push({key : /var Name.+/, value : 'var Name = \'【签到帐号】:  \' + DName +\'\\n\''});
-      console.log(replacements)
+      //console.log(replacements)
       replacements.push({key : '!$nobyda.isNode', value :'$nobyda.isNode'});
       replacements.push({key : /if \(isNode\) (console.log\(.+?\))/, value : 'if (isNode) {\nlet remotenotify = require(\'./sendNotify\');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,\'\')\n}'});
       replacements.push({key : /(var Key = )'.*?'/, value : `$1'${(Secrets.JD_COOKIE.split('&')[index])}'`});
