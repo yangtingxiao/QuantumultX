@@ -35,7 +35,7 @@ jobs:
             REMOTE_URL: https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
             CUSTOM_REPLACE : '[{key : /var Name.+/, value : "var Name = ''【签到帐号】:  '' + DName +''\\n''"},
                               {key : "!$nobyda.isNode", value :"$nobyda.isNode"},
-                              {key : /(var Key = )''.*?''/, value : `$1''${(Secrets.JD_COOKIE.split(''&'')[index])}''`},
+                              {key : /(var Key = )''.*?''/, value : `$1''${(Secrets.COOKIE.split(''&'')[index])}''`},
                               {key : /if \(isNode\) (console.log\(.+?\))/, value : "if (isNode) {\nlet remotenotify = require(''./sendNotify'');\n remotenotify.sendNotify(`${title}\\n${subtitle}\\n${message}`,'''')\n}"}
                               ]'
         run: |
