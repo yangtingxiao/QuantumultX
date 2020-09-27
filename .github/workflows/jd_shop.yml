@@ -29,7 +29,7 @@ jobs:
           npm install tough-cookie
       - name: '京东进店领豆'
         env: 
-            JD_COOKIE: ${{secrets.JD_COOKIE}}
+            COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_shop.js

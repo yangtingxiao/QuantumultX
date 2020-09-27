@@ -8,17 +8,17 @@ const smartReplace = require("./smartReplace");
     return
   }
   let script_text = null
-  let CookieJDs = []
+  let Cookies = []
   await $.getScript(process.env.REMOTE_URL).then((script) => (script_text = script))
   if (!script_text) {
     console.log(`未取到脚本文本！请检查配置`)
     return
   }
-  if (process.env.JD_COOKIE && process.env.JD_COOKIE.split('&') && process.env.JD_COOKIE.split('&').length > 0) {
-    CookieJDs = process.env.JD_COOKIE.split('&');
+  if (process.env.COOKIE && process.env.COOKIE.split('&') && process.env.COOKIE.split('&').length > 0) {
+    Cookies = process.env.COOKIE.split('&');
   }
-  if (CookieJDs.length === 0) CookieJDs.push(''); //增加空，用来提示，兼容性修改
-  for (let i = 0; i < CookieJDs.length; i++) {
+  if (Cookies.length === 0) Cookies.push(''); //增加空，用来提示，兼容性修改
+  for (let i = 0; i < Cookies.length; i++) {
     let  script = await smartReplace.replaceText(script_text,i)
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号开始`)
     await fs.writeFileSync( './scripts/remote/script.js', script, 'utf8')
