@@ -36,10 +36,11 @@ jobs:
             CUSTOM_REPLACE: '[{key : /let jdNotify.+/,value : "let jdNotify = true"},
                               {key : /await notify.sendNotify.+/g,value : ""},
                               {key : /newShareCodes = shareCodes.+/,value : "newShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}
-                            ]'
+                             ]'
             MULT_CUSTOM_REPLACE: '[[{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`uqxphhjuyv4prshagyxrns5i4u5ac3f4ijdgqji@6gqunvc6pqurlxqun5z4kq4cvymvarmageqo5ny@fqiuif3ihmddqlj2gp5fx3m6bq`] "}],
-                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}],
-                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}]
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@mlrdw3aw26j3wcz3m4oixobt6pc6wcd3foqccgi`]"}],
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a`]"}],
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@mlrdw3aw26j3wcz3m4oixobt6pc6wcd3foqccgi`]"}]
                                   ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
