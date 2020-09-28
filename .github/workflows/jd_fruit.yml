@@ -36,7 +36,8 @@ jobs:
             CUSTOM_REPLACE: '[{key : /let jdServerNotify.+/,value : "let jdServerNotify = false"}]'
             MULT_CUSTOM_REPLACE: '[[{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`e3ff185ff53643308ab2b1a6afb3533e@323dbdbbfc824faa81b8927cd95bf975@732c806d465d427aab0c948e2ef8de17@5fe4179a7903433b898e6849409ad885`] "}],
                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`967a8e63fa2148208c1385ed34641ede@b8359db44d244b1f8c36e399926eb5d5@6d7041df49b14747b7ea240efcbe3b59@7b6a724115984e968ec962bf333c0d3b`]"}],
-                                  [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`b4f36c1c632746a8bcc3899a11cc19f6@11705719f6e34c6a95913acc5d23d640@2305d2eca60b4bc9aa95ac6bbd1dcfa4`]"}]
+                                  [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`b4f36c1c632746a8bcc3899a11cc19f6@11705719f6e34c6a95913acc5d23d640@2305d2eca60b4bc9aa95ac6bbd1dcfa4@9b4cb4da34e84b00a7cd804d9db5be38`]"}],
+                                  [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@11705719f6e34c6a95913acc5d23d640@2305d2eca60b4bc9aa95ac6bbd1dcfa4`]"}]
                                   ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
