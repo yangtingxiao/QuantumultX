@@ -38,13 +38,14 @@ async function replaceText(content, index) {
       replacements.push({key: "require('./jdCookie.js')", value: `['${Secrets.COOKIE.split(SPLITSTR)[index]}']` });
     }
   }
-  console.log(replacements)
+  //console.log(replacements)
   return batchReplace(content, replacements);
 }
 function batchReplace(content, replacements) {
   for (let i = 0; i < replacements.length; i++) {
     content = content.replace(replacements[i].key, replacements[i].value);
   }
+  console.log(content);
   return content;
 }
 
