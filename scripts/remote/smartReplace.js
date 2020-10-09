@@ -17,6 +17,15 @@ async function replaceText(content, index) {
       replacements.push(replacementslist[index][i])
     }
   }
+  
+  const SPLITARR = ['&','@','\n'];
+  let SPLITSTR = '&';
+  for (let i = 0;i < SPLITARR.length;i ++) {
+    if (Secrets.COOKIE.indexOf(SPLITARR[i]) > -1) {
+      SPLITSTR = SPLITARR[i];
+      break;
+    }
+  }
 
   if (content) {
     if (!content.match(/sendNotify\.js/)) {
@@ -26,7 +35,7 @@ async function replaceText(content, index) {
       });
     }
     if (content.match(/jdCookie\.js/)) {
-      replacements.push({key: "require('./jdCookie.js')", value: `['${Secrets.COOKIE.split("&")[index]}']` });
+      replacements.push({key: "require('./jdCookie.js')", value: `['${Secrets.COOKIE.split(SPLITSTR)[index]}']` });
     }
   }
   //console.log(replacements)

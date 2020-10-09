@@ -14,8 +14,17 @@ const smartReplace = require("./smartReplace");
     console.log(`未取到脚本文本！请检查配置`)
     return
   }
-  if (process.env.COOKIE && process.env.COOKIE.split('&') && process.env.COOKIE.split('&').length > 0) {
-    Cookies = process.env.COOKIE.split('&');
+
+  const SPLITARR = ['&','@','\n'];
+  let SPLITSTR = '&';
+  for (let i = 0;i < SPLITARR.length;i ++) {
+    if (process.env.COOKIE.indexOf(SPLITARR[i]) > -1) {
+      SPLITSTR = SPLITARR[i];
+      break;
+    }
+  }
+  if (process.env.COOKIE && process.env.COOKIE.split(SPLITSTR) && process.env.COOKIE.split(SPLITSTR).length > 0) {
+    Cookies = process.env.COOKIE.split(SPLITSTR);
   }
   if (Cookies.length === 0) Cookies.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < Cookies.length; i++) {
