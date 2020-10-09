@@ -5,8 +5,6 @@ name: 京东手机狂欢城
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 4,10,16,22 * * *'
   watch:
     types: started
 
