@@ -38,7 +38,7 @@ async function replaceText(content, index) {
       replacements.push({key: "require('./jdCookie.js')", value: `['${Secrets.COOKIE.split(SPLITSTR)[index]}']` });
     }
   }
-  //console.log(replacements)
+  console.log(replacements)
   return batchReplace(content, replacements);
 }
 function batchReplace(content, replacements) {
