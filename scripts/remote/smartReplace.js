@@ -6,6 +6,8 @@ const Secrets = {
   MULT_CUSTOM_REPLACE : process.env.MULT_CUSTOM_REPLACE || '[]' //多账号自定义替换  //需要和cookie相对应 //比如多账号替换助力码
 };
 
+let SPLITSTR = '&';
+
 async function replaceText(content, index) {
   //console.log(Secrets.CUSTOM_REPLACE)
   const replacements = eval(Secrets.CUSTOM_REPLACE) ;
@@ -17,16 +19,14 @@ async function replaceText(content, index) {
       replacements.push(replacementslist[index][i])
     }
   }
-  
+
   const SPLITARR = ['&','@','\n'];
-  let SPLITSTR = '&';
   for (let i = 0;i < SPLITARR.length;i ++) {
     if (Secrets.COOKIE.indexOf(SPLITARR[i]) > -1) {
       SPLITSTR = SPLITARR[i];
       break;
     }
   }
-
   if (content) {
     if (!content.match(/sendNotify\.js/)) {
       replacements.push({
