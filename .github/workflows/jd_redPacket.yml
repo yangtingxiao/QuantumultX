@@ -32,6 +32,6 @@ jobs:
             COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: httpsraw.githubusercontent.comlxk0301scriptsmasterjd_redPacket.js
+            REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_redPacket.js
         run: |
           node 'scripts/remote/runRemoteScripts.js'
