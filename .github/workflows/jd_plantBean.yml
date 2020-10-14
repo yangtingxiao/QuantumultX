@@ -42,7 +42,8 @@ jobs:
                                   [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@ezkhd4q2ixspj62ta3scstfk3u`]"}],
                                   [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@ezkhd4q2ixspj62ta3scstfk3u`]"}],
                                   [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@mlrdw3aw26j3wcz3m4oixobt6pc6wcd3foqccgi@s23bnhsjdbqan5o7uz2qq36q3i5ac3f4ijdgqji`]"}],
-                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@s23bnhsjdbqan5o7uz2qq36q3i5ac3f4ijdgqji`]"}]
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@s23bnhsjdbqan5o7uz2qq36q3i5ac3f4ijdgqji`]"}],
+                                  [{key : /const jdPlantBeanShareCodes.+/,value : "const jdPlantBeanShareCodes = [`e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@e7lhibzb3zek34vafvcqnnbpqej3d4y2fheri5a@s23bnhsjdbqan5o7uz2qq36q3i5ac3f4ijdgqji`]"}]
                                   ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
