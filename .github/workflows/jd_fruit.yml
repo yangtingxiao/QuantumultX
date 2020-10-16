@@ -42,7 +42,7 @@ jobs:
                                    [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@9b4cb4da34e84b00a7cd804d9db5be38@4c751756e1ba497e9c98eccb1369b73a@1f6e81ae66294d14b0d0e27d07236e8c`]"}],
                                    [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`9b4cb4da34e84b00a7cd804d9db5be38@8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc@ba1ba118597c4caa9d079842963cdc7f`]"}],
                                    [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`657789f6f682430fa8e40d44d7918fdc@2305d2eca60b4bc9aa95ac6bbd1dcfa4@8896a3d57f774c8ba8a3432012c90efe@ba1ba118597c4caa9d079842963cdc7f`]"}],
-                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@9b4cb4da34e84b00a7cd804d9db5be38@657789f6f682430fa8e40d44d7918fdc@4c751756e1ba497e9c98eccb1369b73a`]"}]
+                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`2305d2eca60b4bc9aa95ac6bbd1dcfa4@9b4cb4da34e84b00a7cd804d9db5be38@657789f6f682430fa8e40d44d7918fdc@4c751756e1ba497e9c98eccb1369b73a`]"}]
                                   ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
