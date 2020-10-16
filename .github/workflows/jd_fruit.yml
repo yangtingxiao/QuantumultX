@@ -40,6 +40,8 @@ jobs:
                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@11705719f6e34c6a95913acc5d23d640@2305d2eca60b4bc9aa95ac6bbd1dcfa4@657789f6f682430fa8e40d44d7918fdc`]"}],
                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc@49388ab5f2654460be8a4a44cfde6a92@9b4cb4da34e84b00a7cd804d9db5be38`]"}],
                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc@2305d2eca60b4bc9aa95ac6bbd1dcfa4@9b4cb4da34e84b00a7cd804d9db5be38`]"}],
+                                  [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc@2305d2eca60b4bc9aa95ac6bbd1dcfa4@9b4cb4da34e84b00a7cd804d9db5be38`]"}],
+                                  [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc@2305d2eca60b4bc9aa95ac6bbd1dcfa4@9b4cb4da34e84b00a7cd804d9db5be38`]"}],
                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc@2305d2eca60b4bc9aa95ac6bbd1dcfa4@9b4cb4da34e84b00a7cd804d9db5be38`]"}]
                                   ]'
         run: |
