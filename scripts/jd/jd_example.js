@@ -16,7 +16,7 @@ cron "11 5 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/scr
 const $ = new Env('京东example');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const coinToBeans = $.getdata('coinToBeans') || 0; //兑换多少数量的京豆，默认兑换不兑换
+const coinToBeans = $.getdata('coinToBeans') || 20; //兑换多少数量的京豆，默认兑换不兑换
 const STRSPLIT = "|";
 const needSum = true;     //是否需要显示汇总
 //IOS等用户直接用NobyDa的jd cookie
@@ -47,7 +47,7 @@ const JD_API_HOST = `https://api.m.jd.com/api?appid=jdsupermarket`;
         $.msg($.name, `【提示】京东账号${merge.nickname} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
-      await smtg_receiveCoin();
+      //await smtg_receiveCoin();
       if (coinToBeans) {
         await smtg_queryPrize();
       }
