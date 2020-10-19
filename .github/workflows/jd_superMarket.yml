@@ -33,6 +33,16 @@ jobs:
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_superMarket.js
-            CUSTOM_REPLACE: '[{key : /const jdShareCodes.+/,value : "const jdShareCodes = []"},{key : /const jdNotify =.+/,value : "const jdNotify = true"}]'
+            CUSTOM_REPLACE: '[{key : /const jdNotify =.+/,value : "const jdNotify = true"}]'
+            MULT_CUSTOM_REPLACE: '[[{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`IM2b1O1kwWk@eU9Ya-_mYvon92nSzXYT1Q@eU9YaLi7Ya4gpG7XmCUW1Q`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`eU9Ya-ywYf4n9DrXnXJA0Q@eU9Ya-_mYvon92nSzXYT1Q@eU9YaLi7Ya4gpG7XmCUW1Q`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`eU9Ya-ywYf4n9DrXnXJA0Q@eU9YaOuxb_si9WzSzXtB3g@eU9YaLi7Ya4gpG7XmCUW1Q`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`eU9Ya-ywYf4n9DrXnXJA0Q@eU9YaOuxb_si9WzSzXtB3g@eU9YaeS0Z68m9G2DmndC0w`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`eU9YaOuxb_si9WzSzXtB3g@eU9YaeS0Z68m9G2DmndC0w@Ihkzbeq6b_0m8QGI`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`eU9YaeS0Z68m9G2DmndC0w@Ihkzbeq6b_0m8QGI@JB81aO-0YvknnjM`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`Ihkzbeq6b_0m8QGI@JB81aO-0YvknnjM@eU9Yar2wZ6kv8jyBmiZC1g`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`JB81aO-0YvknnjM@eU9Yar2wZ6kv8jyBmiZC1g@IM2b1O1kwWk`]"}],
+                                   [{key : /const jdShareCodes.+/,value : "const jdShareCodes = [`eU9Yar2wZ6kv8jyBmiZC1g@IM2b1O1kwWk@eU9Ya-_mYvon92nSzXYT1Q`]"}]
+                                  ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
