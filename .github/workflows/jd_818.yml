@@ -33,5 +33,15 @@ jobs:
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_818.js
+            MULT_CUSTOM_REPLACE: '[[{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-YTX'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-SR'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-ZGX'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WJY'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ2'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-RQ'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WRX'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-GC'')"}],
+                                  ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
