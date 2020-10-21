@@ -34,7 +34,8 @@ jobs:
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_fruit.js
             CUSTOM_REPLACE: '[{key : /await notify\.sendNotify.+/g,value : ""}]'
-            MULT_CUSTOM_REPLACE: '[[{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`2305d2eca60b4bc9aa95ac6bbd1dcfa4@1f6e81ae66294d14b0d0e27d07236e8c@49388ab5f2654460be8a4a44cfde6a92`]"}]
+            MULT_CUSTOM_REPLACE: '[[{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`2305d2eca60b4bc9aa95ac6bbd1dcfa4@1f6e81ae66294d14b0d0e27d07236e8c@49388ab5f2654460be8a4a44cfde6a92`]"}],
+                                   [{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`b4f36c1c632746a8bcc3899a11cc19f6@11705719f6e34c6a95913acc5d23d640@8896a3d57f774c8ba8a3432012c90efe@657789f6f682430fa8e40d44d7918fdc`]"}]
                                   ]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'
