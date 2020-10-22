@@ -33,6 +33,10 @@ jobs:
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_unsubscribe.js
+            CUSTOM_REPLACE: '[{key : /const jdNotify.+/,value : "const jdNotify = true"},
+                              {key : /let goodPageSize.+/,value : "let goodPageSize = 150"},
+                              {key : /let shopPageSize.+/,value : "let shopPageSize = 150"}
+                             ]'
             MULT_CUSTOM_REPLACE: '[[{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-YTX'')"}],
                                    [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-SR'')"}],
                                    [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ'')"}],
