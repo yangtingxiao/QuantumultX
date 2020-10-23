@@ -1,6 +1,6 @@
 /*
 天天挖矿
-更新时间：2020-10-23 09:30
+更新时间：2020-10-23 09:55
 脚本说明：支付宝天天挖矿小程序 beta
 首次运行脚本，会提示获取Cookie，点击直达小程序界面
 
@@ -49,7 +49,7 @@ function setSignData() {
           data = JSON.parse(data);
           console.log(data)
           $.result = data;
-          await showSignInfo()
+          //await showSignInfo()
         } catch (e) {
           $.logErr(e, resp);
         } finally {
