@@ -94,7 +94,7 @@ function msgShow() {
   let message = ""
   if ($.signinfo.code === "200") {
     message += '挖矿周期：7-' + $.signinfo.data.numberInRounds + "\n"
-    if ($.signinfo.data.hasSign) {
+    if ($.signinfo.data.hasSign === 'true') {
       message += '挖矿失败：已完成\n'
     }
     if (typeof $.result != "undefined" && $.result.code === "200") {
