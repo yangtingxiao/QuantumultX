@@ -1,6 +1,6 @@
 /*
 天天挖矿
-更新时间：2020-10-23 09:55
+更新时间：2020-10-24 06:50
 脚本说明：支付宝天天挖矿小程序 beta
 首次运行脚本，会提示获取Cookie，点击直达小程序界面
 
@@ -76,7 +76,7 @@ function showSignInfo(timeout = 0) {
           data = JSON.parse(data);
           console.log(data)
           $.signinfo = data;
-          if (!data.data.hasSign) {
+          if (data.data.hasSign === 'false') {
             await createSign()
           }
           await msgShow()
@@ -97,10 +97,12 @@ function msgShow() {
     if ($.signinfo.data.hasSign) {
       message += '挖矿失败：已完成\n'
     }
-    if (typeof $.result != "undefined") {
+    if (typeof $.result != "undefined" && $.result.code === "200") {
       $.signinfo.data.cumulativeMoney = (parseInt($.signinfo.data.cumulativeMoney) + parseInt($.result.data.amount)).toString()
       $.signinfo.data.cumulativeSignCount++;
       message += '挖矿成功：现金' + (parseInt($.result.data.amount) / 100).toFixed(2) + '元\n';
+    } else {
+      message += '挖矿失败：' + $.result.message + "\n"
     }
     message += "累计挖矿：" + $.signinfo.data.cumulativeSignCount + "天\n累计现金："+(parseInt($.signinfo.data.cumulativeMoney) /100 ).toFixed(2) +"元"
   } else {
