@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-09-25 09:13
+更新时间：2020-10-26 16:02
 [task_local]
 # 京东金融领白条券  9点执行（非天天领券要9点开始领）
 0 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -137,10 +137,10 @@ function queryMissionWantedDetail(timeout = 0) {
               await receivePlay(data.resultData.data.mission.missionId);
               break;
             case 0 : // 2已完成  -1未领取  0已领取
-              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue || 0}/6，剩余数量：${data.resultData.data.residueAwardNum || `未知`}\n`
+              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue || 0}/${data.resultData.data.mission.scheduleTargetValue}，剩余数量：${data.resultData.data.residueAwardNum || `未知`}\n`
               break;
             case 1 : //
-              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue || 0}/6，剩余数量：${data.resultData.data.residueAwardNum || `未知`}\n`
+              $.prize.addMsg += `周任务：完成进度${data.resultData.data.mission.scheduleNowValue || 0}/${data.resultData.data.mission.scheduleTargetValue}，剩余数量：${data.resultData.data.residueAwardNum || `未知`}\n`
               break;
           }
         } catch (e) {
