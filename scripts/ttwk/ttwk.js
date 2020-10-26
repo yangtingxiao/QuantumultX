@@ -11,7 +11,7 @@
 
 [rewrite_local]
 #获取挖矿Cookie
-^https:\/\/operation-api\.jimistore\.com\/* url script-request-header https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/ttwk/ttwk.js
+^https:\/\/operation-api\.jimistore\.com\/* url script-request-body https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/ttwk/ttwk.js
 
 [MITM]
 hostname = operation-api.jimistore.com
