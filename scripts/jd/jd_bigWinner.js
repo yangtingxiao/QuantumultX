@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-10-29 15:52
+更新时间：2020-10-29 16:16
 
 [task_local]
 # 京东大赢家
@@ -37,6 +37,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         $.msg($.name, `【提示】京东账号${merge.nickname} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
+      console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await stall_pk_getHomeData();
       await stall_getHomeData();
       await stall_collectProduceScore();
@@ -105,9 +106,11 @@ function stall_getTaskDetail(shopSign = "",timeout = 0){
             console.log(`您的个人助力码：${data.data.result.inviteId}`)
           }
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
-            console.log( data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskId+'-' + data.data.result.taskVos[i].taskName + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成") )
+            console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskId+'-' + data.data.result.taskVos[i].taskName + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成") )
             if ([1,3,7,9].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 ) {
               let list = data.data.result.taskVos[i].brandMemberVos||data.data.result.taskVos[i].followShopVo||data.data.result.taskVos[i].shoppingActivityVos||data.data.result.taskVos[i].browseShopVo
+              //console.log(list)
+
               for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
                 for (let j in list) {
                   if (list[j].status === 1) {
@@ -116,6 +119,9 @@ function stall_getTaskDetail(shopSign = "",timeout = 0){
                     //  let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${list[j].taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
                     //  await qryViewkitCallbackResult(taskBody,1000)
                     //} else {
+                    console.log("\n"+(list[j].title||list[j].shopName))
+                    //console.log(list[j].title||list[j].shopName)
+                    //console.log(list[j].shopName)
                     await stall_collectScore(taskBody,1000)
                     //}
                     list[j].status = 2;
@@ -348,7 +354,7 @@ function stall_getFeedDetail(taskId,timeout = 0){
       //console.log(url)
       $.post(url, async (err, resp, data) => {
         try {
-          console.log(data)
+          //console.log(data)
           data = JSON.parse(data);
           let list =  data.data.result.viewProductVos||data.data.result.addProductVos
           for (let i in list) {
@@ -356,6 +362,7 @@ function stall_getFeedDetail(taskId,timeout = 0){
               for (let j in list[i].productInfoVos) {
                 if (j >= 5)  break;
                 let taskBody = `functionId=stall_collectScore&body={"taskId":${list[i].taskId},"itemId":"${list[i].productInfoVos[j].skuId}","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":""}&client=wh5&clientVersion=1.0.0`
+                console.log(list[i].productInfoVos[j].skuName)
                 await stall_collectScore(taskBody,1000)
               }
               list[i].status = 2
@@ -577,8 +584,8 @@ function stall_raise(timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
-          console.log('解锁结果：'+ data.data.bizCode)
           data = JSON.parse(data);
+          console.log('解锁结果：'+ data.data.bizCode)
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -646,7 +653,6 @@ function stall_pk_getHomeData(body = "",timeout = 0) {
             data = JSON.parse(data);
             console.log('您的商圈助力码：' + data.data.result.groupInfo.groupAssistInviteId)
           }
-
         } catch (e) {
           $.logErr(e, resp);
         } finally {
