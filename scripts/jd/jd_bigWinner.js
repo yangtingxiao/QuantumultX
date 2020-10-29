@@ -1,11 +1,10 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-10-29 15:27
+更新时间：2020-10-29 15:52
 
 [task_local]
 # 京东大赢家
 5 9-22 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js, tag=京东大赢家, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
-
 */
 const $ = new Env('京东大赢家');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -99,7 +98,7 @@ function stall_getTaskDetail(shopSign = "",timeout = 0){
       }
       $.post(url, async (err, resp, data) => {
         try {
-          console.log('stall_getTaskDetail:' + data)
+          //console.log('stall_getTaskDetail:' + data)
           data = JSON.parse(data);
           if (shopSign === "") {
             shopSign = '""'
@@ -176,7 +175,7 @@ function stall_myShop(timeout = 0){
       }
       $.post(url, async (err, resp, data) => {
         try {
-          console.log('stall_myShop:' + data)
+          //console.log('stall_myShop:' + data)
           data = JSON.parse(data);
           for (let i in data.data.result.shopList) {
             if (data.data.result.shopList[i].status === 1) {
@@ -310,9 +309,9 @@ function stall_collectScore(taskBody,timeout = 0){
       }
       $.post(url, async (err, resp, data) => {
         try {
-          console.log(data)
+          //console.log(data)
           data = JSON.parse(data);
-          //console.log('taskToken')
+          console.log('任务状态：' + data.data.bizCode)
           if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
             //console.log(taskBody)
@@ -396,8 +395,9 @@ function qryViewkitCallbackResult(taskBody,timeout = 0) {
       $.get(url, async (err, resp, data) => {
         try {
           //console.log(url.url)
-          console.log(data)
+          //console.log(data)
           data = JSON.parse(data);
+          console.log(data.toast.subTitle)
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -430,7 +430,7 @@ function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhq
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
         try {
-          console.log('商圈助力：' + data)
+          //console.log('商圈助力：' + data)
           data = JSON.parse(data);
         } catch (e) {
           $.logErr(e, resp);
@@ -467,18 +467,18 @@ function stall_getHomeData(body= "",timeout = 0) {
           data = JSON.parse(data);
           if (data.code === 0) {
             if (body !== "") {
-              console.log('stall_getHomeData2:' + JSON.stringify(data))
+              //console.log('stall_getHomeData2:' + JSON.stringify(data))
               if (data.data.result.homeMainInfo.guestInfo.status === 0) {
                 let taskBody = `functionId=stall_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
                 //console.log(taskBody)
-                console.log('开始助力：')
+                //console.log('开始助力：')
                 await stall_collectScore(taskBody, 1000)
               }
               return
             }
-            console.log('stall_getHomeData:' + JSON.stringify(data))
-            if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise()
+            //console.log('stall_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
+            if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise()
             await stall_getHomeData('Vl4ISNZnRyNVJf028W76ZuyTXfbtGlbVhbQEF3XxyFux9uadYgA0uao');
             await stall_getTaskDetail()
           } else {
@@ -577,8 +577,7 @@ function stall_raise(timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
-
-          console.log('解锁结果：'+ data)
+          console.log('解锁结果：'+ data.data.bizCode)
           data = JSON.parse(data);
         } catch (e) {
           $.logErr(e, resp);
@@ -661,9 +660,7 @@ function stall_pk_getHomeData(body = "",timeout = 0) {
 function initial() {
   merge = {
     nickname: "",
-    enabled: true,
-    blueCoin: {prizeDesc : "收取|蓝币|个",number : true},  //定义 动作|奖励名称|奖励单位   是否是数字
-    jdBeans: {prizeDesc : "兑换|京豆|个",number : true}
+    enabled: true
   }
   for (let i in merge) {
     merge[i].success = 0;
