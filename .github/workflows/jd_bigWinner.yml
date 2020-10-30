@@ -1,0 +1,47 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: 京东大赢家
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '5 */2 * * * '
+  watch:
+    types: started
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: npm install
+        run: |
+          npm install
+          npm install request
+          npm install --save got
+          npm install tough-cookie
+      - name: '京东大赢家'
+        env: 
+            COOKIE: ${{secrets.JD_COOKIE}}
+            TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
+            TG_USER_ID :  ${{secrets.TG_USER_ID}}
+            REMOTE_URL: https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js
+            MULT_CUSTOM_REPLACE: '[[{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-YTX'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-SR'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-ZGX'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WJY'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ2'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-RQ'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-WRX'')"}],
+                                   [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-GC'')"}]
+                                  ]'
+        run: |
+          node 'scripts/remote/runRemoteScripts.js'
