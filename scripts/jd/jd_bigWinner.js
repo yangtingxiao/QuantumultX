@@ -1,10 +1,10 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-10-29 16:16
+更新时间：2020-10-30 09:06
 
 [task_local]
 # 京东大赢家
-5 9-22 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js, tag=京东大赢家, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
+5 0-22/2 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js, tag=京东大赢家, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
 */
 const $ = new Env('京东大赢家');
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -29,6 +29,10 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
+      if (Date.now() > Date.parse('2020-11-12')) {
+        $.msg($.Name,"","活动已结束，请删除或禁用脚本！")
+        return
+      }
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用
@@ -43,6 +47,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       await stall_collectProduceScore();
       await stall_pk_assistGroup()
       await stall_myShop()
+      await qryCompositeMaterials()
       await msgShow();
     }
   }
@@ -106,7 +111,7 @@ function stall_getTaskDetail(shopSign = "",timeout = 0){
             console.log(`您的个人助力码：${data.data.result.inviteId}`)
           }
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
-            console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskId+'-' + data.data.result.taskVos[i].taskName + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成") )
+            console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成") )
             if ([1,3,7,9].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 ) {
               let list = data.data.result.taskVos[i].brandMemberVos||data.data.result.taskVos[i].followShopVo||data.data.result.taskVos[i].shoppingActivityVos||data.data.result.taskVos[i].browseShopVo
               //console.log(list)
@@ -186,7 +191,7 @@ function stall_myShop(timeout = 0){
           for (let i in data.data.result.shopList) {
             if (data.data.result.shopList[i].status === 1) {
               //console.log(data.data.result.shopList[i])
-              console.log('开始城市任务：'+ data.data.result.shopList[i].name + '-' + data.data.result.shopList[i].shopId)
+              console.log('\n开始城市任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
               await stall_getTaskDetail(data.data.result.shopList[i].shopId)
             }
           }
@@ -200,7 +205,7 @@ function stall_myShop(timeout = 0){
   })
 }
 
-//签到？？
+//逛商城
 function stall_shopSignInWrite(shopSign,timeout = 0){
   return new Promise((resolve) => {
     setTimeout( ()=>{
@@ -220,8 +225,52 @@ function stall_shopSignInWrite(shopSign,timeout = 0){
       }
       $.post(url, async (err, resp, data) => {
         try {
+          //console.log(data)
           data = JSON.parse(data);
-          console.log(shopSign)
+          if (data.data.bizCode !== 0) {
+            console.log(data.data.bizMsg)
+            merge.end = true
+          } else {
+            console.log('获得金币' + data.data.result.score)
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+//逛商城
+function stall_shopSignInRead(shopSign,timeout = 0){
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `${JD_API_HOST}stall_shopSignInRead`,
+        headers : {
+          'Origin' : `https://wbbny.m.jd.com`,
+          'Cookie' : cookie,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json, text/plain, */*`,
+          'Host' : `api.m.jd.com`,
+          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        },
+        body : `functionId=stall_shopSignInRead&client=wh5&clientVersion=1.0.0&body={"shopSign":"${shopSign}"}`
+      }
+      $.post(url, async (err, resp, data) => {
+        try {
+          data = JSON.parse(data);
+          //console.log(shopSign)
+          if (data.data.result.signInTag === 0) {
+             secretp = secretp||data.data.result.secretp
+             await stall_shopSignInWrite(shopSign)
+          } else {
+            console.log('已逛过')
+          }
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -253,7 +302,7 @@ function stall_collectProduceScore(timeout = 0){
       $.post(url, async (err, resp, data) => {
         try {
           data = JSON.parse(data);
-          console.log(`收取金币：${data.data.result.produceScore}`)
+          console.log(`\n收取金币：${data.data.result.produceScore}`)
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -317,8 +366,9 @@ function stall_collectScore(taskBody,timeout = 0){
         try {
           //console.log(data)
           data = JSON.parse(data);
-          console.log('任务状态：' + data.data.bizCode)
+          console.log('任务执行结果：' + data.data.bizCode)
           if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
+            console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
             //console.log(taskBody)
             await qryViewkitCallbackResult(taskBody)
@@ -615,8 +665,13 @@ function qryCompositeMaterials(timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
-          console.log(data)
+          //console.log(data)
           data = JSON.parse(data);
+          for (let i in data.data.homeBottomBanner.list) {
+            if (merge.end) break;
+            console.log('\n开始逛'+data.data.homeBottomBanner.list[i].name)
+            await stall_shopSignInRead(data.data.homeBottomBanner.list[i].link)
+          }
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -666,7 +721,8 @@ function stall_pk_getHomeData(body = "",timeout = 0) {
 function initial() {
   merge = {
     nickname: "",
-    enabled: true
+    enabled: true,
+    end: false
   }
   for (let i in merge) {
     merge[i].success = 0;
