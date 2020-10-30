@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-10-30 09:25
+更新时间：2020-10-30 11:00
 
 [task_local]
 # 京东大赢家
@@ -84,10 +84,11 @@ function QueryJDUserInfo(timeout = 0) {
   })
 }
 
-//查询任务
-function stall_getTaskDetail(shopSign = "",timeout = 0){
+//查询任务 "appSign":"2","channel":1,
+function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
   return new Promise((resolve) => {
     setTimeout( ()=>{
+      appSign = appSign&&'"appSign":"2","channel":1,'
       let url = {
         url : `${JD_API_HOST}stall_getTaskDetail`,
         headers : {
@@ -100,8 +101,9 @@ function stall_getTaskDetail(shopSign = "",timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=stall_getTaskDetail&body={"shopSign":"${shopSign}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=stall_getTaskDetail&body={${appSign}"shopSign":"${shopSign}"}&client=wh5&clientVersion=1.0.0`
       }
+
       $.post(url, async (err, resp, data) => {
         try {
           //console.log('stall_getTaskDetail:' + data)
@@ -111,7 +113,7 @@ function stall_getTaskDetail(shopSign = "",timeout = 0){
             console.log(`您的个人助力码：${data.data.result.inviteId}`)
           }
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
-            console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成") )
+            console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + (appSign&&"（微信小程序）") + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成")  )
             if ([1,3,7,9].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 ) {
               let list = data.data.result.taskVos[i].brandMemberVos||data.data.result.taskVos[i].followShopVo||data.data.result.taskVos[i].shoppingActivityVos||data.data.result.taskVos[i].browseShopVo
               //console.log(list)
@@ -537,6 +539,7 @@ function stall_getHomeData(body= "",timeout = 0) {
             secretp = data.data.result.homeMainInfo.secretp
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise()
             await stall_getHomeData('Vl4ISNZnRyNVJf028W76ZuyTXfbtGlbVhbQEF3XxyFux9uadYgA0uao');
+            await stall_getTaskDetail("","app")
             await stall_getTaskDetail()
           } else {
             return
