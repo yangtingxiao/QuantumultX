@@ -1,6 +1,6 @@
 /*
 京东时光机
-更新时间：2020-10-30 13:58
+更新时间：2020-10-30 17:32
 脚本说明：
 京东时光机
 20 0-20/4 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_timeMachine.js, tag=京东时光机, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
@@ -25,6 +25,8 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
+  console.log('提示：任务状态显示0是成功的意思，不要问为什么是0，执行完去app看！')
+  console.log('4小时执行一次是为了领能量球，不需要的设置为每天执行一次即可！')
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
