@@ -1,6 +1,6 @@
 /*
 京东时光机
-更新时间：2020-10-30 17:32
+更新时间：2020-10-31 03:14
 脚本说明：
 京东时光机
 20 0-20/4 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_timeMachine.js, tag=京东时光机, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
@@ -144,7 +144,7 @@ function bc_taskList(timeout = 0) {
           } else {
             console.log('\n当天已签到')
           }
-          await bc_doTask(8,"","6acTpa9Vgoaghk9W-31jaQ")
+          await bc_doTask(8,"","6acTpqhUjIOlhxlTq3RiZg")
           for (let i in data.data.result.taskList) {
             if (data.data.result.taskList[i].taskType === 8) continue;
             console.log('\n开始做任务：' + data.data.result.taskList[i].taskType + '-' + data.data.result.taskList[i].mainTitle)
