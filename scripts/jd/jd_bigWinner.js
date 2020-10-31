@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-10-31 03:28
+更新时间：2020-10-31 10:31
 
 [task_local]
 # 京东大赢家
@@ -45,6 +45,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await stall_pk_getHomeData();
       await stall_getHomeData();
+      if (merge.black)  return ;
       await stall_collectProduceScore();
       await stall_pk_assistGroup()
       await stall_myShop()
@@ -108,18 +109,21 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
       $.post(url, async (err, resp, data) => {
         try {
           //console.log('stall_getTaskDetail:' + data)
+
           data = JSON.parse(data);
           if (shopSign === "") {
             shopSign = '""'
             console.log(`您的个人助力码：${data.data.result.inviteId}`)
           }
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
+            if (merge.black)  return ;
             console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + (appSign&&"（微信小程序）") + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成")  )
             if ([1,3,7,9].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 ) {
               let list = data.data.result.taskVos[i].brandMemberVos||data.data.result.taskVos[i].followShopVo||data.data.result.taskVos[i].shoppingActivityVos||data.data.result.taskVos[i].browseShopVo
               //console.log(list)
 
               for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
+                if (merge.black)  return ;
                 for (let j in list) {
                   if (list[j].status === 1) {
                     let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"${list[j].itemId}","ss":"{\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
@@ -144,6 +148,7 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
             if ([12,13].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1) {
                 let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
                 for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
+                  if (merge.black)  return ;
                   //if (typeof data.data.result.taskVos[i].simpleRecordInfoVo !== "undefined"){
                   //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
                   //  await qryViewkitCallbackResult(taskBody,1000)
@@ -185,7 +190,7 @@ function stall_myShop(timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=stall_collectProduceScore&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=stall_myShop&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
@@ -305,6 +310,7 @@ function stall_collectProduceScore(timeout = 0){
       $.post(url, async (err, resp, data) => {
         try {
           data = JSON.parse(data);
+
           console.log(`\n收取金币：${data.data.result.produceScore}`)
         } catch (e) {
           $.logErr(e, resp);
@@ -370,6 +376,11 @@ function stall_collectScore(taskBody,timeout = 0){
           //console.log(data)
           data = JSON.parse(data);
           console.log('任务执行结果：' + data.data.bizCode)
+          if (data.data.bizCode === -1002) {
+            console.log('此账号暂不可使用脚本，脚本终止！')
+            merge.black = true;
+            return ;
+          }
           if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
             console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
@@ -524,6 +535,7 @@ function stall_getHomeData(body= "",timeout = 0) {
       $.post(url, async (err, resp, data) => {
         try {
           //console.log(url.body)
+          if (merge.black)  return ;
           data = JSON.parse(data);
           if (data.code === 0) {
             if (body !== "") {
@@ -726,7 +738,8 @@ function initial() {
   merge = {
     nickname: "",
     enabled: true,
-    end: false
+    end: false,
+    black: false
   }
   for (let i in merge) {
     merge[i].success = 0;
