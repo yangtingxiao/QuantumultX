@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-10-31 10:31
+更新时间：2020-11-01 03:18
 
 [task_local]
 # 京东大赢家
@@ -480,7 +480,7 @@ function qryViewkitCallbackResult(taskBody,timeout = 0) {
 }
 
 //群组助力
-function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqosoNJHNIHp84xOJxNmUElr71Uu",timeout = 0) {
+function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqosoNJHNIHp84xOJxNmUElr71Uv",timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
       let url = {
