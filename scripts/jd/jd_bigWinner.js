@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-01 03:18
+更新时间：2020-11-01 09:13
 
 [task_local]
 # 京东大赢家
@@ -45,7 +45,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await stall_pk_getHomeData();
       await stall_getHomeData();
-      if (merge.black)  return ;
+      if (merge.black)  continue ;
       await stall_collectProduceScore();
       await stall_pk_assistGroup()
       await stall_myShop()
