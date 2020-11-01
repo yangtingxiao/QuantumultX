@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-01 09:13
+更新时间：2020-11-01 11:31
 
 [task_local]
 # 京东大赢家
@@ -26,7 +26,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-  console.log('提示-1002的账号暂时用不了，请先禁用等待排查，谢谢！')
+  console.log('提示-1002的账号是因为京东对入参进行了强校验，并不是黑号，目前无法使用脚本，请手动去APP做吧，不提示-1002的可以继续使用')
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
