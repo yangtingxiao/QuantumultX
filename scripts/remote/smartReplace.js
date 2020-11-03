@@ -29,7 +29,7 @@ async function replaceText(content, index) {
     if (!content.match(/sendNotify\.js/)) {
       replacements.push({
         key:/function Env\((\w),(\w)\)/,
-        value : 'let remotenotify = require(\'./sendNotify\');\nfunction Env($1,$2))'
+        value : 'let remotenotify = require(\'./sendNotify\');\nfunction Env($1,$2)'
       })
       replacements.push({
         key: /(this\.isMute\|\|\()?this\.isSurge\(\)\|\|this\.isLoon\(\)\?\$notification\.post\((\w),(\w),(\w).*?\)(;|,)/,
