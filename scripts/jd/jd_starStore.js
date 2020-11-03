@@ -1,9 +1,9 @@
 /*
 京东星店长
-更新时间：2020-11-03 11:16
+更新时间：2020-11-03 14:11
 脚本说明：
 第一次执行会循环 8--86号店铺，时间比较长，后面会判断，做完86的不再全部做，每天运行一次即可
-使用前请先看下活动介绍，可能会关注店铺，入会是假入会
+使用前请先看下活动介绍，可能会关注店铺，入会是假入会，入会任务可能不会完成
 此脚本仅做任务，需要拉人头才能参与瓜分，请按需使用
 活动进入方式：京东app搜索【星店长】
 5 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_starStore.js, tag=京东星店长, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
@@ -276,7 +276,8 @@ var shareCode = [
   '9HId9Z2m6CsyDV00EzbubGvFewAM3GwBiqLEr9J70c7yglxRrYXbB76sxU8dWfUjoOIj6OgMFLBamYLJ3HW8ad1nqLoj1D6NmlFnkGuyAzY5HsOFhsraGonP2B1Tx2nuJPZuJAwapb43a0WxRkKA3HSsXA',
   '9HId9Z2m6CsyDV00EzbubGvFewAM3GwBiqLEr9J70c7yglxRrYXbB76sxU8dWfUiRpJ9C08JwP3F2pMpRSWrVmOFj-6wM3wvABiP3AxpYGI1tjr4XIYZkFeMeUstUeifdvNES7Sgx1XXsIVxcD8dlJ8FfqQ',
   '9HId9Z2m6CsyDV00EzbubGvFewAM3GwBiqLEr9J70c7yglxRrYXbB76sxU8dWfUlnpdQctIkBIPCE-KoLw6aLglNbHq1qUUBhiT_2BfEFqX0sCJOpxd2ucp_E6syRQ9mW8pSKuTNo7kInnVSO28uaC_LluE',
-  '9HId9Z2m6CsyDV00EzbubGvFewAM3GwBiqLEr9J70c7yglxRrYXbB76sxU8dWfUkmXh_RTbFx8L_BcJVAtEU78aNcj1OdAsxsTxnDn5jpw72bkx064VI86qV0HpdCbeDo4qPptTDz1m5Ydxb7cxzmeZyWM4'
+  '9HId9Z2m6CsyDV00EzbubGvFewAM3GwBiqLEr9J70c7yglxRrYXbB76sxU8dWfUkmXh_RTbFx8L_BcJVAtEU78aNcj1OdAsxsTxnDn5jpw72bkx064VI86qV0HpdCbeDo4qPptTDz1m5Ydxb7cxzmeZyWM4',
+  '9HId9Z2m6CsyDV00EzbubGvFewAM3GwBiqLEr9J70c7yglxRrYXbB76sxU8dWfUnHohneTsnYM52nK570112qiiBTQKwEI-OLwFtqDgI2tM5zXpA_1AZDrYeFv4AczU53pMEPZBTWHeQMKWOqCrOrfM-AA'
 ]
 
 

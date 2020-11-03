@@ -44,7 +44,7 @@ const JD_API_HOST = `https://api.m.jd.com/api?appid=jdsupermarket`;
       if (!merge.enabled)  //cookie不可用
       {
         $.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
-        $.msg($.name, `【提示】京东账号${merge.nickname} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
+        $.msg($.name, `【提示】京东账号${i + 1} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
       //await smtg_receiveCoin();
