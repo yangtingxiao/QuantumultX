@@ -1,6 +1,6 @@
 /*
 京东星店长
-更新时间：2020-11-03 14:11
+更新时间：2020-11-03 15:04
 脚本说明：
 第一次执行会循环 8--86号店铺，时间比较长，后面会判断，做完86的不再全部做，每天运行一次即可
 使用前请先看下活动介绍，可能会关注店铺，入会是假入会，入会任务可能不会完成
@@ -31,6 +31,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
+      console.log('**********************分割线**********************')
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用
@@ -119,12 +120,12 @@ function mcxhd_starmall_taskList(shopId,timeout = 0){
       }
       $.get(url, async (err, resp, data) => {
         try {
-          //console.log(data)
           data = JSON.parse(data);
           if (data.retCode !== "200") {
             console.log(data.retMessage)
             return
           }
+          console.log('\n星店长:'+data.result.starName)
           for (let i in data.result.tasks) {
             if (merge.end) return ;
             //if (data.result.tasks[i].taskType !== "7"){
@@ -140,7 +141,7 @@ function mcxhd_starmall_taskList(shopId,timeout = 0){
               }
             } else {
               if (shopId === 86) {
-                console.log('\n最后一个店铺已做完，不再执行所有店铺')
+                console.log('最后一个店铺已做完，不再执行所有店铺')
                 merge.end = true;
               }
               console.log('已完成')
