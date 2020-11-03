@@ -1,9 +1,11 @@
 /*
 京东星店长
-更新时间：2020-11-03 10:03
+更新时间：2020-11-03 11:16
 脚本说明：
 第一次执行会循环 8--86号店铺，时间比较长，后面会判断，做完86的不再全部做，每天运行一次即可
-
+使用前请先看下活动介绍，可能会关注店铺，入会是假入会
+此脚本仅做任务，需要拉人头才能参与瓜分，请按需使用
+活动进入方式：京东app搜索【星店长】
 5 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_starStore.js, tag=京东星店长, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
 
 */
