@@ -28,8 +28,12 @@ async function replaceText(content, index) {
   if (content) {
     if (!content.match(/sendNotify\.js/)) {
       replacements.push({
+        key:/function Env\((\w),(\w)\)/,
+        value : 'let remotenotify = require(\'./sendNotify\');\nfunction Env($1,$2))'
+      })
+      replacements.push({
         key: /(this\.isMute\|\|\()?this\.isSurge\(\)\|\|this\.isLoon\(\)\?\$notification\.post\((\w),(\w),(\w).*?\)(;|,)/,
-        value: 'let remotenotify = require(\'./sendNotify\');remotenotify.sendNotify(`${$2}\\n${$3}\\n${$4}`,``)$5'
+        value: 'this.isMute||remotenotify.sendNotify(`${$2}\\n${$3}\\n${$4}`,``)$5'
       });
     }
     if (content.match(/jdCookie\.js/)) {
