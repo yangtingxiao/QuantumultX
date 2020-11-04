@@ -46,7 +46,8 @@ jobs:
                                    [{key : /var Name.+/, value : "var Name = ''【签到帐号】:  LJ2-'' + DName +''\\n''"}],
                                    [{key : /var Name.+/, value : "var Name = ''【签到帐号】:  RQ-'' + DName +''\\n''"}],
                                    [{key : /var Name.+/, value : "var Name = ''【签到帐号】:  WRX-'' + DName +''\\n''"}],
-                                   [{key : /var Name.+/, value : "var Name = ''【签到帐号】:  GC-'' + DName +''\\n''"}]
+                                   [{key : /var Name.+/, value : "var Name = ''【签到帐号】:  GC-'' + DName +''\\n''"}],
+                                   [{key : /var Name.+/, value : "var Name = ''【签到帐号】:  WSR-'' + DName +''\\n''"}]
                                   ]'
 
         run: |
