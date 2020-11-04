@@ -30,7 +30,7 @@ const smartReplace = require("./smartReplace");
   for (let i = 0; i < Cookies.length; i++) {
     let  script = await smartReplace.replaceText(script_text,i)
     console.log(`${i ? '\n' : ''}${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号开始`)
-    await fs.writeFileSync( './scripts/remo te/script.js', script, 'utf8')
+    await fs.writeFileSync( './scripts/remote/script.js', script, 'utf8')
     await exec('node "./scripts/remote/script.js"',{stdio: 'inherit'})
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号结束`)
   }
