@@ -29,8 +29,8 @@ const smartReplace = require("./smartReplace");
   if (Cookies.length === 0) Cookies.push(''); //增加空，用来提示，兼容性修改
   for (let i = 0; i < Cookies.length; i++) {
     let  script = await smartReplace.replaceText(script_text,i)
-    console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号开始`)
-    await fs.writeFileSync( './scripts/remote/script.js', script, 'utf8')
+    console.log(`${i ? '\n' : ''}${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号开始`)
+    await fs.writeFileSync( './scripts/remo te/script.js', script, 'utf8')
     await exec('node "./scripts/remote/script.js"',{stdio: 'inherit'})
     console.log(`${$.time(`yyyy-MM-dd HH:mm:ss.S`)} 第${i + 1}个账号结束`)
   }
