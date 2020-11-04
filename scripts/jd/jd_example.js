@@ -6,12 +6,12 @@
 // quantumultx
 [task_local]
 #京东example
-11 0 * * * https://raw.githubusercontent.com/yangtingxiao/scripts/master/jd/jd_example.js, tag=京东example, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
+11 0 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_example.js, tag=京东example, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
 // Loon
 [Script]
-cron "11 0 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/scripts/master/jd/jd_example.js,tag=京东example
+cron "11 0 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_example.js,tag=京东example
 // Surge
-京东example = type=cron,cronexp=11 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/scripts/master/jd/jd_example.js
+京东example = type=cron,cronexp=11 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_example.js
  */
 const $ = new Env('京东example');
 //Node.js用户请在jdCookie.js处填写京东ck;

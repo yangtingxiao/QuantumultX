@@ -7,12 +7,12 @@
 // quantumultx
 [task_local]
 #京东排行榜
-11 0 * * * https://raw.githubusercontent.com/yangtingxiao/scripts/master/jd/jd_rankingList.js, tag=京东排行榜, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
+11 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_rankingList.js, tag=京东排行榜, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
 // Loon
 [Script]
-cron "11 0 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/scripts/master/jd/jd_rankingList.js,tag=京东排行榜
+cron "11 9 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_rankingList.js,tag=京东排行榜
 // Surge
-京东排行榜 = type=cron,cronexp=11 0 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/scripts/master/jd/jd_rankingList.js
+京东排行榜 = type=cron,cronexp=11 9 * * *,wake-system=1,timeout=20,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_rankingList.js
  */
 const $ = new Env('京东排行榜');
 //Node.js用户请在jdCookie.js处填写京东ck;
