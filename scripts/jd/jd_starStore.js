@@ -1,6 +1,6 @@
 /*
 京东星店长
-更新时间：2020-11-03 16:51
+更新时间：2020-11-04 08:27
 脚本说明：
 第一次执行会循环 8--86号店铺，时间比较长，后面会判断，做完86的不再全部做，每天运行一次即可
 使用前请先看下活动介绍，可能会关注店铺，入会是假入会，入会任务可能不会完成
@@ -46,14 +46,14 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       }
       let shopId = 0;
       let now = new Date();
-      await mcxhd_starmall_taskList(86); //做最后一个，看是否做完
-      if (!merge.end) {
-        for (shopId = 8; shopId <86 ; shopId ++ ) {
-          console.log('\n开始店铺：' + shopId)
-          await mcxhd_starmall_taskList(shopId);
-        }
+      //await mcxhd_starmall_taskList(86); //做最后一个，看是否做完
+      //if (!merge.end) {
+      for (shopId = 8; shopId <87 ; shopId ++ ) {
+        console.log('\n开始店铺：' + shopId)
+        await mcxhd_starmall_taskList(shopId);
       }
-      merge.end = false;
+      //}
+      //merge.end = false;
       if (now.getDate() === 3) shopId = 2;
       if (now.getDate() === 4) shopId = 2;
       if (now.getDate() === 5) shopId = 3;
@@ -140,11 +140,12 @@ function mcxhd_starmall_taskList(shopId,timeout = 0){
                 await mcxhd_starmall_doTask(shopId,data.result.tasks[i].taskType,data.result.tasks[i].subItem[j].itemId)
               }
             } else {
-              if (shopId === 86) {
-                console.log('最后一个店铺已做完，不再执行所有店铺')
-                merge.end = true;
-              }
+              //console.log(data.result.tasks[i].taskType)
               console.log('已完成')
+              if (data.result.tasks[i].taskType === "1") {
+                console.log('签到已完成，本店任务跳过')
+                break
+              }
             }
           }
         } catch (e) {
