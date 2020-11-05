@@ -1,6 +1,6 @@
 /*
 京东example
-更新时间：2020-11-03
+更新时间：2020-11-05 14:03
 脚本说明：
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -18,7 +18,7 @@ const $ = new Env('京东example');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const coinToBeans = $.getdata('coinToBeans') || 20; //兑换多少数量的京豆，默认兑换不兑换
 const STRSPLIT = "|";
-const needSum = true;     //是否需要显示汇总
+const needSum = false;     //是否需要显示汇总
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -39,7 +39,7 @@ const JD_API_HOST = `https://api.m.jd.com/api?appid=jdsupermarket`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
-      if (i) console.log(`\n开始京东账号${i + 1}`)
+      if (i) console.log(`\n***************开始京东账号${i + 1}***************`)
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用

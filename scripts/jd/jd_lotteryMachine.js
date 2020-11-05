@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-11-05 13:48
+更新时间：2020-11-05 14:01
 脚本说明：
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -39,7 +39,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
-      if (i) console.log(`\n开始京东账号${i + 1}`)
+      if (i) console.log(`\n***************开始京东账号${i + 1}***************`)
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用
@@ -249,7 +249,7 @@ function initial() {
 //通知
 function msgShow() {
   let message = "";
-  let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3wtN2MjeQgjmxYTLB3YFcHjKiUJj/index.html%22%20%7D`}
+  let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html%22%20%7D`}
   let title = `京东账号：${merge.nickname}`;
   for (let i in merge) {
     if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
