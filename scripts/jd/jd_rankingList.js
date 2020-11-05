@@ -1,6 +1,6 @@
 /*
 京东排行榜
-更新时间：2020-11-04 13:15
+更新时间：2020-11-05 16:07
 脚本说明：京东排行榜签到得京豆
 活动入口：找不着了，点击脚本通知进入吧
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -39,6 +39,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
+      if (i) console.log(`\n***************开始京东账号${i + 1}***************`)
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用
@@ -218,7 +219,8 @@ if (needSum)
       message += `${$.sum[i].count.toFixed($.sum[i].fixed)}${i}，`
     }
   }
-  message = message.substr(0,message.length - 1);
+  message += `请点击通知跳转至APP查看`
+  //message = message.substr(0,message.length - 1);
   $.msg($.name, title, message, url);
 }
 

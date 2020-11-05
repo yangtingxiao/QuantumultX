@@ -1,6 +1,6 @@
 /*
 京东example
-更新时间：2020-11-05 14:03
+更新时间：2020-11-05 16:07
 脚本说明：
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -268,7 +268,8 @@ function msgShow() {
       message += `${$.sum[i].count.toFixed($.sum[i].fixed)}${i}，`
     }
   }
-  message = message.substr(0,message.length - 1);
+  message += `请点击通知跳转至APP查看`
+  //message = message.substr(0,message.length - 1);
   $.msg($.name, title, message, url);
 }
 
