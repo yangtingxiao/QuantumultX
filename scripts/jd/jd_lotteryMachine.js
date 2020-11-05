@@ -39,6 +39,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
+      if (i) console.log(`\n开始京东账号${i + 1}`)
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用
@@ -200,6 +201,7 @@ function interact_template_getLotteryResult(timeout = 0) {
       $.post(url, async (err, resp, data) => {
         try {
           if (!$.isMuteLog) console.log(data);
+          if (!timeout) console.log('\n开始抽奖')
           data = JSON.parse(data);
           if (data.data.bizCode === 0) {
             merge.jdBeans.success++;
@@ -212,6 +214,7 @@ function interact_template_getLotteryResult(timeout = 0) {
             }
           } else{
             merge.jdBeans.fail++;
+            console.log(data.data.bizMsg)
             if (data.data.bizCode === 111 ) data.data.bizMsg = "无机会"
             merge.jdBeans.notify = `${data.data.bizMsg}`;
           }

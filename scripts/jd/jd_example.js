@@ -39,6 +39,7 @@ const JD_API_HOST = `https://api.m.jd.com/api?appid=jdsupermarket`;
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
+      if (i) console.log(`\n开始京东账号${i + 1}`)
       initial();
       await  QueryJDUserInfo();
       if (!merge.enabled)  //cookie不可用
@@ -230,8 +231,8 @@ function initial() {
   merge = {
     nickname: "",
     enabled: true,
-    //blueCoin: {prizeDesc : "收取|蓝币|个",number : true},  //定义 动作|奖励名称|奖励单位   是否是数字
-    jdBeans: {prizeDesc : "兑换|京豆|个",number : true}
+    //blueCoin: {prizeDesc : "收取|蓝币|个",number : true},  //定义 动作|奖励名称|奖励单位   是否是数字 消失位数
+    jdBeans: {prizeDesc : "兑换|京豆|个",number : true,fixed : 0}
   }
   for (let i in merge) {
     merge[i].success = 0;
@@ -250,21 +251,21 @@ function msgShow() {
   for (let i in merge) {
     if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
     if (merge[i].notify.split("").reverse()[0] === "\n") merge[i].notify = merge[i].notify.substr(0,merge[i].notify.length - 1);
-    message += `${merge[i].prizeDesc.split(STRSPLIT)[0]}${merge[i].prizeDesc.split(STRSPLIT)[1]}：` + (merge[i].success ? `${merge[i].prizeCount.toFixed(2)}${merge[i].prizeDesc.split(STRSPLIT)[2]}\n` : `失败：${merge[i].notify}\n`)
+    message += `${merge[i].prizeDesc.split(STRSPLIT)[0]}${merge[i].prizeDesc.split(STRSPLIT)[1]}：` + (merge[i].success ? `${merge[i].prizeCount.toFixed(merge[i].fixed)}${merge[i].prizeDesc.split(STRSPLIT)[2]}\n` : `失败：${merge[i].notify}\n`)
   }
 //合计
-if (needSum)
+  if (needSum)
   {
     $.sum = {};
     for (let i in merge) {
-         if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
-         if (typeof ($.sum[merge[i].prizeDesc.split(STRSPLIT)[1]]) === "undefined")  $.sum[merge[i].prizeDesc.split(STRSPLIT)[1]] = {count : 0};
-         $.sum[merge[i].prizeDesc.split(STRSPLIT)[1]].count += merge[i].prizeCount;
+      if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
+      if (typeof ($.sum[merge[i].prizeDesc.split(STRSPLIT)[1]]) === "undefined")  $.sum[merge[i].prizeDesc.split(STRSPLIT)[1]] = {count : 0};
+      $.sum[merge[i].prizeDesc.split(STRSPLIT)[1]].count += merge[i].prizeCount;
     }
     message += `合计：`
     for (let i in $.sum)
     {
-      message += `${$.sum[i].count.toFixed(2)}${i}，`
+      message += `${$.sum[i].count.toFixed($.sum[i].fixed)}${i}，`
     }
   }
   message = message.substr(0,message.length - 1);
