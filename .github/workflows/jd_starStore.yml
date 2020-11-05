@@ -6,7 +6,7 @@ name: 京东星店长
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 1 * * * '
+    - cron: '5 0 * * * '
   watch:
     types: started
 
