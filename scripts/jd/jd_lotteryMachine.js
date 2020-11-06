@@ -1,7 +1,7 @@
 /*
 京东抽奖机
-更新时间：2020-11-06 12:55
-脚本说明：三个抽奖活动，【东东抽奖机】【新店福利】【东东福利屋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+更新时间：2020-11-06 13:12
+脚本说明：四个抽奖活动，【东东抽奖机】【新店福利】【东东福利屋】【东东生活】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -19,8 +19,8 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRQxQ','1EFRQxA','1EFRQxw']
-const shareCodeArr = ['P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0','P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVXm4aW5m9cZ2f433tIlINrBDzgMdY']
+const appIdArr = ['1EFRQxQ','1EFRQxA','1EFRQxw','1EFRQyw']
+const shareCodeArr = ['P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0','P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVXm4aW5m9cZ2f433tIlINrBDzgMdY','P04z54XCjVXl4aW5m9cZ2f433tIlHQIDDSzFzg']
 //const funPrefixArr = ['interact_template','interact_template','wfh']
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -130,6 +130,7 @@ function interact_template_getHomeData(timeout = 0) {
               continue
             }
             if (data.data.result.taskVos[i].taskType === 14) {//'data.data.result.taskVos[i].assistTaskDetailVo.taskToken'
+              console.log('您的助力码：'+data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
               await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
               continue
             }
