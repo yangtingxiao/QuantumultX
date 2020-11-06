@@ -1,7 +1,7 @@
 /*
 京东抽奖机
-更新时间：2020-11-05 16:06
-脚本说明：
+更新时间：2020-11-06 08:48
+脚本说明：两个抽奖活动，【东东抽奖机】【新店福利】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -18,7 +18,9 @@ const $ = new Env('京东抽奖机');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
-$.isMuteLog = true        //是否显示出参详情
+const printDetail = false        //是否显示出参详情
+const appIdArr = ['1EFRQxQ','1EFRQxA']
+const shareCodeArr = ['P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0','P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o']
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -48,8 +50,13 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
         $.msg($.name, `【提示】京东账号${i + 1} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
-      await interact_template_getHomeData();
-      await interact_template_getLotteryResult();
+      for (let j in appIdArr) {
+        appId = appIdArr[j]
+        shareCode = shareCodeArr[j]
+        if (parseInt(j)) console.log('\n开始第二个抽奖活动')
+        await interact_template_getHomeData();
+        await interact_template_getLotteryResult();
+      }
       await msgShow();
     }
   }
@@ -103,13 +110,14 @@ function interact_template_getHomeData(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=interact_template_getHomeData&body={"appId":"1EFRQxQ","taskToken":""}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=interact_template_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
-          if (!$.isMuteLog) console.log(data);
+          if (printDetail) console.log(data);
           data = JSON.parse(data);
-
+          scorePerLottery = data.data.result.userInfo.scorePerLottery
+          //console.log(scorePerLottery)
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
             console.log("\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName  + '-' + (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成"))
             //签到
@@ -120,7 +128,7 @@ function interact_template_getHomeData(timeout = 0) {
               continue
             }
             if (data.data.result.taskVos[i].taskType === 14) {//'data.data.result.taskVos[i].assistTaskDetailVo.taskToken'
-              await harmony_collectScore('P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0',data.data.result.taskVos[i].taskId);
+              await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
               continue
             }
             let list = data.data.result.taskVos[i].productInfoVos || data.data.result.taskVos[i].followShopVo || data.data.result.taskVos[i].shoppingActivityVos || data.data.result.taskVos[i].browseShopVo
@@ -164,11 +172,11 @@ function harmony_collectScore(taskToken,taskId,timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=harmony_collectScore&body={"appId":"1EFRQxQ","taskToken":"${taskToken}","taskId":${taskId},"actionType":0}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=harmony_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId},"actionType":0}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
-          if (!$.isMuteLog) console.log(data);
+          if (printDetail) console.log(data);
           data = JSON.parse(data);
           console.log(data.data.bizMsg)
         } catch (e) {
@@ -196,11 +204,11 @@ function interact_template_getLotteryResult(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=interact_template_getLotteryResult&body={"appId":"1EFRQxQ"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=interact_template_getLotteryResult&body={"appId":"${appId}"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
-          if (!$.isMuteLog) console.log(data);
+          if (printDetail) console.log(data);
           if (!timeout) console.log('\n开始抽奖')
           data = JSON.parse(data);
           if (data.data.bizCode === 0) {
@@ -209,7 +217,7 @@ function interact_template_getLotteryResult(timeout = 0) {
               console.log(data.data.result.userAwardsCacheDto.jBeanAwardVo.prizeName + ':' + data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
               merge.jdBeans.prizeCount += parseInt(data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
             }
-            if (parseInt(data.data.result.userScore) >= 400 ) {
+            if (parseInt(data.data.result.userScore) >= scorePerLottery ) {
               await interact_template_getLotteryResult(1000)
             }
           } else{
