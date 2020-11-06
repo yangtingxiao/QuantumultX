@@ -1,7 +1,7 @@
 /*
 京东抽奖机
-更新时间：2020-11-06 08:48
-脚本说明：两个抽奖活动，【东东抽奖机】【新店福利】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+更新时间：2020-11-06 12:55
+脚本说明：三个抽奖活动，【东东抽奖机】【新店福利】【东东福利屋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -18,9 +18,10 @@ const $ = new Env('京东抽奖机');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
-const printDetail = false        //是否显示出参详情
-const appIdArr = ['1EFRQxQ','1EFRQxA']
-const shareCodeArr = ['P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0','P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o']
+const printDetail = false;        //是否显示出参详情
+const appIdArr = ['1EFRQxQ','1EFRQxA','1EFRQxw']
+const shareCodeArr = ['P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0','P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVXm4aW5m9cZ2f433tIlINrBDzgMdY']
+//const funPrefixArr = ['interact_template','interact_template','wfh']
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -53,7 +54,8 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
       for (let j in appIdArr) {
         appId = appIdArr[j]
         shareCode = shareCodeArr[j]
-        if (parseInt(j)) console.log('\n开始第二个抽奖活动')
+        //funPrefix = funPrefixArr[j]
+        if (parseInt(j)) console.log(`\n开始第${parseInt(j) + 1}个抽奖活动`)
         await interact_template_getHomeData();
         await interact_template_getLotteryResult();
       }
@@ -110,13 +112,13 @@ function interact_template_getHomeData(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=interact_template_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=${appId === '1EFRQxw' ? 'wfh' :'interact_template'}_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
           if (printDetail) console.log(data);
           data = JSON.parse(data);
-          scorePerLottery = data.data.result.userInfo.scorePerLottery
+          scorePerLottery = data.data.result.userInfo.scorePerLottery||data.data.result.userInfo.lotteryMinusScore
           //console.log(scorePerLottery)
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
             console.log("\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName  + '-' + (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成"))
@@ -167,13 +169,14 @@ function harmony_collectScore(taskToken,taskId,timeout = 0) {
           'Cookie' : cookie,
           'Connection' : `keep-alive`,
           'Accept' : `application/json, text/plain, */*`,
-          'Referer' : `https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html?inviteId=P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0`,//?inviteId=P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ
+          'Referer' : `https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html`,//?inviteId=P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ?inviteId=${shareCode}
           'Host' : `api.m.jd.com`,
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=harmony_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId},"actionType":0}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=${appId === '1EFRQxw' ? 'wfh' :'harmony'}_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId},"actionType":0}&client=wh5&clientVersion=1.0.0`
       }
+      //console.log(url)
       $.post(url, async (err, resp, data) => {
         try {
           if (printDetail) console.log(data);
@@ -204,7 +207,7 @@ function interact_template_getLotteryResult(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=interact_template_getLotteryResult&body={"appId":"${appId}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=${appId === '1EFRQxw' ? 'wfh' :'interact_template'}_getLotteryResult&body={"appId":"${appId}"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
@@ -213,8 +216,8 @@ function interact_template_getLotteryResult(timeout = 0) {
           data = JSON.parse(data);
           if (data.data.bizCode === 0) {
             merge.jdBeans.success++;
-            if (data.data.result.userAwardsCacheDto.jBeanAwardVo&&data.data.result.userAwardsCacheDto.jBeanAwardVo.prizeName === "京豆") {
-              console.log(data.data.result.userAwardsCacheDto.jBeanAwardVo.prizeName + ':' + data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
+            if (data.data.result.userAwardsCacheDto.jBeanAwardVo&&data.data.result.userAwardsCacheDto.jBeanAwardVo.prizeName.match(/京豆/)) {
+              console.log('京豆:' + data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
               merge.jdBeans.prizeCount += parseInt(data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
             }
             if (parseInt(data.data.result.userScore) >= scorePerLottery ) {
