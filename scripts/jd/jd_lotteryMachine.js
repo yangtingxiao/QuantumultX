@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-11-07 11:09
+更新时间：2020-11-07 21:42
 脚本说明：五个抽奖活动，【东东抽奖机】【新店福利】【东东福利屋】【东东生活】【闪购盲盒】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -123,7 +123,7 @@ function interact_template_getHomeData(timeout = 0) {
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
             console.log("\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName  + '-' + (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成"))
             //签到
-            if (data.data.result.taskVos[i].taskType === 13) {
+            if ([0,13].includes(data.data.result.taskVos[i].taskType)) {
               if (data.data.result.taskVos[i].status === 1) {
                 await harmony_collectScore(data.data.result.taskVos[i].simpleRecordInfoVo.taskToken,data.data.result.taskVos[i].taskId);
               }
