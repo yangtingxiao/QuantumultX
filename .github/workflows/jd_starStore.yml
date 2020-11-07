@@ -30,8 +30,6 @@ jobs:
       - name: '京东星店长'
         env: 
             COOKIE: ${{secrets.JD_COOKIE}}
-            TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
-            TG_USER_ID :  ${{secrets.TG_USER_ID}}
             REMOTE_URL: https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_starStore.js
             MULT_CUSTOM_REPLACE: '[[{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-YTX'')"}],
                                    [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-SR'')"}],
