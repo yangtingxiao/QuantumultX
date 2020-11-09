@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-09 13:10
+更新时间：2020-11-09 15:10
 修复火爆问题，第一次还有可能个别的火爆，再次运行即可
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -712,7 +712,7 @@ function stall_raise(timeout = 0) {
         try {
           //console.log(data)
           data = JSON.parse(data);
-          console.log('解锁结果：'+ data.data.bizMsg)
+          console.log('解锁结果：'+ (data.data.bizCode||'成功'))
         } catch (e) {
           $.logErr(e, resp);
         } finally {
