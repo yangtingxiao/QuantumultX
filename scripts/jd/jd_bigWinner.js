@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-09 12:39
+更新时间：2020-11-09 13:00
 修复火爆问题
 [task_local]
 # 京东大赢家
@@ -51,7 +51,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       await stall_pk_getHomeData();
       await stall_getHomeData();
       //if (merge.black)  continue ;
-      await stall_pk_assistGroup()
+      //await stall_pk_assistGroup()
       await stall_myShop()
       await qryCompositeMaterials()
       await msgShow();
@@ -137,7 +137,7 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                   if (list[j].status === 1) {
                     let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"${list[j].itemId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
                     console.log("\n"+(list[j].title||list[j].shopName))
-                    await stall_collectScore(taskBody,1000)
+                    await stall_collectScore(taskBody,2000)
                     //}
                     list[j].status = 2;
                     break;
@@ -157,7 +157,7 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                   //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
                   //  await qryViewkitCallbackResult(taskBody,1000)
                   //} else {
-                  await stall_collectScore(taskBody,1000)
+                  await stall_collectScore(taskBody,3000)
                   //}
                 }
             }
@@ -402,7 +402,7 @@ function stall_collectScore(taskBody,timeout = 0){
           data = JSON.parse(data);
           console.log('任务执行结果：' + data.data.bizMsg)
           if (data.data.bizCode === -1002) {
-            await $.wait(5000)
+            await $.wait(1000)
             //console.log('此账号暂不可使用脚本，脚本终止！')
             //merge.black = true;
             return ;
@@ -411,7 +411,7 @@ function stall_collectScore(taskBody,timeout = 0){
             //console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
             //console.log(taskBody)
-            await qryViewkitCallbackResult(taskBody,7000)
+            await qryViewkitCallbackResult(taskBody,8000)
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -516,6 +516,14 @@ function qryViewkitCallbackResult(taskBody,timeout = 0) {
 //群组助力
 function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqosoNJHNIHp84xOJxNmUElr71Un",timeout = 0) {
   return new Promise((resolve) => {
+    let rnd = Math.round(Math.random()*1e6)
+    let nonstr = randomWord(false,10)
+    let time = Date.now()
+    let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+    let msg = `inviteId=${inviteId}&rnd=${rnd}&stealId=-1&taskId=2&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+    let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+    //let taskBody = `functionId=stall_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"2\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"${body}\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+
     setTimeout( ()=>{
       let url = {
         url : `${JD_API_HOST}stall_pk_assistGroup`  ,
@@ -530,7 +538,7 @@ function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhq
           'Accept-Language' : `zh-cn`,
           'Refer' : `https://bunearth.m.jd.com/babelDiy/Zeus/4SJUHwGdUQYgg94PFzjZZbGZRjDd/index.html?jmddToSmartEntry=login`
         },
-        body : `functionId=stall_pk_assistGroup&client=wh5&clientVersion=1.0.0&body={"confirmFlag":1,"inviteId":"${inviteId}","ss":"{\\"secretp\\":\\"${secretp}\\"}"}`
+        body : `functionId=stall_pk_assistGroup&client=wh5&clientVersion=1.0.0&body={"confirmFlag":1,"inviteId": "${inviteId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"2\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"${inviteId}\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}`
       }
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
@@ -594,7 +602,8 @@ function stall_getHomeData(body= "",timeout = 0) {
             //console.log('stall_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await stall_collectProduceScore();
-            if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise()
+            await stall_pk_assistGroup()
+            if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise(1000)
             await stall_getHomeData('Vl4ISNZnRyNVJf028W76ZuyTXfbtGlbVhbQEF3XxyFux9uadYgA0uao');
             await stall_getTaskDetail("","app")
             await stall_getTaskDetail()
@@ -694,8 +703,9 @@ function stall_raise(timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
+          //console.log(data)
           data = JSON.parse(data);
-          console.log('解锁结果：'+ data.data.bizCode)
+          console.log('解锁结果：'+ data.data.bizMsg)
         } catch (e) {
           $.logErr(e, resp);
         } finally {
