@@ -1,7 +1,7 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-04 08:46
-
+更新时间：2020-11-09 12:39
+修复火爆问题
 [task_local]
 # 京东大赢家
 5 0-22/2 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js, tag=京东大赢家, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
@@ -27,11 +27,9 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
     return;
   }
   //console.log('提示-1002的账号是因为京东对入参进行了强校验，并不是黑号，目前无法使用脚本，请手动去APP做吧，不提示-1002的可以继续使用')
-
-  console.log('目前京东已全面判断入参校验，所有账号都不能用，手动做吧')
-
-  console.log('请删除或禁用脚本！')
-  return
+  //console.log('目前京东已全面判断入参校验，所有账号都不能用，手动做吧')
+  //console.log('请删除或禁用脚本！')
+  //return
 
 
   for (let i = 0; i < cookiesArr.length; i++) {
@@ -46,14 +44,13 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       if (!merge.enabled)  //cookie不可用
       {
         $.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
-        $.msg($.name, `【提示】京东账号${merge.nickname} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
+        $.msg($.name, `【提示】京东账号${i ? i + 1 : "" } cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await stall_pk_getHomeData();
       await stall_getHomeData();
-      if (merge.black)  continue ;
-      await stall_collectProduceScore();
+      //if (merge.black)  continue ;
       await stall_pk_assistGroup()
       await stall_myShop()
       await qryCompositeMaterials()
@@ -116,31 +113,30 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
       $.post(url, async (err, resp, data) => {
         try {
           //console.log('stall_getTaskDetail:' + data)
-
           data = JSON.parse(data);
           if (shopSign === "") {
             shopSign = '""'
-            console.log(`您的个人助力码：${data.data.result.inviteId}`)
+            //if (appSign === "") console.log(`您的个人助力码：${data.data.result.inviteId}`)
           }
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
-            if (merge.black)  return ;
+            //if (merge.black)  return ;
             console.log( "\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName + (appSign&&"（微信小程序）") + '-'  +  (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成")  )
+            let rnd = Math.round(Math.random()*1e6)
+            let nonstr = randomWord(false,10)
+            let time = Date.now()
+            let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+            let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+            let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
             if ([1,3,7,9].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1 ) {
               let list = data.data.result.taskVos[i].brandMemberVos||data.data.result.taskVos[i].followShopVo||data.data.result.taskVos[i].shoppingActivityVos||data.data.result.taskVos[i].browseShopVo
               //console.log(list)
-
+              //if (data.data.result.taskVos[i].taskType === 9) continue
               for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-                if (merge.black)  return ;
+                //body : `functionId=stall_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
                 for (let j in list) {
                   if (list[j].status === 1) {
-                    let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"${list[j].itemId}","ss":"{\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
-                    //if (data.data.result.taskVos[i].taskType !== 3 && typeof list[j].taskToken !== "undefined") {
-                    //  let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${list[j].taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
-                    //  await qryViewkitCallbackResult(taskBody,1000)
-                    //} else {
+                    let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"${list[j].itemId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
                     console.log("\n"+(list[j].title||list[j].shopName))
-                    //console.log(list[j].title||list[j].shopName)
-                    //console.log(list[j].shopName)
                     await stall_collectScore(taskBody,1000)
                     //}
                     list[j].status = 2;
@@ -153,8 +149,9 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
             }
 
             if ([12,13].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1) {
-                let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
-                for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
+              //let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+              let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+              for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
                   if (merge.black)  return ;
                   //if (typeof data.data.result.taskVos[i].simpleRecordInfoVo !== "undefined"){
                   //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
@@ -204,11 +201,11 @@ function stall_myShop(timeout = 0){
           //console.log('stall_myShop:' + data)
           data = JSON.parse(data);
           for (let i in data.data.result.shopList) {
-            if (data.data.result.shopList[i].status === 1) {
+            // (data.data.result.shopList[i].status === 1) {
               //console.log(data.data.result.shopList[i])
-              console.log('\n开始城市任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
-              await stall_getTaskDetail(data.data.result.shopList[i].shopId)
-            }
+            console.log('\n开始城市任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
+            await stall_getTaskDetail(data.data.result.shopList[i].shopId)
+            //}
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -223,6 +220,14 @@ function stall_myShop(timeout = 0){
 //逛商城
 function stall_shopSignInWrite(shopSign,timeout = 0){
   return new Promise((resolve) => {
+
+    let rnd = Math.round(Math.random()*1e6)
+    let nonstr = randomWord(false,10)
+    let time = Date.now()
+    let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+    let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+
     setTimeout( ()=>{
       let url = {
         url : `${JD_API_HOST}stall_shopSignInWrite`,
@@ -236,7 +241,7 @@ function stall_shopSignInWrite(shopSign,timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=stall_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=stall_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
@@ -299,6 +304,12 @@ function stall_shopSignInRead(shopSign,timeout = 0){
 //收金币
 function stall_collectProduceScore(timeout = 0){
   return new Promise((resolve) => {
+    let rnd = Math.round(Math.random()*1e6)
+    let nonstr = randomWord(false,10)
+    let time = Date.now()
+    let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=collectProducedCoin&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+    let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
     setTimeout( ()=>{
       let url = {
         url : `${JD_API_HOST}stall_collectProduceScore`,
@@ -312,12 +323,18 @@ function stall_collectProduceScore(timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=stall_collectProduceScore&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=stall_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
       }
+      //console.log(url.body)
       $.post(url, async (err, resp, data) => {
         try {
+          //console.log(data)
           data = JSON.parse(data);
-
+          if (data.data.bizCode === -1002) {
+            //console.log('此账号暂不可使用脚本，脚本终止！')
+            //merge.black = true;
+            return ;
+          }
           console.log(`\n收取金币：${data.data.result.produceScore}`)
         } catch (e) {
           $.logErr(e, resp);
@@ -378,21 +395,23 @@ function stall_collectScore(taskBody,timeout = 0){
         },
         body : taskBody
       }
+      //console.log(url.body)
       $.post(url, async (err, resp, data) => {
         try {
           //console.log(data)
           data = JSON.parse(data);
-          console.log('任务执行结果：' + data.data.bizCode)
+          console.log('任务执行结果：' + data.data.bizMsg)
           if (data.data.bizCode === -1002) {
-            console.log('此账号暂不可使用脚本，脚本终止！')
-            merge.black = true;
+            await $.wait(5000)
+            //console.log('此账号暂不可使用脚本，脚本终止！')
+            //merge.black = true;
             return ;
           }
           if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
-            console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
+            //console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
             //console.log(taskBody)
-            await qryViewkitCallbackResult(taskBody)
+            await qryViewkitCallbackResult(taskBody,7000)
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -407,6 +426,7 @@ function stall_collectScore(taskBody,timeout = 0){
 //查询甄选任务
 function stall_getFeedDetail(taskId,timeout = 0){
   return new Promise((resolve) => {
+
     setTimeout( ()=>{
       let url = {
         url : `${JD_API_HOST}stall_getFeedDetail`,
@@ -432,7 +452,14 @@ function stall_getFeedDetail(taskId,timeout = 0){
             if (list[i].status === 1) {
               for (let j in list[i].productInfoVos) {
                 if (j >= 5)  break;
-                let taskBody = `functionId=stall_collectScore&body={"taskId":${list[i].taskId},"itemId":"${list[i].productInfoVos[j].skuId}","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":""}&client=wh5&clientVersion=1.0.0`
+
+                let rnd = Math.round(Math.random()*1e6)
+                let nonstr = randomWord(false,10)
+                let time = Date.now()
+                let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+                let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+                let taskBody = `functionId=stall_collectScore&body={"taskId":${list[i].taskId},"itemId":"${list[i].productInfoVos[j].skuId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","shopSign":""}&client=wh5&clientVersion=1.0.0`
                 console.log(list[i].productInfoVos[j].skuName)
                 await stall_collectScore(taskBody,1000)
               }
@@ -487,7 +514,7 @@ function qryViewkitCallbackResult(taskBody,timeout = 0) {
 }
 
 //群组助力
-function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqosoNJHNIHp84xOJxNmUElr71Ut",timeout = 0) {
+function stall_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqosoNJHNIHp84xOJxNmUElr71Un",timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
       let url = {
@@ -542,13 +569,22 @@ function stall_getHomeData(body= "",timeout = 0) {
       $.post(url, async (err, resp, data) => {
         try {
           //console.log(url.body)
-          if (merge.black)  return ;
+          //if (merge.black)  return ;
           data = JSON.parse(data);
           if (data.code === 0) {
             if (body !== "") {
               //console.log('stall_getHomeData2:' + JSON.stringify(data))
               if (data.data.result.homeMainInfo.guestInfo.status === 0) {
-                let taskBody = `functionId=stall_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+
+                let rnd = Math.round(Math.random()*1e6)
+                let nonstr = randomWord(false,10)
+                let time = Date.now()
+                let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+                let msg = `inviteId=${body}&rnd=${rnd}&stealId=-1&taskId=2&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+                let taskBody = `functionId=stall_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"2\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"${body}\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+                //console.log(taskBody)
+                //let taskBody = `functionId=stall_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
                 //console.log(taskBody)
                 //console.log('开始助力：')
                 await stall_collectScore(taskBody, 1000)
@@ -557,6 +593,7 @@ function stall_getHomeData(body= "",timeout = 0) {
             }
             //console.log('stall_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
+            await stall_collectProduceScore();
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise()
             await stall_getHomeData('Vl4ISNZnRyNVJf028W76ZuyTXfbtGlbVhbQEF3XxyFux9uadYgA0uao');
             await stall_getTaskDetail("","app")
@@ -705,7 +742,6 @@ function qryCompositeMaterials(timeout = 0) {
   })
 }
 
-
 function stall_pk_getHomeData(body = "",timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
@@ -729,7 +765,9 @@ function stall_pk_getHomeData(body = "",timeout = 0) {
             await stall_pk_assistGroup();
           } else {
             data = JSON.parse(data);
-            console.log('您的商圈助力码：' + data.data.result.groupInfo.groupAssistInviteId)
+            if (data.data.result.groupInfo.groupAssistInviteId.match(/XUkkFpUhDG0OdMYzp22uY_lyEaiFin/)){
+              console.log('您的商圈助力码：' + data.data.result.groupInfo.groupAssistInviteId)
+            }
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -739,6 +777,120 @@ function stall_pk_getHomeData(body = "",timeout = 0) {
       })
     },timeout)
   })
+}
+
+function randomWord(randomFlag, min, max){
+  let str = "",
+    range = min,
+    arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  // 随机产生
+  if(randomFlag){
+    range = Math.round(Math.random() * (max-min)) + min;
+  }
+  for(let i=0; i<range; i++){
+    pos = Math.round(Math.random() * (arr.length-1));
+    str += arr[pos];
+  }
+  return str;
+}
+
+function minusByByte(t, n) {
+  var e = t.length
+    , r = n.length
+    , o = Math.max(e, r)
+    , i = toAscii(t)
+    , a = toAscii(n)
+    , s = ""
+    , u = 0;
+  for (e !== r && (i = add0(i, o),
+    a = this.add0(a, o)); u < o; )
+    s += Math.abs(i[u] - a[u]),
+      u++;
+  return s
+}
+
+function toAscii (t) {
+  var n = "";
+  for (var e in t) {
+    var r = t[e]
+      , o = /[a-zA-Z]/.test(r);
+    if (t.hasOwnProperty(e))
+      if (o)
+        n += getLastAscii(r);
+      else
+        n += r
+  }
+  return n
+}
+function add0 (t, n) {
+  return (Array(n).join("0") + t).slice(-n)
+}
+
+function getLastAscii(t) {
+  var n = t.charCodeAt(0).toString();
+  return n[n.length - 1]
+}
+
+function wordsToBytes(t) {
+  for (var n = [], e = 0; e < 32 * t.length; e += 8)
+    n.push(t[e >>> 5] >>> 24 - e % 32 & 255);
+  return n
+}
+
+function bytesToHex(t) {
+  for (var n = [], e = 0; e < t.length; e++)
+    n.push((t[e] >>> 4).toString(16)),
+      n.push((15 & t[e]).toString(16));
+  return n.join("")
+}
+
+function stringToBytes(t) {
+  t = unescape(encodeURIComponent(t))
+  for (var n = [], e = 0; e < t.length; e++)
+    n.push(255 & t.charCodeAt(e));
+  return n
+}
+
+function bytesToWords(t) {
+  for (var n = [], e = 0, r = 0; e < t.length; e++,
+    r += 8)
+    n[r >>> 5] |= t[e] << 24 - r % 32;
+  return n
+}
+function getSign (t) {
+  t = stringToBytes(t)
+  var e = bytesToWords(t)
+    , i = 8 * t.length
+    , a = []
+    , s = 1732584193
+    , u = -271733879
+    , c = -1732584194
+    , f = 271733878
+    , h = -1009589776;
+  e[i >> 5] |= 128 << 24 - i % 32,
+    e[15 + (i + 64 >>> 9 << 4)] = i;
+  for (var l = 0; l < e.length; l += 16) {
+    for (var p = s, g = u, v = c, d = f, y = h, m = 0; m < 80; m++) {
+      if (m < 16)
+        a[m] = e[l + m];
+      else {
+        var w = a[m - 3] ^ a[m - 8] ^ a[m - 14] ^ a[m - 16];
+        a[m] = w << 1 | w >>> 31
+      }
+      var _ = (s << 5 | s >>> 27) + h + (a[m] >>> 0) + (m < 20 ? 1518500249 + (u & c | ~u & f) : m < 40 ? 1859775393 + (u ^ c ^ f) : m < 60 ? (u & c | u & f | c & f) - 1894007588 : (u ^ c ^ f) - 899497514);
+      h = f,
+        f = c,
+        c = u << 30 | u >>> 2,
+        u = s,
+        s = _
+    }
+    s += p,
+      u += g,
+      c += v,
+      f += d,
+      h += y
+  }
+  return [s, u, c, f, h]
 }
 //初始化
 function initial() {
