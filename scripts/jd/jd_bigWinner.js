@@ -1,10 +1,17 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-09 13:00
-修复火爆问题
+更新时间：2020-11-09 13:10
+修复火爆问题，第一次还有可能个别的火爆，再次运行即可
+脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
+// quantumultx
 [task_local]
-# 京东大赢家
+#京东大赢家
 5 0-22/2 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js, tag=京东大赢家, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true
+// Loon
+[Script]
+cron "5 0-22/2 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js,tag=京东大赢家
+// Surge
+京东大赢家 = type=cron,cronexp=5 0-22/2 * * *,wake-system=1,timeout=500,script-path=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_bigWinner.js
 */
 const $ = new Env('京东大赢家');
 //Node.js用户请在jdCookie.js处填写京东ck;
