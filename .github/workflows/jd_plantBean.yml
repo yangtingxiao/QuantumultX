@@ -32,7 +32,7 @@ jobs:
             COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: https://raw.githubusercontent.com/lxk0301/scripts/master/jd_plantBean.js
+            REMOTE_URL: https://gitee.com/lxk0301/scripts/raw/master/jd_plantBean.js
             CUSTOM_REPLACE: '[{key : /let jdNotify.+/,value : "let jdNotify = true"},
                               {key : /await notify.sendNotify.+/g,value : ""},
                               {key : /newShareCodes = shareCodes.+/,value : "newShareCodes = [`4npkonnsy7xi2k7k2xwei2iqwtb727s3zwxun6a`]"}
