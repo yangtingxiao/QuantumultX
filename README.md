@@ -1,8 +1,8 @@
 ![Anurag’s github stats](https://github-readme-stats.vercel.app/api?username=yangtingxiao&show_icons=true&icon_color=CE1D2D&text_color=718096&bg_color=ffffff&hide_title=true)
 # QuantumultX
-脚本，自用
+脚本，自用，仅限于学习和调试接口，请勿进行商业用途。所有下载、使用、复制本库所导致的后果，由使用人自行承担，如不同意，请立即停用并删除脚本，否则视为认可以上条件
 
-## 关于Actions自动化执行
+## 关于智能替换（受可能被禁用的影响，不再提供自动化运行文件，请自行处理）
 
 受到[@sazs34](https://github.com/sazs34/MyActions)使用的smartReplace.js启发，重写了smartReplace.js，
 可以在env中使用CUSTOM_REPLACE和MULT_CUSTOM_REPLACE自定义进行替换操作。
@@ -30,7 +30,7 @@
 
 替换时需要注意引号问题，记得转义，确保替换正确。YAML允许字符串换行，过长的替换可以适当换行提高可读性。
 
-通知模块使用了[@lxk0301](https://github.com/lxk0301/scripts)的sendNotify.js
+通知模块使用了[@lxk0301](https://github.com/lxk0301/jd_scripts)的sendNotify.js
 
 优点：
 
@@ -45,6 +45,6 @@
 
 * [@chavyleung](https://github.com/chavyleung)
 
-* [@lxk0301](https://github.com/lxk0301/scripts)
+* [@lxk0301](https://github.com/lxk0301/jd_scripts)
 
 * [@sazs34](https://github.com/sazs34/MyActions)
