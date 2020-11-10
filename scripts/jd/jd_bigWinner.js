@@ -1,6 +1,6 @@
 /*
 京东大赢家 双11活动
-更新时间：2020-11-10 01:47
+更新时间：2020-11-11 06:13
 修复火爆问题
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -56,7 +56,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
-      await stall_pk_getHomeData();
+      //await stall_pk_getHomeData();
       await stall_getHomeData();
       //if (merge.black)  continue ;
       //await stall_pk_assistGroup()
@@ -159,20 +159,20 @@ function stall_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
 
             if ([12,13].includes(data.data.result.taskVos[i].taskType) && data.data.result.taskVos[i].status === 1) {
               //let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
-              let rnd = Math.round(Math.random()*1e6)
-              let nonstr = randomWord(false,10)
-              let time = Date.now()
-              let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-              let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
-              let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-              let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
               for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-                  if (merge.black)  return ;
+                let rnd = Math.round(Math.random()*1e6)
+                let nonstr = randomWord(false,10)
+                let time = Date.now()
+                let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
+                let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+                let  taskBody = `functionId=stall_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+                if (merge.black)  return ;
                   //if (typeof data.data.result.taskVos[i].simpleRecordInfoVo !== "undefined"){
                   //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
                   //  await qryViewkitCallbackResult(taskBody,1000)
                   //} else {
-                  await stall_collectScore(taskBody,1000)
+                await stall_collectScore(taskBody,1000)
                   //}
                 }
             }
@@ -620,9 +620,9 @@ function stall_getHomeData(body= "",timeout = 0) {
             //console.log('stall_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await stall_collectProduceScore();
-            await stall_pk_assistGroup()
+            //await stall_pk_assistGroup()
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await stall_raise(1000)
-            await stall_getHomeData('Vl4ISNZnRyNVJf028W76ZuyTXfbtGlbVhbQEF3XxyFux9uadYgA0uao');
+            await stall_getHomeData('Vl4IS9FmSSZQJKszoWf7aUBU5b5-u5EfyZfDf3MWsdcZUKQsZjz0sFc');
             await stall_getTaskDetail("","app")
             await stall_getTaskDetail()
           } else {
