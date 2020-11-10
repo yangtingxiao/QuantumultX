@@ -32,7 +32,7 @@ jobs:
             COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: https://gitee.com/lxk0301/scripts/raw/master/jd_fruit.js
+            REMOTE_URL: https://raw.githubusercontent.com/ytx404/scripts/master/jd_fruit.js
             CUSTOM_REPLACE: '[{key : /await notify\.sendNotify.+/g,value : ""}]'
             MULT_CUSTOM_REPLACE: '[[{key : /const \$.+/,value : "const $ = new Env(''东东农场-YTX'')"},{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`e3ff185ff53643308ab2b1a6afb3533e@323dbdbbfc824faa81b8927cd95bf975@732c806d465d427aab0c948e2ef8de17@5fe4179a7903433b898e6849409ad885@1d5c06e54d7445fd974322a30e5e0760`]"}],
                                    [{key : /const \$.+/,value : "const $ = new Env(''东东农场-SR'')"},{key : /const jdFruitShareCodes.+/,value : "const jdFruitShareCodes = [`967a8e63fa2148208c1385ed34641ede@b8359db44d244b1f8c36e399926eb5d5@6d7041df49b14747b7ea240efcbe3b59@7b6a724115984e968ec962bf333c0d3b`]"}],

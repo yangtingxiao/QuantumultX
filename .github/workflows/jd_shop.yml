@@ -32,7 +32,7 @@ jobs:
             COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: https://gitee.com/lxk0301/scripts/raw/master/jd_shop.js
+            REMOTE_URL: https://raw.githubusercontent.com/ytx404/scripts/master/jd_shop.js
             CUSTOM_REPLACE: '[{key : /(\$\.msg.*京豆.\);)/g,value : "//$1"}]'
         run: |
           node 'scripts/remote/runRemoteScripts.js'

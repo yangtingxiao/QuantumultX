@@ -32,7 +32,7 @@ jobs:
             COOKIE: ${{secrets.JD_COOKIE}}
             TG_BOT_TOKEN :  ${{secrets.TG_BOT_TOKEN}}
             TG_USER_ID :  ${{secrets.TG_USER_ID}}
-            REMOTE_URL: https://gitee.com/lxk0301/scripts/raw/master/jd_xtg.js
+            REMOTE_URL: https://raw.githubusercontent.com/ytx404/scripts/master/jd_xtg.js
             MULT_CUSTOM_REPLACE: '[[{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-YTX'')"}],
                                    [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-SR'')"}],
                                    [{key : /const \$.+\(''(.+)''\);/,value : "const $ = new Env(''$1-LJ'')"}],
