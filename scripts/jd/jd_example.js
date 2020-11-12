@@ -16,9 +16,10 @@ cron "11 0 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/Qua
 const $ = new Env('京东example');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const coinToBeans = $.getdata('coinToBeans') || 20; //兑换多少数量的京豆，默认兑换不兑换
-const STRSPLIT = "|";
+const coinToBeans = $.getdata('coinToBeans') || 20; //
+const STRSPLIT = "|";      //分隔符
 const needSum = false;     //是否需要显示汇总
+const printDetail = false  //是否显示出参详情
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -73,6 +74,7 @@ function QueryJDUserInfo(timeout = 0) {
       }
       $.get(url, (err, resp, data) => {
         try {
+          if (printDetail) console.log(data)
           data = JSON.parse(data);
           if (data.retcode === 13) {
             merge.enabled = false
@@ -109,6 +111,7 @@ function smtg_receiveCoin(timeout = 0) {
       if (!timeout) index = 0;
       $.get(url, async (err, resp, data) => {
         try {
+          if (printDetail) console.log(data)
           data = JSON.parse(data);
           if (data.data.bizCode !== 0 && data.data.bizCode !== 809) {
             merge.blueCoin.fail++;
@@ -151,6 +154,7 @@ function smtg_queryPrize(timeout = 0){
       }
       $.post(url, async (err, resp, data) => {
         try {
+          if (printDetail) console.log(data)
           data = JSON.parse(data);
           if (data.data.bizCode !== 0) {
             merge.jdBeans.fail++;
@@ -202,6 +206,7 @@ function smtg_obtainPrize(prizeId,timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
+          if (printDetail) console.log(data)
           data = JSON.parse(data);
           if (data.data.bizCode !== 0) {
             merge.jdBeans.fail++;
@@ -225,14 +230,13 @@ function smtg_obtainPrize(prizeId,timeout = 0) {
   })
 }
 
-
 //初始化
 function initial() {
   merge = {
     nickname: "",
     enabled: true,
-    //blueCoin: {prizeDesc : "收取|蓝币|个",number : true},  //定义 动作|奖励名称|奖励单位   是否是数字 消失位数
-    jdBeans: {prizeDesc : "兑换|京豆|个",number : true,fixed : 0}
+    //blueCoin: {prizeDesc : "收取|蓝币|个",isNumber : true},  //定义 动作|奖励名称|奖励单位   是否是数字 消失位数
+    jdBeans: {prizeDesc : "兑换|京豆|个",isNumber : true,fixed : 0}
   }
   for (let i in merge) {
     merge[i].success = 0;
@@ -248,23 +252,20 @@ function msgShow() {
   let message = "";
   let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://jdsupermarket.jd.com/loading%22%20%7D`}
   let title = `京东账号：${merge.nickname}`;
+  $.sum = {};
   for (let i in merge) {
     if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
     if (merge[i].notify.split("").reverse()[0] === "\n") merge[i].notify = merge[i].notify.substr(0,merge[i].notify.length - 1);
-    message += `${merge[i].prizeDesc.split(STRSPLIT)[0]}${merge[i].prizeDesc.split(STRSPLIT)[1]}：` + (merge[i].success ? `${merge[i].prizeCount.toFixed(merge[i].fixed)}${merge[i].prizeDesc.split(STRSPLIT)[2]}\n` : `失败：${merge[i].notify}\n`)
-  }
-//合计
-  if (needSum)
-  {
-    $.sum = {};
-    for (let i in merge) {
-      if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
+    message += `${merge[i].prizeDesc.split(STRSPLIT)[0]}${merge[i].prizeDesc.split(STRSPLIT)[1]}：` + (merge[i].success ? merge[i].isNumber ? `${merge[i].prizeCount.toFixed(merge[i].fixed)}${merge[i].prizeDesc.split(STRSPLIT)[2]}\n` : `${merge[i].notify}\n` : `失败：${merge[i].notify}\n`)
+    if (needSum) {
       if (typeof ($.sum[merge[i].prizeDesc.split(STRSPLIT)[1]]) === "undefined")  $.sum[merge[i].prizeDesc.split(STRSPLIT)[1]] = {count : 0};
       $.sum[merge[i].prizeDesc.split(STRSPLIT)[1]].count += merge[i].prizeCount;
     }
+  }
+  //合计
+  if (needSum)  {
     message += `合计：`
-    for (let i in $.sum)
-    {
+    for (let i in $.sum) {
       message += `${$.sum[i].count.toFixed($.sum[i].fixed)}${i}，`
     }
   }
