@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-11-11 09:24
+更新时间：2020-11-13 08:28
 脚本说明：六个抽奖活动，【东东抽奖机】【新店福利】【东东福利屋】【东东生活】【闪购盲盒】【疯狂砸金蛋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -216,7 +216,7 @@ function interact_template_getLotteryResult(timeout = 0) {
           data = JSON.parse(data);
           if (data.data.bizCode === 0) {
             merge.jdBeans.success++;
-            if (data.data.result.userAwardsCacheDto.jBeanAwardVo&&data.data.result.userAwardsCacheDto.jBeanAwardVo.prizeName.match(/京豆/)) {
+            if (data.data.result.userAwardsCacheDto.jBeanAwardVo) {
               console.log('京豆:' + data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
               merge.jdBeans.prizeCount += parseInt(data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
             }
