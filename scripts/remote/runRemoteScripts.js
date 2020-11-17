@@ -1,4 +1,4 @@
-const $ = new Env()
+const $ = new Env("执行远程脚本")
 const exec = require('child_process').execSync
 const fs = require('fs')
 const smartReplace = require("./smartReplace");
