@@ -1,7 +1,7 @@
 /*
 京东抽奖机
-更新时间：2020-11-20 13:55
-脚本说明：三个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+更新时间：2020-11-20 21:25
+脚本说明：四个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -19,9 +19,10 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA']
-const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4']
-const funPrefixArr = ['','','','','','']
+const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRQyg']
+const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8
+']
+const funPrefixArr = ['','','','wfh','','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
