@@ -1,6 +1,6 @@
 /*
 东东小窝
-更新时间：2020-11-19 16:31
+更新时间：2020-11-20 11:23
 脚本说明：
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -114,6 +114,7 @@ function login(timeout = 0){
             token = data.head.token
             await queryByUserId()
             if (merge.newUser) return;
+            await queryDraw()
             await queryAllTaskInfo()
             await queryByUserId()
           }
@@ -344,6 +345,77 @@ function task_record(functionid,id,timeout = 0){
   })
 }
 
+//查询抽奖
+function queryDraw(timeout = 0){
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `${JD_API_HOST}ssjj-draw-center/queryDraw?body=%7B%7D`,
+        headers : {
+          'Origin' : `https://lkyl.dianpusoft.cn`,
+          'Cookie' : cookie,
+          'Connection' : `keep-alive`,
+          'Content-Type' : `application/json`,
+          'Referer' : `https://lkyl.dianpusoft.cn/client/?lkEPin=`,
+          'Host' : `lkyl.dianpusoft.cn`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`,
+          'token' : token
+        }
+      }
+      $.get(url, async (err, resp, data) => {
+        try {
+          if (printDetail) console.log(data)
+          data = JSON.parse(data);
+          if (data.body.freeDrawCount > 0) {
+            console.log('开始免费抽奖')
+            await draw(data.body.center.id)
+          } else {
+            merge.draw.notify = '免费抽奖次数已用完';
+            console.log('免费抽奖次数已用完')
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+//抽奖
+function draw(id,timeout = 0){
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `${JD_API_HOST}ssjj-draw-record/draw/${id}?body=%7B%7D`,
+        headers : {
+          'Origin' : `https://lkyl.dianpusoft.cn`,
+          'Cookie' : cookie,
+          'Connection' : `keep-alive`,
+          'Content-Type' : `application/json`,
+          'Referer' : `https://lkyl.dianpusoft.cn/client/?lkEPin=`,
+          'Host' : `lkyl.dianpusoft.cn`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`,
+          'token' : token
+        }
+      }
+      $.get(url, async (err, resp, data) => {
+        try {
+          if (printDetail) console.log(data)
+          data = JSON.parse(data);
+          console.log(data.body.name||data.head.msg)
+          merge.draw.notify = (data.body.name||data.head.msg);
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
 
 //获取userName
 function encrypt(timeout = 0){
@@ -388,7 +460,8 @@ function initial() {
     enabled: true,
     newUser: false,
     //blueCoin: {prizeDesc : "收取|蓝币|个",isNumber : true},  //定义 动作|奖励名称|奖励单位   是否是数字 消失位数
-    jdBeans: {prizeDesc : "兑换|京豆|个",isNumber : true,fixed : 0}
+    jdBeans: {prizeDesc : "兑换|京豆|个",isNumber : true,fixed : 0},
+    draw : {prizeDesc : "免费抽奖",isNumber : false}
   }
   for (let i in merge) {
     merge[i].success = 0;
@@ -407,9 +480,10 @@ function msgShow() {
   if (merge.end) {
     message += `当前窝币：${merge.end}\n`
     message += merge.end === merge.start ?  `` : `本次新增：${merge.end - merge.start}\n`
+    message += merge.draw.prizeDesc +'：'+merge.draw.notify +'\n'
     message += `请点击通知跳转至APP查看`
   } else {
-    message += `您的账户尚未开通东东小窝，请先APP进入开通`
+    message += `您的账户尚未开通东东小窝，请先点击通知进入开通`
   }
   $.msg($.name, title, message, url);
 }
