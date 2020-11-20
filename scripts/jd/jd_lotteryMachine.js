@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-11-15 15:08
+更新时间：2020-11-20 13:55
 脚本说明：三个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -22,6 +22,7 @@ const printDetail = false;        //是否显示出参详情
 const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA']
 const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4']
 const funPrefixArr = ['','','','','','']
+let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -247,8 +248,9 @@ function interact_template_getLotteryResult(timeout = 0) {
 }
 
 //初始化
+
 function initial() {
-  merge = {
+   merge = {
     nickname: "",
     enabled: true,
     //blueCoin: {prizeDesc : "收取|蓝币|个",number : true},  //定义 动作|奖励名称|奖励单位   是否是数字
@@ -274,8 +276,7 @@ function msgShow() {
     message += `${merge[i].prizeDesc.split(STRSPLIT)[0]}${merge[i].prizeDesc.split(STRSPLIT)[1]}：` + (merge[i].success ? `${merge[i].prizeCount.toFixed(merge[i].fixed)}${merge[i].prizeDesc.split(STRSPLIT)[2]}\n` : `失败：${merge[i].notify}\n`)
   }
 //合计
-  if (needSum)
-  {
+  if (needSum) {
     $.sum = {};
     for (let i in merge) {
       if (typeof (merge[i]) !== "object" || !merge[i].show) continue;

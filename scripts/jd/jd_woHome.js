@@ -1,6 +1,6 @@
 /*
 东东小窝
-更新时间：2020-11-20 11:23
+更新时间：2020-11-20 13:55
 脚本说明：
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -21,6 +21,9 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //const needSum = false;     //是否需要显示汇总
 const printDetail = false//是否显示出参详情
 const funArr = ['','createAssistUser','clock','game','followShops','browseShops','followChannel','browseChannels','','purchaseCommodities','browseCommodities','browseMeetings']
+let merge = {}
+let token = ""
+let userName = ""
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {

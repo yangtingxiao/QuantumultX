@@ -1,6 +1,6 @@
 /*
 京东排行榜
-更新时间：2020-11-17 09:17
+更新时间：2020-11-20 13:55
 脚本说明：京东排行榜签到得京豆
 活动入口：找不着了，点击脚本通知进入吧
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -19,6 +19,7 @@ const $ = new Env('京东排行榜');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const needSum = false;     //是否需要显示汇总
 const STRSPLIT = "|";
+let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
