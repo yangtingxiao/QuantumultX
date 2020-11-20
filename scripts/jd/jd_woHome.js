@@ -62,7 +62,7 @@ const JD_API_HOST = `https://lkyl.dianpusoft.cn/api/`;
   .finally(() => $.done())
 
 
-//获取昵称（直接用，勿删）
+//获取昵称
 function QueryJDUserInfo(timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
@@ -213,7 +213,7 @@ function queryAllTaskInfo(type = "",timeout = 0){
                   continue
                 }
                 if (data.body[i].ssjjTaskInfo.type === 1) {
-                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1329560619476361218/${data.body[i].ssjjTaskInfo.id}`)
+                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1329908418614968322/${data.body[i].ssjjTaskInfo.id}`)
                   continue
                 }
                 await queryDoneTaskRecord(data.body[i].ssjjTaskInfo.type,data.body[i].ssjjTaskInfo.id)
