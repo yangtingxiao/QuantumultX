@@ -20,8 +20,7 @@ const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
 const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRQyg']
-const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8
-']
+const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8']
 const funPrefixArr = ['','','','wfh','','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
