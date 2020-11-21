@@ -1,6 +1,6 @@
 /*
 东东小窝
-更新时间：2020-11-21 21:36
+更新时间：2020-11-22 07:36
 脚本说明：东东小窝任务，其中有加购，暂未提供关闭选项，使用本脚本会导致购物车中出现各种商品，介意的请停止使用，后期看情况可能会添加关闭加购任务的功能
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -408,8 +408,8 @@ function draw(id,timeout = 0){
         try {
           if (printDetail) console.log(data)
           data = JSON.parse(data);
-          console.log(data.body.name||data.head.msg)
-          merge.draw.notify = (data.body.name||data.head.msg);
+          console.log(typeof data.body !== 'undefined' ? data.body.name : data.head.msg)
+          merge.draw.notify = typeof data.body !== 'undefined' ? data.body.name : data.head.msg;
         } catch (e) {
           $.logErr(e, resp);
         } finally {
