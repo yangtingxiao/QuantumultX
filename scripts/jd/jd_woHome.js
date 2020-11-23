@@ -213,7 +213,7 @@ function queryAllTaskInfo(type = "",timeout = 0){
                   continue
                 }
                 if (data.body[i].ssjjTaskInfo.type === 1) {
-                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1329908418614968322/${data.body[i].ssjjTaskInfo.id}`)
+                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1330574612580048897/${data.body[i].ssjjTaskInfo.id}`)
                   continue
                 }
                 await queryDoneTaskRecord(data.body[i].ssjjTaskInfo.type,data.body[i].ssjjTaskInfo.id)
@@ -408,8 +408,8 @@ function draw(id,timeout = 0){
         try {
           if (printDetail) console.log(data)
           data = JSON.parse(data);
-          console.log(data.body.name||data.head.msg)
-          merge.draw.notify = (data.body.name||data.head.msg);
+          console.log(typeof data.body !== 'undefined' ? data.body.name : data.head.msg)
+          merge.draw.notify = typeof data.body !== 'undefined' ? data.body.name : data.head.msg;
         } catch (e) {
           $.logErr(e, resp);
         } finally {
