@@ -1,6 +1,6 @@
 /*
 东东小窝
-更新时间：2020-11-20 13:55
+更新时间：2020-11-23 14:12
 脚本说明：
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -439,6 +439,11 @@ function encrypt(timeout = 0){
       }
       $.post(url, async (err, resp, data) => {
         try {
+          if (err) {
+            console.log(err.error)
+            merge.fail = `请求jdhome.m.jd.com失败：${err.error}，请更换网络环境重试！`
+            return
+          }
           if (printDetail) console.log(data)
           data = JSON.parse(data);
           if (data.success) {
@@ -486,7 +491,10 @@ function msgShow() {
     message += merge.draw.prizeDesc +'：'+merge.draw.notify +'\n'
     message += `请点击通知跳转至APP查看`
   } else {
-    message += `您的账户尚未开通东东小窝，请先点击通知进入开通`
+    if (typeof merge.fail === "undefined")
+      message += `您的账户尚未开通东东小窝，请先点击通知进入开通`
+    else
+      message += merge.fail
   }
   $.msg($.name, title, message, url);
 }
