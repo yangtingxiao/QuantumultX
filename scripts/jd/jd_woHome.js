@@ -1,7 +1,7 @@
 /*
 东东小窝
-更新时间：2020-11-23 14:12
-脚本说明：
+更新时间：2020-11-24 13:00
+脚本说明：加购任务不需要请去BoxJs中关闭！
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -16,10 +16,9 @@ cron "11 0 * * *" script-path=https://raw.githubusercontent.com/yangtingxiao/Qua
 const $ = new Env('东东小窝');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-//const coinToBeans = $.getdata('coinToBeans') || 20; //
-//const STRSPLIT = "|";      //分隔符
-//const needSum = false;     //是否需要显示汇总
-const printDetail = false//是否显示出参详情
+const printDetail = $.getdata("CFG_WOHOME_LOG") ? $.getdata("CFG_WOHOME_LOG") === "true" : false//是否显示出参详情
+const doAddChatTask = $.getdata("CFG_WOHOME_ADDCARTTASK") ? $.getdata("CFG_WOHOME_ADDCARTTASK") === "true" : true   //加购任务
+const doPaidDraw = $.getdata("CFG_WOHOME_PAIDDRAW") ? $.getdata("CFG_WOHOME_PAIDDRAW") === "true" : false   //窝币抽奖
 const funArr = ['','createAssistUser','clock','game','followShops','browseShops','followChannel','browseChannels','','purchaseCommodities','browseCommodities','browseMeetings']
 let merge = {}
 let token = ""
@@ -203,6 +202,10 @@ function queryAllTaskInfo(type = "",timeout = 0){
                   continue
                 }
                 if ([2,4,9].includes(data.body[i].ssjjTaskInfo.type)) {
+                  if (!doAddChatTask && data.body[i].ssjjTaskInfo.type === 9) {
+                    console.log("您选择了不做加购任务，跳过")
+                    continue;  //不做加购任务则跳过
+                  }
                   await task_record(funArr[data.body[i].ssjjTaskInfo.type],data.body[i].ssjjTaskInfo.id)
                   continue
                 }
@@ -220,13 +223,6 @@ function queryAllTaskInfo(type = "",timeout = 0){
               } else {
                 console.log('已完成')
               }
-              //if (data.body[i].ssjjTaskInfo.type == 6) {
-              //  await queryChannelsList(data.body[i].ssjjTaskInfo.id)
-             //   continue
-             // }
-              //for (let j = data.body[i].doneNum; j < (data.body[i].ssjjTaskInfo.awardOfDayNum||1);j++) {
-              //  await queryDoneTaskRecord(data.body[i].ssjjTaskInfo.type,data.body[i].ssjjTaskInfo.id)
-              //}
             }
           }
         } catch (e) {
@@ -374,8 +370,14 @@ function queryDraw(timeout = 0){
             console.log('开始免费抽奖')
             await draw(data.body.center.id)
           } else {
-            merge.draw.notify = '免费抽奖次数已用完';
-            console.log('免费抽奖次数已用完')
+            merge.draw.notify = '免费次数已用完;';
+            console.log('免费次数已用完')
+          }
+          if (doPaidDraw) {
+            console.log('您选择了窝币抽奖')
+            while (!merge.stopDraw) {
+              await draw(data.body.center.id)
+            }
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -408,8 +410,9 @@ function draw(id,timeout = 0){
         try {
           if (printDetail) console.log(data)
           data = JSON.parse(data);
+          if (data.head.code !== 200) merge.stopDraw = true
           console.log(typeof data.body !== 'undefined' ? data.body.name : data.head.msg)
-          merge.draw.notify = typeof data.body !== 'undefined' ? data.body.name : data.head.msg;
+          merge.draw.notify += (typeof data.body !== 'undefined' ? data.body.name : data.head.msg)  + ";";
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -460,16 +463,15 @@ function encrypt(timeout = 0){
   })
 }
 
-
 //初始化
 function initial() {
   merge = {
     nickname: "",
     enabled: true,
     newUser: false,
-    //blueCoin: {prizeDesc : "收取|蓝币|个",isNumber : true},  //定义 动作|奖励名称|奖励单位   是否是数字 消失位数
+    stopDraw: false,
     jdBeans: {prizeDesc : "兑换|京豆|个",isNumber : true,fixed : 0},
-    draw : {prizeDesc : "免费抽奖",isNumber : false}
+    draw : {prizeDesc : "抽奖结果",isNumber : false}
   }
   for (let i in merge) {
     merge[i].success = 0;
@@ -478,13 +480,16 @@ function initial() {
     merge[i].notify = "";
     merge[i].show = true;
   }
-  //merge.jdBeans.show =Boolean(coinToBeans);
 }
 //通知
 function msgShow() {
   let message = "";
   let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22${encodeURIComponent('https://lkyl.dianpusoft.cn/client/?lkEPin='+userName+'&token='+token)}%22%20%7D`}
   let title = `京东账号：${merge.nickname}`;
+  if (merge.draw.notify.split(";").length >3) {
+    merge.draw.notify = merge.draw.notify.replace("今日没有抽奖次数;","");
+  }
+  merge.draw.notify = merge.draw.notify.substr(0,merge.draw.notify.length -1)
   if (merge.end) {
     message += `当前窝币：${merge.end}\n`
     message += merge.end === merge.start ?  `` : `本次新增：${merge.end - merge.start}\n`
