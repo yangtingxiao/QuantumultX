@@ -33,6 +33,19 @@
       "author": "@yangtingxiao",
       "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/jd/",
       "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png"]
+    },
+    {
+      "id": "woHome",
+      "name": "东东小窝",
+      "settings": [
+        { "id": "CFG_WOHOME_LOG", "name": "显示出参详情", "val": false, "type": "boolean", "desc": "是否显示出参详情，默认不显示，仅调试时开启" },
+        { "id": "CFG_WOHOME_ADDCARTTASK", "name": "启用做加购任务", "val": true, "type": "boolean", "desc": "不希望购物车出现商品的可以关闭" },
+        { "id": "CFG_WOHOME_PAIDDRAW", "name": "启用窝币抽奖", "val": false, "type": "boolean", "desc": "是否启用窝币抽奖，默认仅做免费抽奖" }
+      ],
+      "author": "@yangtingxiao",
+      "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/jd/",
+      "script": "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_woHome.js",
+      "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/woHome.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/woHome.png"]
     }
   ]
 }
