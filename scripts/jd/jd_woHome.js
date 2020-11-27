@@ -216,7 +216,7 @@ function queryAllTaskInfo(type = "",timeout = 0){
                   continue
                 }
                 if (data.body[i].ssjjTaskInfo.type === 1) {
-                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1332054960536244226/${data.body[i].ssjjTaskInfo.id}`)
+                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1332421177835573250/${data.body[i].ssjjTaskInfo.id}`)
                   continue
                 }
                 await queryDoneTaskRecord(data.body[i].ssjjTaskInfo.type,data.body[i].ssjjTaskInfo.id)
