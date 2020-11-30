@@ -1,8 +1,7 @@
 /*
 京东抽奖机
-更新时间：2020-11-26 14:00
+更新时间：2020-11-30 19:47
 脚本说明：四个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
-        新增短期活动【开红包】
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -20,7 +19,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRQyg','1EFRTww']
+const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRQyg']
 const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8']
 const funPrefixArr = ['','','','wfh','splitHongbao']
 let merge = {}
@@ -235,7 +234,6 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
           if (!timeout) console.log('\n开始抽奖')
           data = JSON.parse(data);
           if (data.data.bizCode === 0) {
-
             if (data.data.result.userAwardsCacheDto.jBeanAwardVo) {
               merge.jdBeans.success++;
               console.log('京豆:' + data.data.result.userAwardsCacheDto.jBeanAwardVo.quantity)
@@ -256,7 +254,6 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
             if (data.data.bizCode === 111 ) data.data.bizMsg = "无机会"
             merge.jdBeans.notify = `${data.data.bizMsg}`;
           }
-
         } catch (e) {
           $.logErr(e, resp);
         } finally {
