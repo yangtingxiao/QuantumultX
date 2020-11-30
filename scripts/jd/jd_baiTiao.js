@@ -1,12 +1,13 @@
 /*
 京东金融领白条券
-更新时间：2020-11-29 10:39
+更新时间：2020-11-30 20:46
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领（待测试））
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
 */
 const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const printDetail = false;        //是否显示出参详情
 //直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -100,6 +101,7 @@ function takePrize(prize,timeout = 0) {
       }
       $.post(url, (err, resp, data) => {
         try {
+          if (printDetail) console.log(data);
           data = JSON.parse(data);
           $.prize[prize.name] = data;
           $.prize[prize.name].desc = prize.desc;
@@ -131,6 +133,7 @@ function queryMissionWantedDetail(timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
+          if (printDetail) console.log(data);
           data = JSON.parse(data);
           switch (data.resultData.data.mission.status ) {
             case -1 :
@@ -172,6 +175,7 @@ function receivePlay(missionId,timeout = 0) {
       }
       $.post(url, (err, resp, data) => {
         try {
+          if (printDetail) console.log(data);
           data = JSON.parse(data);
           $.prize.addMsg += `-${data.resultData.msg.replace(`该任务`,``)}\n`;
         } catch (e) {
@@ -202,6 +206,7 @@ function queryCouponsNotGroup(timeout = 0) {
       }
       $.get(url, async(err, resp, data) => {
         try {
+          if (printDetail) console.log(data);
           //console.log(data)
           data = JSON.parse(data);
           //$.prize.addMsg += `-${data.resultData.msg.replace(`该任务`,``)}\n`;
@@ -239,11 +244,12 @@ function comReceiveCoupon(couponKey,timeout = 0) {
       }
       $.get(url, (err, resp, data) => {
         try {
+          if (printDetail) console.log(data);
           //console.log(data)
           data = JSON.parse(data);
-          $.prize["dailyCoupon"] = $.prize["dailyCoupon"]||""
+          $.prize["dailyCoupon"] = $.prize["dailyCoupon"]||"立减券"
           //$.prize.addMsg += `-${data.resultData.msg.replace(`该任务`,``)}\n`;
-          $.prize["dailyCoupon"] += data.resultData.couponsVo.prizeDesc.replace("白条支付","") + ';'
+          $.prize["dailyCoupon"] += data.resultData.couponsVo.prizeAmount + '元;'
           //$.prize["dailyCoupon"] += data.resultData.result.info.replace("白条支付","") + ';'
           console.log($.prize["dailyCoupon"])
         } catch (e) {
