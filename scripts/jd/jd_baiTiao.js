@@ -207,12 +207,10 @@ function queryCouponsNotGroup(timeout = 0) {
       $.get(url, async(err, resp, data) => {
         try {
           if (printDetail) console.log(data);
-          //console.log(data)
           data = JSON.parse(data);
-          //$.prize.addMsg += `-${data.resultData.msg.replace(`该任务`,``)}\n`;
-          for (let i in data.resultData.floorInfo) {
+          for (let i = data.resultData.floorInfo.length - 1;i > 0 ;i--){
             if (data.resultData.floorInfo[i].couponStatus === "2") {
-             await comReceiveCoupon(data.resultData.floorInfo[i].couponKey,800)
+             await comReceiveCoupon(data.resultData.floorInfo[i].couponKey,100)
             }
           }
         } catch (e) {
@@ -245,12 +243,9 @@ function comReceiveCoupon(couponKey,timeout = 0) {
       $.get(url, (err, resp, data) => {
         try {
           if (printDetail) console.log(data);
-          //console.log(data)
           data = JSON.parse(data);
           $.prize["dailyCoupon"] = $.prize["dailyCoupon"]||"立减券"
-          //$.prize.addMsg += `-${data.resultData.msg.replace(`该任务`,``)}\n`;
           $.prize["dailyCoupon"] += data.resultData.couponsVo.prizeAmount + '元;'
-          //$.prize["dailyCoupon"] += data.resultData.result.info.replace("白条支付","") + ';'
           console.log($.prize["dailyCoupon"])
         } catch (e) {
           $.logErr(e, resp);
