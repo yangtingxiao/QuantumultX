@@ -1,6 +1,6 @@
 /*
 东东小窝
-更新时间：2020-11-30 07:41
+更新时间：2020-12-01 18:05
 脚本说明：加购任务不需要请去BoxJs中关闭！
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -20,9 +20,6 @@ const printDetail = $.getdata("CFG_WOHOME_LOG") ? $.getdata("CFG_WOHOME_LOG") ==
 const doAddChatTask = $.getdata("CFG_WOHOME_ADDCARTTASK") ? $.getdata("CFG_WOHOME_ADDCARTTASK") === "true" : true   //加购任务
 const doPaidDraw = $.getdata("CFG_WOHOME_PAIDDRAW") ? $.getdata("CFG_WOHOME_PAIDDRAW") === "true" : false   //窝币抽奖
 const funArr = ['','createAssistUser','clock','game','followShops','browseShops','followChannel','browseChannels','','purchaseCommodities','browseCommodities','browseMeetings']
-let merge = {}
-let token = ""
-let userName = ""
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -216,7 +213,8 @@ function queryAllTaskInfo(type = "",timeout = 0){
                   continue
                 }
                 if (data.body[i].ssjjTaskInfo.type === 1) {
-                    await task_record(funArr[data.body[i].ssjjTaskInfo.type],`1333501690184163329/${data.body[i].ssjjTaskInfo.id}`)
+                  await $.getScript("https://raw.sevencdn.com/yangtingxiao/QuantumultX/master/memo/jd_woHomeShareCode.txt").then((text) => (shareCode = text))
+                  await task_record(funArr[data.body[i].ssjjTaskInfo.type],`${shareCode}/${data.body[i].ssjjTaskInfo.id}`)
                   continue
                 }
                 await queryDoneTaskRecord(data.body[i].ssjjTaskInfo.type,data.body[i].ssjjTaskInfo.id)
