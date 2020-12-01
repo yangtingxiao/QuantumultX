@@ -1,13 +1,14 @@
 /*
 京东金融领白条券
-更新时间：2020-11-30 20:46
+更新时间：2020-12-01 13:42
 [task_local]
-# 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领（待测试））
+# 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
 */
 const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const printDetail = false;        //是否显示出参详情
+let cookieExpire = false;
 //直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -54,16 +55,18 @@ let prize =
     if (cookie) {
       $.prize = {addMsg : ``};
       let date = new Date();
-      await takePrize(prize[0]);
-      if ($.prize["prizeDaily"].respCode === "00001" ) {
+      cookieExpire = false;
+      await queryCouponsNotGroup()
+      if (cookieExpire) {
         $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
+      if (date.getHours() > 0) await takePrize(prize[0]);
       if (date.getDay() !== 0 && date.getHours() >= 9) {
         await takePrize(prize[date.getDay()],820);//延迟执行，防止提示活动火爆
         if (date.getDay() === 6) await takePrize(prize[7],820);//第二个周六券
       }
-      await queryCouponsNotGroup()
+
       if (date.getDay() === 0) {
         $.prize.addMsg = `提　醒：请于今天使用周日专享白条券\n`
       }
@@ -208,6 +211,10 @@ function queryCouponsNotGroup(timeout = 0) {
         try {
           if (printDetail) console.log(data);
           data = JSON.parse(data);
+          if (data.resultData.result.code !== "0000") {
+            cookieExpire = true
+            return
+          }
           for (let i = data.resultData.floorInfo.length - 1;i > 0 ;i--){
             if (data.resultData.floorInfo[i].couponStatus === "2") {
              await comReceiveCoupon(data.resultData.floorInfo[i].couponKey,100)
