@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-11-30 19:47
+更新时间：2020-12-01 17:37
 脚本说明：四个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -285,7 +285,7 @@ function initial() {
 //通知
 function msgShow() {
   let message = "";//https://h5.m.jd.com/babelDiy/Zeus/YgnrqBaEmVHWppzCgW8zjZj3VjV/index.html
-  let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://bunearth.m.jd.com/babelDiy/Zeus/3SQzMXqZu9xYoWyySoQb3847Cgs4/index.html%22%20%7D`}
+  let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/YgnrqBaEmVHWppzCgW8zjZj3VjV/index.html%22%20%7D`}
   let title = `京东账号：${merge.nickname}`;
   for (let i in merge) {
     if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
