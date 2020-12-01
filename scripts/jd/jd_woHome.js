@@ -213,7 +213,7 @@ function queryAllTaskInfo(type = "",timeout = 0){
                   continue
                 }
                 if (data.body[i].ssjjTaskInfo.type === 1) {
-                  await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_woHomeShareCode.txt").then((text) => (shareCode = text))
+                  await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_woHomeShareCode.txt").then((text) => (shareCode = text.replace('\n','')))
                   await task_record(funArr[data.body[i].ssjjTaskInfo.type],`${shareCode}/${data.body[i].ssjjTaskInfo.id}`)
                   continue
                 }
