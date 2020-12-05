@@ -1,6 +1,6 @@
 /*
 东东小窝
-更新时间：2020-12-01 18:05
+更新时间：2020-12-06 06:07
 脚本说明：加购任务不需要请去BoxJs中关闭！
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -366,7 +366,7 @@ function queryDraw(timeout = 0){
           data = JSON.parse(data);
           if (data.head.code !== 200) {
             console.log(typeof data.body !== 'undefined' ? data.body.name : data.head.msg)
-            merge.draw.notify += (typeof data.body !== 'undefined' ? data.body.name : data.head.msg) 
+            merge.draw.notify += (typeof data.body !== 'undefined' ? data.body.name : data.head.msg) + ";";
             return
           }
           if (data.body.freeDrawCount > 0) {
