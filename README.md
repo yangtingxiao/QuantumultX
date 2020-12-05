@@ -1,6 +1,10 @@
 ![Anurag’s github stats](https://github-readme-stats.vercel.app/api?username=yangtingxiao&show_icons=true&icon_color=CE1D2D&text_color=718096&bg_color=ffffff&hide_title=true)
 # QuantumultX
-脚本，自用，仅限于学习和调试接口，请勿进行商业用途。所有下载、使用、复制本库所导致的后果，由使用人自行承担，如不同意，请立即停用并删除脚本，否则视为认可以上条件
+脚本，自用，仅限于学习和调试接口，请勿进行商业用途。所有下载、使用、复制本库所导致的后果，由使用人自行承担，如不同意，请立即停用并删除脚本，否则视为认可以上条件  
+
+如果本项目对您有帮助，欢迎大家打赏一下以资鼓励
+
+<div align=center><img width="250" height="250" src="https://raw.sevencdn.com/yangtingxiao/QuantumultX/master/image/thanks.jpg"/></div>
 
 ## 友情提醒
 国内访问Github不顺畅的，无法访问raw的，可通过修改host解决。具体修改方式请自行百度  
