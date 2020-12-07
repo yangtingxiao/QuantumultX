@@ -1,0 +1,18 @@
+{
+  "name": "yangtingxiao",
+  "task": [
+    {
+      "config": "0 0,9 * * * https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/scripts\/jd\/jd_baiTiao.js, tag=京东白条, img-url=https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/image\/baitiao.png, enabled=true"
+    },
+    {
+      "config": "11 1 * * * https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/scripts\/jd\/jd_lotteryMachine.js, tag=京东抽奖机, img-url=https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/image\/jdlottery.png, enabled=true"
+    },
+    {
+      "config": "11 9 * * * https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/scripts\/jd\/jd_rankingList.js, tag=京东排行榜, img-url=https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/image\/jd.png, enabled=true"
+    },
+    {
+      "config": "11 10 * * * https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/scripts\/jd\/jd_woHome.js, tag=东东小窝, img-url=https:\/\/raw.githubusercontent.com\/yangtingxiao\/QuantumultX\/master\/image\/woHome.png, enabled=true"
+    }
+  ],
+  "description": "yangtingxiao的task订阅"
+}
