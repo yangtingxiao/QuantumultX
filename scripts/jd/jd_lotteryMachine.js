@@ -1,7 +1,8 @@
 /*
 京东抽奖机
-更新时间：2020-12-01 17:37
-脚本说明：四个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+更新时间：2020-12-07 09:07
+脚本说明：五个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】【健康服务】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+        临时抽红包活动【金榜盛典】
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -19,9 +20,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRQyg']
-const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8']
-const funPrefixArr = ['','','','wfh','splitHongbao']
+const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRQyg','1EFRTwA','1EFRTwg']
+const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8','P04z54XCjVUnIaW5m9cZ2f433tIlJeCjGuzPCI','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8']
+const homeDataFunPrefixArr = ['','','','wfh','splitHongbao','healthyDay']
+const collectScoreFunPrefixArr = ['','','','wfh','','']
+const lotteryResultFunPrefixArr = ['','','','','','interact_template']
+const browseTimeArr = ['','','','','','15','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -55,7 +59,11 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
       for (let j in appIdArr) {
         appId = appIdArr[j]
         shareCode = shareCodeArr[j]
-        funPrefix = funPrefixArr[j]||'interact_template'
+        homeDataFunPrefix = homeDataFunPrefixArr[j]||'interact_template'
+        collectScoreFunPrefix = collectScoreFunPrefixArr[j]||'harmony'
+        lotteryResultFunPrefix = lotteryResultFunPrefixArr[j]||homeDataFunPrefix
+
+        browseTime = browseTimeArr[j]||6
         if (parseInt(j)) console.log(`\n开始第${parseInt(j) + 1}个抽奖活动`)
         await interact_template_getHomeData();
       }
@@ -112,7 +120,7 @@ function interact_template_getHomeData(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=${funPrefix}_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=${homeDataFunPrefix}_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
@@ -148,7 +156,7 @@ function interact_template_getHomeData(timeout = 0) {
                   //console.log(list[j].itemId)
                   if (list[j].itemId) {
                     await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId,list[j].itemId,1);
-                    await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId,list[j].itemId,0,6000);
+                    await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId,list[j].itemId,0,parseInt(browseTime) * 1000);
                     if (k === data.data.result.taskVos[i].maxTimes - 1) await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
                   } else {
                     await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId)
@@ -192,7 +200,7 @@ function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeou
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=${funPrefix === 'wfh' ?  funPrefix : 'harmony'}_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId}${itemId ? ',"itemId":"'+itemId+'"' : ''},"actionType":${actionType}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=${collectScoreFunPrefix}_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId}${itemId ? ',"itemId":"'+itemId+'"' : ''},"actionType":${actionType}&client=wh5&clientVersion=1.0.0`
       }
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
@@ -225,7 +233,7 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=${funPrefix}_getLotteryResult&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=${lotteryResultFunPrefix}_getLotteryResult&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0`
       }
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
