@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-12-07 09:07
+更新时间：2020-12-07 11:13
 脚本说明：五个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】【健康服务】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
         临时抽红包活动【金榜盛典】
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -143,7 +143,7 @@ function interact_template_getHomeData(timeout = 0) {
               }
               continue
             }
-            if (data.data.result.taskVos[i].taskType === 14) {//'data.data.result.taskVos[i].assistTaskDetailVo.taskToken'
+            if ([14,6].includes(data.data.result.taskVos[i].taskType)) {//'data.data.result.taskVos[i].assistTaskDetailVo.taskToken'
               await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
               continue
             }
