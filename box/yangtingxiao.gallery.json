@@ -1,5 +1,5 @@
 {
-  "name": "yangtingxiao",
+  "name": "yangtingxiao的task订阅",
   "task": [
     {
       "config": "0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true"
@@ -17,5 +17,5 @@
       "config": "10 1 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/ttwk/ttwk.js, tag=天天挖矿, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/ttwk.png, enabled=true"
     }
   ],
-  "description": "yangtingxiao的task订阅"
+  "description": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts"
 }
