@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-12-07 11:13
+更新时间：2020-12-09 08:53
 脚本说明：五个抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【东东福利屋】【健康服务】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
         临时抽红包活动【金榜盛典】
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
@@ -57,15 +57,16 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
         continue;
       }
       for (let j in appIdArr) {
+        //j = 4
         appId = appIdArr[j]
         shareCode = shareCodeArr[j]
         homeDataFunPrefix = homeDataFunPrefixArr[j]||'interact_template'
         collectScoreFunPrefix = collectScoreFunPrefixArr[j]||'harmony'
         lotteryResultFunPrefix = lotteryResultFunPrefixArr[j]||homeDataFunPrefix
-
         browseTime = browseTimeArr[j]||6
         if (parseInt(j)) console.log(`\n开始第${parseInt(j) + 1}个抽奖活动`)
         await interact_template_getHomeData();
+        //break
       }
       await msgShow();
     }
@@ -137,6 +138,11 @@ function interact_template_getHomeData(timeout = 0) {
           for (let i = 0;i < data.data.result.taskVos.length;i ++) {
             console.log("\n" + data.data.result.taskVos[i].taskType + '-' + data.data.result.taskVos[i].taskName  + '-' + (data.data.result.taskVos[i].status === 1 ? `已完成${data.data.result.taskVos[i].times}-未完成${data.data.result.taskVos[i].maxTimes}` : "全部已完成"))
             //签到
+            if (data.data.result.taskVos[i].status === 3) {
+              console.log('开始抽奖')
+              await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
+              continue;
+            }
             if ([0,13].includes(data.data.result.taskVos[i].taskType)) {
               if (data.data.result.taskVos[i].status === 1) {
                 await harmony_collectScore(data.data.result.taskVos[i].simpleRecordInfoVo.taskToken,data.data.result.taskVos[i].taskId);
@@ -145,6 +151,9 @@ function interact_template_getHomeData(timeout = 0) {
             }
             if ([14,6].includes(data.data.result.taskVos[i].taskType)) {//'data.data.result.taskVos[i].assistTaskDetailVo.taskToken'
               await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
+              for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0);j++) {
+                await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
+              }
               continue
             }
             let list = data.data.result.taskVos[i].productInfoVos || data.data.result.taskVos[i].followShopVo || data.data.result.taskVos[i].shoppingActivityVos || data.data.result.taskVos[i].browseShopVo
@@ -167,10 +176,6 @@ function interact_template_getHomeData(timeout = 0) {
                   continue;
                 }
               }
-            }
-            if (data.data.result.taskVos[i].status === 3) {
-              console.log('开始抽奖')
-              await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
             }
           }
           if (scorePerLottery) await interact_template_getLotteryResult();
