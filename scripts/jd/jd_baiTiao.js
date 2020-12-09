@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-12-01 13:42
+更新时间：2020-12-09 14:25
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -9,6 +9,7 @@ const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const printDetail = false;        //是否显示出参详情
 let cookieExpire = false;
+let lackCoin = false;
 //直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
@@ -49,25 +50,28 @@ let prize =
   for (let i = 0; i < prize.length; i++) {
     prize[i].body =`activityId=${prize[i].id}&eid=${randomWord(false,90).toUpperCase()}&fp=${randomWord(false,32).toLowerCase()}`
   }
-
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
       $.prize = {addMsg : ``};
+      $.prize["dailyCoupon"] = "";
       let date = new Date();
       cookieExpire = false;
+      lackCoin = false;
       await queryCouponsNotGroup()
       if (cookieExpire) {
         $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
+      await queryCouponCenter()
+      await gateFloorById()
       if (date.getHours() > 0) await takePrize(prize[0]);
       if (date.getDay() !== 0 && date.getHours() >= 9) {
         await takePrize(prize[date.getDay()],820);//延迟执行，防止提示活动火爆
         if (date.getDay() === 6) await takePrize(prize[7],820);//第二个周六券
       }
 
-      if (date.getDay() === 0) {
+      if (date.getHours() > 0 && date.getDay() === 0) {
         $.prize.addMsg = `提　醒：请于今天使用周日专享白条券\n`
       }
       if (date.getHours() >= 9) await queryMissionWantedDetail();
@@ -215,9 +219,13 @@ function queryCouponsNotGroup(timeout = 0) {
             cookieExpire = true
             return
           }
-          for (let i = data.resultData.floorInfo.length - 1;i > 0 ;i--){
+          for (let i = data.resultData.floorInfo.length - 1;i >= 0 ;i--){
             if (data.resultData.floorInfo[i].couponStatus === "2") {
-             await comReceiveCoupon(data.resultData.floorInfo[i].couponKey,100)
+              if ($.prize["dailyCoupon"].match(/不符合活动参与规则/)) {
+                $.prize["dailyCoupon"] = "";
+                break;
+              }
+              await comReceiveCoupon(data.resultData.floorInfo[i].couponKey,100)
             }
           }
         } catch (e) {
@@ -251,7 +259,10 @@ function comReceiveCoupon(couponKey,timeout = 0) {
         try {
           if (printDetail) console.log(data);
           data = JSON.parse(data);
-          $.prize["dailyCoupon"] = $.prize["dailyCoupon"]||"立减券"
+          if (data.resultData.result.code !== "0000") {
+            $.prize["dailyCoupon"] = data.resultData.result.info
+            return
+          }
           $.prize["dailyCoupon"] += data.resultData.couponsVo.prizeAmount + '元;'
           console.log($.prize["dailyCoupon"])
         } catch (e) {
@@ -264,6 +275,165 @@ function comReceiveCoupon(couponKey,timeout = 0) {
   })
 }
 
+function queryCouponCenter(timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url: `https://ms.jr.jd.com/gw/generic/hyqy/h5/m/queryCouponCenter?reqData=%7B%22timeStamp%22:%222020-12-08T22:55:51.289Z%22%7D`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://m.jr.jd.com/`,
+          'Host' : `ms.jr.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      $.get(url, async(err, resp, data) => {
+        try {
+          if (printDetail) console.log(data);
+          data = JSON.parse(data);
+          //return
+          for (let i = data.resultData.data.length - 1;i >= 0 ;i--) {
+            if (data.resultData.data[i].name === "白条券") {
+              for (let j = 0;j < data.resultData.data[i].coupons.length;j++) {
+                //console.log(data.resultData.data[i].coupons[j].labels)
+                //console.log(data.resultData.data[i].coupons[j].id)
+                if (data.resultData.data[i].coupons[j].labels === "立减券") {
+                  await takeCouponPrize(data.resultData.data[i].coupons[j].id,parseFloat(data.resultData.data[i].coupons[j].briefAmount),820)
+                  //break
+                }
+              }
+              break
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+function takeCouponPrize(couponId,briefAmount,timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let reqData = {"couponId" : couponId,"riskInfo":{"eid" : randomWord(false,90).toUpperCase(),"fp":randomWord(false,32).toLowerCase() ,"appId":"JDJR-App" } }
+      let url = {
+        url: `https://ms.jr.jd.com/gw/generic/hyqy/h5/m/takePrize?reqData=${encodeURI(JSON.stringify(reqData))}`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://m.jr.jd.com/`,
+          'Host' : `ms.jr.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      console.log(url.url)
+      $.get(url, async(err, resp, data) => {
+        try {
+          if (printDetail) console.log(data);
+          data = JSON.parse(data);
+          if (data.resultData.code === "0000") {
+            $.prize["dailyCoupon"] += briefAmount.toFixed(1) + '元;'
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+
+function gateFloorById(timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url: `https://ms.jr.jd.com/gw/generic/hy/h5/m/gateFloorById?reqData=%7B%22pageSize%22%3A1000%2C%22version%22%3A%221.0%22%2C%22timeStamp%22%3A1607467849952%7D`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://m.jr.jd.com/`,
+          'Host' : `ms.jr.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      $.get(url, async(err, resp, data) => {
+        try {
+          if (printDetail) console.log(data);
+          data = JSON.parse(data);
+          for (let i = 0;i < data.resultData.data.data.length;i++) {
+            if (lackCoin) break
+            if (data.resultData.data.data[i].name.match(/白条.*?立减/) && data.resultData.data.data[i].exchangeStatus === 1) {
+              //console.log(data.resultData.data.data[i].name.match(/([1-9]\d*\.?\d*)|(0\.\d*[1-9])/)[0])
+              //console.log(data.resultData.data.data[i].amount)
+              //console.log(data.resultData.data.data[i].productId)
+              if (data.resultData.data.data[i].amount < 50){
+                await gateExchange(data.resultData.data.data[i].productId,parseFloat(data.resultData.data.data[i].name.match(/([1-9]\d*\.?\d*)|(0\.\d*[1-9])/)[0]),3000)
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+function gateExchange(productId,briefAmount,timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let reqData = {"productId" : productId,"channel":"gcmall-floorId-30","appType":"JR_APP" }
+      let url = {
+        url: `https://ms.jr.jd.com/gw/generic/hy/h5/m/gateExchange?reqData=${encodeURI(JSON.stringify(reqData))}`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://m.jr.jd.com/`,
+          'Host' : `ms.jr.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      console.log(url.url)
+      $.get(url, async(err, resp, data) => {
+        try {
+          if (printDetail) console.log(data);
+          data = JSON.parse(data);
+          if (data.resultData.code === "0000") {
+            $.prize["dailyCoupon"] += briefAmount.toFixed(1) + '元;'
+          } else if (data.resultData.code === "2906") {
+            lackCoin = true
+          } else {
+            console.log(data.resultData.msg)
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
 
 function randomWord(randomFlag, min, max){
   let str = "",
@@ -293,7 +463,7 @@ function msgShow() {
       $.message += `${$.prize[i].desc}：${typeof($.prize[i].failDesc) == "undefined" ? $.prize[i].respDesc : $.prize[i].failDesc}\n`;
     }
   }
-  if (typeof $.prize["dailyCoupon"] !== "undefined") {
+  if ($.prize["dailyCoupon"] !== "") {
     $.message += "扫码券：" + $.prize["dailyCoupon"].substr(0,$.prize["dailyCoupon"].length - 1) + '\n'
   }
   $.message += $.prize.addMsg ? $.prize.addMsg : "";
