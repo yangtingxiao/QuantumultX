@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-12-09 14:25
+更新时间：2020-12-11 13:22
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -55,7 +55,10 @@ let prize =
     if (cookie) {
       $.prize = {addMsg : ``};
       $.prize["dailyCoupon"] = "";
-      let date = new Date();
+      let date = new Date($.time("yyyy-MM-dd HH:mm:ss.S"));
+      console.log(date.getHours())
+      //console.log($.time("yyyy/MM/dd HH:mm:ss.S"))
+      //return
       cookieExpire = false;
       lackCoin = false;
       await queryCouponsNotGroup()
@@ -66,7 +69,7 @@ let prize =
       await queryCouponCenter()
       await gateFloorById()
       if (date.getHours() > 0) await takePrize(prize[0]);
-      if (date.getDay() !== 0 && date.getHours() >= 9) {
+      if (date.getDay() !== 0 && date.getHours() >= 8) {
         await takePrize(prize[date.getDay()],820);//延迟执行，防止提示活动火爆
         if (date.getDay() === 6) await takePrize(prize[7],820);//第二个周六券
       }
@@ -74,7 +77,7 @@ let prize =
       if (date.getHours() > 0 && date.getDay() === 0) {
         $.prize.addMsg = `提　醒：请于今天使用周日专享白条券\n`
       }
-      if (date.getHours() >= 9) await queryMissionWantedDetail();
+      if (date.getHours() >= 8) await queryMissionWantedDetail();
       await msgShow();
     }
   }
