@@ -56,9 +56,6 @@ let prize =
       $.prize = {addMsg : ``};
       $.prize["dailyCoupon"] = "";
       let date = new Date($.time("yyyy-MM-dd HH:mm:ss.S"));
-      console.log(date.getHours())
-      //console.log($.time("yyyy/MM/dd HH:mm:ss.S"))
-      //return
       cookieExpire = false;
       lackCoin = false;
       await queryCouponsNotGroup()
@@ -416,7 +413,7 @@ function gateExchange(productId,briefAmount,timeout = 0) {
           'Accept-Language' : `zh-cn`
         }
       }
-      console.log(url.url)
+      //console.log(url.url)
       $.get(url, async(err, resp, data) => {
         try {
           if (printDetail) console.log(data);
