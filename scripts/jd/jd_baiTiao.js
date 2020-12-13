@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-12-12 09:35
+更新时间：2020-12-13 10:33
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -55,7 +55,7 @@ let prize =
     if (cookie) {
       $.prize = {addMsg : ``};
       $.prize["dailyCoupon"] = "";
-      let date = new Date($.time("yyyy-MM-dd HH:mm:ss"));
+      let date = new Date($.time("yyyy/MM/dd HH:mm:ss"));
       cookieExpire = false;
       lackCoin = false;
       await queryCouponsNotGroup()
