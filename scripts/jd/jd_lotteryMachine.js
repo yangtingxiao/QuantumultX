@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-12-17 08:35
+更新时间：2020-12-17 08:45
 脚本说明：抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【健康服务】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -19,12 +19,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;     //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRTwg']//'1EFRQyg'//'1EFRTwA','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8','P04z54XCjVUnIaW5m9cZ2f433tIlJeCjGuzPCI'//,'1EFRTxw'
-const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8']//'P04z54XCjVUm4aW5m9cZ2f433tIlID9Pfij_eg'
-const homeDataFunPrefixArr = ['','','','healthyDay']//,'healthyDay'
+const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRTwg','1EFRTyg']//'1EFRQyg'//'1EFRTwA','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8','P04z54XCjVUnIaW5m9cZ2f433tIlJeCjGuzPCI'//,'1EFRTxw'
+const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58']//'P04z54XCjVUm4aW5m9cZ2f433tIlID9Pfij_eg'
+const homeDataFunPrefixArr = ['','','','healthyDay','healthyDay']//,
 const collectScoreFunPrefixArr = ['','','','','']
-const lotteryResultFunPrefixArr = ['','','','interact_template']
-const browseTimeArr = ['','','','15']
+const lotteryResultFunPrefixArr = ['','','','interact_template','interact_template']
+const browseTimeArr = ['','','','15','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
