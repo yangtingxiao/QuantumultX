@@ -12,23 +12,23 @@ QuantumultX 订阅链接（1.0.17以上）：https://raw.githubusercontent.com/y
 国内访问Github不顺畅的，无法访问raw的，可通过修改host解决。具体修改方式请自行百度  
 添加如下地址
 
-52.69.239.207 api.github.com
-13.114.40.48 github.com
-52.74.223.119 gist.github.com
-151.101.88.133    assets-cdn.github.com
-151.101.88.133    raw.githubusercontent.com
-151.101.88.133    gist.githubusercontent.com
-151.101.88.133    cloud.githubusercontent.com
-151.101.88.133    camo.githubusercontent.com
-151.101.88.133    avatars0.githubusercontent.com
-151.101.88.133    avatars1.githubusercontent.com
-151.101.88.133    avatars2.githubusercontent.com
-151.101.88.133    avatars3.githubusercontent.com
-151.101.88.133    avatars4.githubusercontent.com
-151.101.88.133    avatars5.githubusercontent.com
-151.101.88.133    avatars6.githubusercontent.com
-151.101.88.133    avatars7.githubusercontent.com
-151.101.88.133    avatars8.githubusercontent.com
+52.69.239.207 api.github.com  
+13.114.40.48 github.com  
+52.74.223.119 gist.github.com  
+151.101.88.133    assets-cdn.github.com  
+151.101.88.133    raw.githubusercontent.com  
+151.101.88.133    gist.githubusercontent.com  
+151.101.88.133    cloud.githubusercontent.com  
+151.101.88.133    camo.githubusercontent.com  
+151.101.88.133    avatars0.githubusercontent.com  
+151.101.88.133    avatars1.githubusercontent.com  
+151.101.88.133    avatars2.githubusercontent.com  
+151.101.88.133    avatars3.githubusercontent.com  
+151.101.88.133    avatars4.githubusercontent.com  
+151.101.88.133    avatars5.githubusercontent.com  
+151.101.88.133    avatars6.githubusercontent.com  
+151.101.88.133    avatars7.githubusercontent.com  
+151.101.88.133    avatars8.githubusercontent.com  
 
 指定的为日本服务器，速度还可以，国内可以直连
 
