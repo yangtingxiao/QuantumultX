@@ -14,6 +14,8 @@ DOMAIN-SUFFIX,pangolin.ctobsnssdk.com,REJECT
 DOMAIN-SUFFIX,devfu.cc,REJECT
 DOMAIN-SUFFIX,qzs.qq.com,REJECT
 DOMAIN-SUFFIX,ulogs.umeng.com,REJECT
+DOMAIN-SUFFIX,adim.pinduoduo.com,REJECT
+DOMAIN-SUFFIX,ulogs.umengcloud.com,REJECT
 
 # 域名 DIRECT
 DOMAIN-SUFFIX,tiktokv.com,DIRECT
