@@ -4,7 +4,7 @@
 
 如果本项目对您有帮助，欢迎大家打赏一下以资鼓励
 
-<div align=center><img width="250" height="250" src="https://raw.sevencdn.com/yangtingxiao/QuantumultX/master/image/thanks.jpg"/></div>
+![Image text](https://raw.sevencdn.com/yangtingxiao/QuantumultX/master/image/thanks.jpg)
 
 QuantumultX 订阅链接（1.0.17以上）：https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/box/yangtingxiao.gallery.json
 
