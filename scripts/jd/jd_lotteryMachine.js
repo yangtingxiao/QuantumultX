@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2020-12-21 07:12
+更新时间：2020-12-21 10:00
 脚本说明：抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【健康服务】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,14 +17,14 @@ const $ = new Env('京东抽奖机');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
-const needSum = false;     //是否需要显示汇总
+const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRQxA','1EFRRxA','1EFRQwA','1EFRTwg','1EFRTyg','1EFRSxw']//'1EFRQyg'//'1EFRTwA','P04z54XCjVXloaW5m9cZ2f433tIlH_LzLLVOp8','P04z54XCjVUnIaW5m9cZ2f433tIlJeCjGuzPCI'//,'1EFRTxw'
-const shareCodeArr = ['P04z54XCjVXmIaW5m9cZ2f433tIlGWEga-IO2o','P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','P04z54XCjVVm4aW5m9cZ2f433tIlARS0JQxxfc']//'P04z54XCjVUm4aW5m9cZ2f433tIlID9Pfij_eg'
-const homeDataFunPrefixArr = ['','','','healthyDay','healthyDay','healthyDay']//,
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTwg','1EFRTyg','1EFRSxw']
+const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','P04z54XCjVVm4aW5m9cZ2f433tIlARS0JQxxfc']
+const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','healthyDay']
 const collectScoreFunPrefixArr = ['','','','','']
-const lotteryResultFunPrefixArr = ['','','','interact_template','interact_template','interact_template']
-const browseTimeArr = ['','','','15','','10']
+const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','interact_template']
+const browseTimeArr = ['','','15','','6']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -68,12 +68,12 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
         //break
       }
       await msgShow();
+      //break
     }
   }
 })()
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
-
 
 //获取昵称
 function QueryJDUserInfo(timeout = 0) {
@@ -104,7 +104,7 @@ function QueryJDUserInfo(timeout = 0) {
   })
 }
 
-
+//获取活动信息
 function interact_template_getHomeData(timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
@@ -148,9 +148,9 @@ function interact_template_getHomeData(timeout = 0) {
               }
               continue
             }
-            if ([14,6].includes(data.data.result.taskVos[i].taskType)) {//'data.data.result.taskVos[i].assistTaskDetailVo.taskToken'
+            if ([14,6].includes(data.data.result.taskVos[i].taskType)) {
               //console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
-              await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
+              if (shareCode) await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
               for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0);j++) {
                 await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
               }
@@ -165,7 +165,6 @@ function interact_template_getHomeData(timeout = 0) {
                   //console.log(list[j].itemId)
                   if (list[j].itemId) {
                     await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId,list[j].itemId,1);
-                    await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId,list[j].itemId,0,parseInt(browseTime) * 1000);
                     if (k === data.data.result.taskVos[i].maxTimes - 1) await interact_template_getLotteryResult(data.data.result.taskVos[i].taskId);
                   } else {
                     await harmony_collectScore(list[j].taskToken,data.data.result.taskVos[i].taskId)
@@ -188,8 +187,7 @@ function interact_template_getHomeData(timeout = 0) {
     },timeout)
   })
 }
-
-
+//做任务
 function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
@@ -213,6 +211,9 @@ function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeou
           if (printDetail) console.log(data);
           data = JSON.parse(data);
           console.log(data.data.bizMsg)
+          if (data.data.bizMsg === "任务领取成功") {
+            await harmony_collectScore(taskToken,taskId,itemId,0,parseInt(browseTime) * 1000);
+          }
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -222,7 +223,7 @@ function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeou
     },timeout)
   })
 }
-//
+//抽奖
 function interact_template_getLotteryResult(taskId,timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
@@ -278,7 +279,6 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
 }
 
 //初始化
-
 function initial() {
    merge = {
      nickname: "",
