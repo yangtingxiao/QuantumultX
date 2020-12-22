@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-12-13 10:33
+更新时间：2020-12-22 16:33
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -63,8 +63,11 @@ let prize =
         $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
-      await queryCouponCenter()
-      await gateFloorById()
+      await Promise.all([
+        queryCouponCenter(),
+        gateFloorById(),
+        queryAwardCenter()
+      ])
       if (date.getHours() > 0) await takePrize(prize[0]);
       if (date.getDay() !== 0 && date.getHours() >= 8) {
         await takePrize(prize[date.getDay()],820);//延迟执行，防止提示活动火爆
@@ -260,11 +263,12 @@ function comReceiveCoupon(couponKey,timeout = 0) {
           if (printDetail) console.log(data);
           data = JSON.parse(data);
           if (data.resultData.result.code !== "0000") {
-            $.prize["dailyCoupon"] = data.resultData.result.info
+            //$.prize["dailyCoupon"] += data.resultData.result.info
+            console.log(data.resultData.result.info)
             return
           }
           $.prize["dailyCoupon"] += data.resultData.couponsVo.prizeAmount + '元;'
-          console.log($.prize["dailyCoupon"])
+          //console.log($.prize["dailyCoupon"])
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -308,6 +312,76 @@ function queryCouponCenter(timeout = 0) {
               }
               break
             }
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+function queryAwardCenter(timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `https://pro.m.jd.com/jdjr/active/2gzjhRXJ5pSqEJyvMwRwoFtqcPFd/index.html`,
+        headers : {
+          'Referer' : `https://wqs.jd.com/my/iserinfo.html`,
+          'Cookie' : cookie
+        }
+      }
+      $.get(url, async (err, resp, data) => {
+        try {
+          if (printDetail) console.log(data.match(/(?<=window.__react_data__ =) .+/)[0])
+          if (data.match(/(?<=window.__react_data__ =) .+/)) {
+            data = JSON.parse(data.match(/(?<=window.__react_data__ =) .+/)[0]);
+          } else {
+            return
+          }
+          for (let i in data.activityData.floorList) {
+            for (let j in data.activityData.floorList[i].couponList) {
+              if (data.activityData.floorList[i].couponList[j].status === "0" && data.activityData.floorList[i].couponList[j].scope.match(/扫一扫/)) {
+               await newBabelAwardCollection(data.activityData.floorList[i].couponList[j].cpId,parseFloat(data.activityData.floorList[i].couponList[j].val.match(/([1-9]\d*\.?\d*)|(0\.\d*[1-9])/)[0]))
+              }
+            }
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
+function newBabelAwardCollection(actKey,briefAmount,timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let body = { "activityId" : "2gzjhRXJ5pSqEJyvMwRwoFtqcPFd", "scene" : 3, "actKey" : actKey }
+      let url = {
+        url: `https://api.m.jd.com/client.action?functionId=newBabelAwardCollection&body=${encodeURI(JSON.stringify(body))}&client=wh5`,
+        headers: {
+          'Cookie' : cookie,
+          'Origin' : `https://m.jr.jd.com`,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json`,
+          'Referer' : `https://pro.m.jd.com/jdjr/active/2gzjhRXJ5pSqEJyvMwRwoFtqcPFd/index.html`,
+          'Host' : `api.m.jd.com`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        }
+      }
+      $.get(url, async(err, resp, data) => {
+        try {
+          if (printDetail) console.log(data);
+          //console.log(data);
+          data = JSON.parse(data);
+          if (data.subCode === "0") {
+            $.prize["dailyCoupon"] += briefAmount.toFixed(1) + '元;'
           }
         } catch (e) {
           $.logErr(e, resp);
