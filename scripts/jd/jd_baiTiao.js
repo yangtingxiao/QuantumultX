@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2020-12-22 16:33
+更新时间：2020-12-22 17:17
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -335,9 +335,9 @@ function queryAwardCenter(timeout = 0) {
       }
       $.get(url, async (err, resp, data) => {
         try {
-          if (printDetail) console.log(data.match(/(?<=window.__react_data__ =) .+/)[0])
-          if (data.match(/(?<=window.__react_data__ =) .+/)) {
-            data = JSON.parse(data.match(/(?<=window.__react_data__ =) .+/)[0]);
+          if (printDetail) console.log(data.match(/(window.__react_data__ =) (.+)/)[2])
+          if (data.match(/(window.__react_data__ =) .+/)) {
+            data = JSON.parse(data.match(/(window.__react_data__ =) (.+)/)[2]);
           } else {
             return
           }
