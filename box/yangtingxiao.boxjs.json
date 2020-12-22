@@ -6,8 +6,8 @@
   "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/",
   "apps": [
     {
-      "id": "领白条券",
-      "name": "京东白条",
+      "id": "baiTiao",
+      "name": "领白条券",
       "keys": ["yangtingxiao_sample"],
       "settings": [
         { "id": "yangtingxiao_sample", "name": "设置sample", "val": false, "type": "boolean", "desc": "设置样例" }
@@ -23,7 +23,7 @@
       "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png"]
 	},
     {
-      "id": "sharecode",
+      "id": "shareCode",
       "name": "京东互助上车",
       "keys": ["CFG_FRUITSHARECODE","CFG_JBEANSHARECODE"],
       "settings": [
