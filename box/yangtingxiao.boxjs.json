@@ -55,7 +55,7 @@
         { "id": "CFG_CRAZYJOY_PRODUCE", "name": "启用收取金币", "val": false, "type": "boolean", "desc": "不建议启用，启用了会24小时运行脚本" },
         { "id": "CFG_CRAZYJOY_SELL", "name": "启用自动回收", "val": false, "type": "boolean", "desc": "启用自动回收JOY，小于自动购买等级的JOY将会被自动回收" },
         { "id": "CFG_CRAZYJOY_BUY", "name": "启用自动购买", "val": false, "type": "boolean", "desc": "启用自动购买JOY" },
-        { "id": "CFG_CRAZYJOY_BUYLVL", "name": "自动购买的JOY等级", "val": 0, "type": "integer", "desc": "自动购买JOY的等级，0为最大可够买等级" },
+        { "id": "CFG_CRAZYJOY_BUYLVL", "name": "自动购买的JOY等级", "val": 0, "type": "number", "desc": "自动购买JOY的等级，0为最大可够买等级" },
         { "id": "CFG_CRAZYJOY_SHARECODE", "name": "互助码", "val": "", "type": "textarea", "desc": "互助码，多个互助码@符隔开，多个账号#隔开" }
       ],
       "author": "@yangtingxiao",
