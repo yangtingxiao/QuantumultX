@@ -1,6 +1,6 @@
 /*
 京东疯狂的Joy
-更新时间：2020-12-25 08:33
+更新时间：2020-12-25 17:34
 脚本说明：
 可自动签到，看视频，生产金币，领金币宝箱，做任务，合并（34级不合并），自定义购买等级，互助
 可以到BoxJs中开启相应功能
@@ -43,6 +43,7 @@ let luckyBoxArr = []
 let lackCoin = false        //金币不足
 let setBoughtJoyId = $.getdata("CFG_CRAZYJOY_BUYLVL") ? parseInt($.getdata("CFG_CRAZYJOY_BUYLVL")) : 0    //自己设定需要购买的级别，相对来说省钱，不需要的话修改为0，0为买最大的
 let needToBought = 16       //默认需要购买16个，不用管
+let waitingOpenBox = false  // 是否正在等待开宝箱
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -70,8 +71,6 @@ const JD_API_HOST = `https://api.m.jd.com/?appid=crazy_joy`;
         $.msg($.name, `【提示】京东账号${i + 1} cookie已过期！请先获取cookie\n直接使用NobyDa的京东签到获取`, 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
         continue;
       }
-      shareCode = []
-      luckyBoxArr = []
       if (shareCodeArr[i]) {
         console.log(`提供的助力码：${shareCodeArr[i].toString()}`)
         shareCode = shareCodeArr[i].split('@')
@@ -155,6 +154,7 @@ function crazyJoy_event_obtainAward(eventType,eventRecordId,timeout = 0) {
           if (data.data&&parseInt(data.data.coins)) console.log(`宝箱获得金币：${addUnit(data.data.coins)}`)
           if (data.data&&data.data.beans) console.log(`宝箱获得京豆：${data.data.beans}`)
           if (data.data&&data.data.joyId) console.log(`宝箱获得疯狗：${data.data.joyId}级`)
+          if (eventType === "HOUR_BENEFIT") waitingOpenBox = false
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -219,7 +219,11 @@ function crazyJoy_user_gameState(timeout = 0) {
               }
             }
           }
-          if (data.data.hourCoinCountDown === 0) crazyJoy_event_obtainAward("HOUR_BENEFIT","")
+          console.log(`下个宝箱时间：${data.data.hourCoinCountDown > 60 ? (data.data.hourCoinCountDown / 60).toFixed(0) + '分钟' : (data.data.hourCoinCountDown + '秒')} `)
+          if (data.data.hourCoinCountDown === 0 || (autoProduce && !waitingOpenBox)) {
+            waitingOpenBox = true
+            crazyJoy_event_obtainAward("HOUR_BENEFIT","",(data.data.hourCoinCountDown + 5) * 1000)
+          }
           if (boxCount&&!lackCoin&&autoBuyJoy)
             await crazyJoy_user_gameState(1000)
           else if (autoProduce)
@@ -564,6 +568,9 @@ function initial() {
     merge[i].show = true;
   }
   //merge.jdBeans.show =Boolean(coinToBeans);
+  shareCode = []
+  luckyBoxArr = []
+  waitingOpenBox = false
 }
 //通知
 function msgShow() {
