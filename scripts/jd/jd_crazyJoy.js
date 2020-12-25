@@ -1,6 +1,6 @@
 /*
 京东疯狂的Joy
-更新时间：2020-12-24 17:23
+更新时间：2020-12-25 08:33
 脚本说明：
 可自动签到，看视频，生产金币，领金币宝箱，做任务，合并（34级不合并），自定义购买等级，互助
 可以到BoxJs中开启相应功能
@@ -452,16 +452,13 @@ function crazyJoy_task_recordAssist(inviter = "",timeout = 0) {
       $.get(url, async (err, resp, data) => {
         try {
           if (printDetail) console.log(data)
-          if (inviter) console.log(`开始进行互助：${inviter}`)
           data = JSON.parse(data);
-          //if (data.resultCode === "0") {
-            //if (data.data&&parseInt(data.data.coins)) console.log(`助力获得金币：${addUnit(data.data.coins)}`)
-            //if (data.data&&data.data.beans) console.log(`助力获得京豆：${data.data.beans}`)
-            //if (data.data&&data.data.joyId) console.log(`助力获得疯狗：${data.data.joyId}级`)
-          //} else {
-          if (inviter) console.log(`助力执行结果：${data.message}`)
-          //}
-          if (inviter === "") {
+          //console.log(JSON.stringify(data))
+          if (inviter) {
+            console.log(`开始进行互助：${inviter}`)
+            console.log(`助力执行结果：${data.message||'助力成功'}`)
+          }
+          if (!inviter) {
             for (let i in shareCode) {
               await crazyJoy_task_recordAssist(shareCode[i],1000)
             }
