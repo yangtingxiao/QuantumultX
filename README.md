@@ -6,7 +6,8 @@
 
 <div align=center><img width="250" height="250" src="https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/thanks.jpg"/></div>
 
-QuantumultX 订阅链接（1.0.17以上）：https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/box/yangtingxiao.gallery.json
+QuantumultX 订阅链接（1.0.17以上）：https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/box/yangtingxiao.gallery.json  
+BoxJs 订阅链接 ： https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/box/yangtingxiao.boxjs.json
 
 ## 友情提醒
 国内访问Github不顺畅的，无法访问raw的，可通过修改host解决。具体修改方式请自行百度  
