@@ -1,6 +1,6 @@
 /*
 京东疯狂的Joy
-更新时间：2020-12-25 17:34
+更新时间：2021-01-04 09:40
 脚本说明：
 可自动签到，看视频，生产金币，领金币宝箱，做任务，合并（34级不合并），自定义购买等级，互助
 可以到BoxJs中开启相应功能
@@ -41,7 +41,7 @@ const shareCodeArr = $.getdata("CFG_CRAZYJOY_SHARECODE") ? $.getdata("CFG_CRAZYJ
 let cookiesArr = [], cookie = '',shareCode = [];
 let luckyBoxArr = []
 let lackCoin = false        //金币不足
-let setBoughtJoyId = $.getdata("CFG_CRAZYJOY_BUYLVL") ? parseInt($.getdata("CFG_CRAZYJOY_BUYLVL")) : 0    //自己设定需要购买的级别，相对来说省钱，不需要的话修改为0，0为买最大的
+let setBoughtJoyId = $.getdata("CFG_CRAZYJOY_BUYLVL") ? parseInt($.getdata("CFG_CRAZYJOY_BUYLVL")) : 0   //自己设定需要购买的级别，相对来说省钱，不需要的话修改为0，0为买最大的
 let needToBought = 16       //默认需要购买16个，不用管
 let waitingOpenBox = false  // 是否正在等待开宝箱
 if ($.isNode()) {
@@ -189,8 +189,9 @@ function crazyJoy_user_gameState(timeout = 0) {
           canBoughtTopLevelJoyIdCount = 0;
           boxCount = 12;
           joyIds = data.data.joyIds;
+          console.log(`获取疯狗排列：${joyIds.toString()}`)
           lackCoin = false;
-          for (let i in joyIds){
+          for (let i in joyIds) {
             if (joyIds[i]) boxCount--;
             if (joyIds[i] >= (setBoughtJoyId||userCanBoughtTopLevelJoyId) && joyIds[i] < userTopLevelJoyId)
               canBoughtTopLevelJoyIdCount += Math.pow(2,joyIds[i]-(setBoughtJoyId||userCanBoughtTopLevelJoyId))
@@ -202,9 +203,27 @@ function crazyJoy_user_gameState(timeout = 0) {
           console.log(`目前已有数量：${canBoughtTopLevelJoyIdCount}个${(setBoughtJoyId||userCanBoughtTopLevelJoyId)}级（换算后）\n还需购买数量：${needToBought - canBoughtTopLevelJoyIdCount}个`)
           console.log(`目前剩余格子：${boxCount}个`)
           lackCoin = false;
+          let minBoughtJoyId = 0,minBoughtJoyCount = 0;
           for (let i = 0;i < (needToBought - canBoughtTopLevelJoyIdCount) && autoBuyJoy;i++){
             if ((i === boxCount) ||lackCoin) break
-            await crazyJoy_joy_trade("BUY",(setBoughtJoyId||userCanBoughtTopLevelJoyId),"",1000)
+            if (i === boxCount - 1) {
+              minBoughtJoyId = 30;
+              console.log(`仅剩一个格子：取最小等级JOY`)
+              for (let i in joyIds){
+                if (!joyIds[i]||joyIds[i] > 30) continue
+                if (joyIds[i] < minBoughtJoyId) {
+                  minBoughtJoyId = joyIds[i];
+                  minBoughtJoyCount = 1;
+                } else if (joyIds[i] === minBoughtJoyId) {
+                  minBoughtJoyCount ++
+                }
+              }
+              console.log(`最小等级疯狗：${minBoughtJoyId}级，共${minBoughtJoyCount}个`)
+              if (minBoughtJoyCount%2 === 0) {
+                minBoughtJoyId = 0;
+              }
+            }
+            await crazyJoy_joy_trade("BUY",(minBoughtJoyId||setBoughtJoyId||userCanBoughtTopLevelJoyId),"",1000)
           }
           let canMerge = true
           while (canMerge) {
@@ -214,7 +233,14 @@ function crazyJoy_user_gameState(timeout = 0) {
               for (let j = parseInt(i) + 1;j < joyIds.length;j++) {
                 if (joyIds[i] === joyIds[j]) {
                   canMerge = true
-                  await crazyJoy_joy_moveOrMerge(j,i,1000);
+                  //console.log(joyIds.toString())
+                  //console.log(parseInt(i) + 1)
+                  //console.log(parseInt(j) + 1)
+                  //if (err === 1) {
+                  //  canMerge = false
+                  //  break
+                  //}
+                  await crazyJoy_joy_moveOrMerge(parseInt(j),parseInt(i),1000);
                 }
               }
             }
@@ -296,7 +322,9 @@ function crazyJoy_joy_moveOrMerge(fromBoxIndex,targetBoxIndex,timeout = 0) {
             console.log(`合并成功获得：${data.data.newJoyId}级，格子${parseInt(targetBoxIndex) + 1}`)
           } else {
             console.log(`执行合并失败：${data.message}`)
+            err = 1
           }
+          //console.log(joyIds.toString())
         } catch (e) {
           $.logErr(e, resp);
         } finally {
