@@ -1,7 +1,7 @@
 /*
 京东抽奖机
-更新时间：2020-12-30 12:30
-脚本说明：抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【健康服务】【砸蛋抽好礼】【京东好声音】【东东福利屋】【东东焕新家】【闪耀新品】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+更新时间：2021-01-05 14:58
+脚本说明：抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【健康服务】【东东福利屋】【东东焕新家】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -19,12 +19,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTwg','1EFRTyg','1EFRSxw','1EFRTxQ','1EFRSxQ','1EFRSxA','1EFRSyw','1EFRSyg']
-const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','P04z54XCjVVm4aW5m9cZ2f433tIlARS0JQxxfc','T0225KkcRx4b8lbWJU72wvZZcwCjVUmYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVmYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVloaW5kRrbA']
-const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','healthyDay','ts','healthyDay','wfh','healthyDay','healthyDay']
-const collectScoreFunPrefixArr = ['','','','','','','','wfh','','']
-const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','interact_template','ts','interact_template','','interact_template','interact_template']
-const browseTimeArr = ['','','15','','6','','10','','','15']
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTwg','1EFRTyg','1EFRSxA','1EFRSyw']
+const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUnoaW5m9cZ2f433tIlIcU3mmrus8','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA']
+const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','wfh','healthyDay']
+const collectScoreFunPrefixArr = ['','','','','wfh','']
+const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','','interact_template']
+const browseTimeArr = ['','','15','','','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -121,7 +121,7 @@ function interact_template_getHomeData(timeout = 0) {
         },
         body : `functionId=${homeDataFunPrefix}_getHomeData&body={"appId":"${appId}","taskToken":""}&client=wh5&clientVersion=1.0.0`
       }
-      if (appId === "1EFRTxQ") url.body += "&appid=golden-egg"
+
       $.post(url, async (err, resp, data) => {
         try {
           if (printDetail) console.log(data);
@@ -183,9 +183,9 @@ function interact_template_getHomeData(timeout = 0) {
             }
           }
           if (scorePerLottery) await interact_template_getLotteryResult();
-          for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0 && appId === "1EFRTxQ");j++) {
-              await ts_smashGoldenEggs()
-          }
+          //for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0 && appId === "1EFRTxQ");j++) {
+          //    await ts_smashGoldenEggs()
+          //}
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -214,7 +214,7 @@ function harmony_collectScore(taskToken,taskId,itemId = "",actionType = 0,timeou
         body : `functionId=${collectScoreFunPrefix}_collectScore&body={"appId":"${appId}","taskToken":"${taskToken}","taskId":${taskId}${itemId ? ',"itemId":"'+itemId+'"' : ''},"actionType":${actionType}&client=wh5&clientVersion=1.0.0`
       }
       //console.log(url.body)
-      if (appId === "1EFRTxQ") url.body += "&appid=golden-egg"
+      //if (appId === "1EFRTxQ") url.body += "&appid=golden-egg"
       $.post(url, async (err, resp, data) => {
         try {
           if (printDetail) console.log(data);
@@ -251,7 +251,7 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
         body : `functionId=${lotteryResultFunPrefix}_getLotteryResult&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0`
       }
       //console.log(url.body)
-      if (appId === "1EFRTxQ") url.body = `functionId=ts_getLottery&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0&appid=golden-egg`
+      //if (appId === "1EFRTxQ") url.body = `functionId=ts_getLottery&body={"appId":"${appId}"${taskId ? ',"taskId":"'+taskId+'"' : ''}}&client=wh5&clientVersion=1.0.0&appid=golden-egg`
       $.post(url, async (err, resp, data) => {
         try {
           if (printDetail) console.log(data);
@@ -278,41 +278,6 @@ function interact_template_getLotteryResult(taskId,timeout = 0) {
             console.log(data.data.bizMsg)
             if (data.data.bizCode === 111 ) data.data.bizMsg = "无机会"
             merge.jdBeans.notify = `${data.data.bizMsg}`;
-          }
-        } catch (e) {
-          $.logErr(e, resp);
-        } finally {
-          resolve()
-        }
-      })
-    },timeout)
-  })
-}
-//获取积分
-function ts_smashGoldenEggs(taskId,timeout = 0) {
-  return new Promise((resolve) => {
-    setTimeout( ()=>{
-      let url = {
-        url : `${JD_API_HOST}`,
-        headers : {
-          'Origin' : `https://h5.m.jd.com`,
-          'Cookie' : cookie,
-          'Connection' : `keep-alive`,
-          'Accept' : `application/json, text/plain, */*`,
-          'Referer' : `https://h5.m.jd.com/babelDiy/Zeus/2WBcKYkn8viyxv7MoKKgfzmu7Dss/index.html?inviteId=P04z54XCjVXmYaW5m9cZ2f433tIlGBj3JnLHD0`,//?inviteId=P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ P225KkcRx4b8lbWJU72wvZZcwCjVXmYaS5jQ
-          'Host' : `api.m.jd.com`,
-          'Accept-Encoding' : `gzip, deflate, br`,
-          'Accept-Language' : `zh-cn`
-        },
-        body : `appid=golden-egg&functionId=ts_smashGoldenEggs&body={"appId":"1EFRTxQ"}&client=wh5&clientVersion=1.0.0`
-      }
-      $.post(url, async (err, resp, data) => {
-        try {
-          if (printDetail) console.log(data);
-          if (!timeout) console.log('\n抽取积分')
-          data = JSON.parse(data);
-          if (data.data.bizCode === 0) {
-            console.log(`积分：${data.data.result.score}`)
           }
         } catch (e) {
           $.logErr(e, resp);
