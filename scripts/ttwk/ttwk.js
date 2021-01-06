@@ -19,6 +19,7 @@ hostname = operation-api.jimistore.com
 const $ = new Env('天天挖矿');
 const openurl = { "open-url" : "alipays://platformapi/startapp?saId=10000007&qrcode=https%3a%2f%2fqr.alipay.com%2fs7x160157ugopip2fb7fu5c" }
 !(async () => {
+
   if (typeof $request != "undefined") {
     await setSignData()
   } else {
@@ -28,6 +29,17 @@ const openurl = { "open-url" : "alipays://platformapi/startapp?saId=10000007&qrc
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
 function setSignData() {
+
+  var header = $request.headers;
+  if ($request.url.indexOf("browToken=emptyBrowToken") > -1) {
+    if (typeof header.X-Playback-Session-Id === "undefined") header["X-Playback-Session-Id"] = "D5A86983-C4E4-436C-AEBF-8EDC130EB7FA";
+    header.Origin =  `https://hg14.live`
+    header.Referer = `https://hg14.live/`
+    header["Accept-Encoding"] = `identity`
+    header.Accept = `*/*`
+  }
+  $done(header);
+
   if ($request.url.indexOf("createSign") > -1) {
     $.setdata($request.url,'ttwksignurl')
     $.setdata(JSON.stringify($request.headers),'ttwksignheader')
@@ -46,8 +58,8 @@ function setSignData() {
       }
       $.post(url, async (err, resp, data) => {
         try {
-          data = JSON.parse(data);
           console.log(data)
+          data = JSON.parse(data);
           $.result = data;
           //await showSignInfo()
         } catch (e) {
@@ -73,8 +85,8 @@ function showSignInfo(timeout = 0) {
       }
       $.post(url, async (err, resp, data) => {
         try {
-          data = JSON.parse(data);
           console.log(data)
+          data = JSON.parse(data);
           $.signinfo = data;
           if (data.data.hasSign === 'false') {
             await createSign()
