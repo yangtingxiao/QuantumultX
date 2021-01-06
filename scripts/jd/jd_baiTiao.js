@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2021-01-01 09:03
+更新时间：2021-01-06 15:08
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -30,7 +30,7 @@ let prize =
     //周二领
     {name : `prizeTuesday`, desc : `周二领`, id : `Q9293947555491r1b3U870x0D2V95X`},
     //周三领
-    {name : `prizeWednesday`, desc : `周三领`, id : `Q8299679592g5N1Y1r3j8X0004269Ll`},
+    {name : `prizeWednesday`, desc : `周三领`, id : `p9w2v180c1o0g1w001101211928QW`},
     //周四领
     {name : `prizeThursday`, desc : `周四领`, id : `X9D2l0f0P8S31154947512923QU`},
     //每周五领55-5券
