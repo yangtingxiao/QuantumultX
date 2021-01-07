@@ -1,13 +1,13 @@
 /*
 京东金融领白条券
-更新时间：2021-01-06 15:08
+更新时间：2021-01-07 09:04
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
 */
 const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const printDetail = false;        //是否显示出参详情
+const printDetail = true;        //是否显示出参详情
 let cookieExpire = false;
 let lackCoin = false;
 //直接用NobyDa的jd cookie
@@ -32,7 +32,7 @@ let prize =
     //周三领
     {name : `prizeWednesday`, desc : `周三领`, id : `p9w2v180c1o0g1w001101211928QW`},
     //周四领
-    {name : `prizeThursday`, desc : `周四领`, id : `X9D2l0f0P8S31154947512923QU`},
+    {name : `prizeThursday`, desc : `周四领`, id : `q9r2C1n0i101001618477923Q1`},
     //每周五领55-5券
     {name : `prizeFriday`, desc : `周五领`, id : `Q529284818011r8O2Y8L07082T9kE`},
     //周六领
