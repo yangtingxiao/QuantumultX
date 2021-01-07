@@ -1,6 +1,6 @@
 /*
 京东疯狂的Joy
-更新时间：2021-01-04 09:40
+更新时间：2021-01-07 17:14
 脚本说明：
 可自动签到，看视频，生产金币，领金币宝箱，做任务，合并（34级不合并），自定义购买等级，互助
 可以到BoxJs中开启相应功能
@@ -219,6 +219,20 @@ function crazyJoy_user_gameState(timeout = 0) {
                 }
               }
               console.log(`最小等级疯狗：${minBoughtJoyId}级，共${minBoughtJoyCount}个`)
+              if (minBoughtJoyId === 30 && minBoughtJoyCount === 1) {    //无法继续了，合并一对34
+                let needMerge = true
+                for (let i in joyIds) {
+                  if (!joyIds[i]||joyIds[i] !== 34) continue
+                  for (let j = parseInt(i) + 1;j < joyIds.length;j++) {
+                    if (joyIds[i] === joyIds[j]) {
+                      await crazyJoy_joy_moveOrMerge(parseInt(j),parseInt(i),1000);
+                      needMerge = false
+                      break
+                    }
+                  }
+                  if (!needMerge) break;
+                }
+              }
               if (minBoughtJoyCount%2 === 0) {
                 minBoughtJoyId = 0;
               }
@@ -233,13 +247,6 @@ function crazyJoy_user_gameState(timeout = 0) {
               for (let j = parseInt(i) + 1;j < joyIds.length;j++) {
                 if (joyIds[i] === joyIds[j]) {
                   canMerge = true
-                  //console.log(joyIds.toString())
-                  //console.log(parseInt(i) + 1)
-                  //console.log(parseInt(j) + 1)
-                  //if (err === 1) {
-                  //  canMerge = false
-                  //  break
-                  //}
                   await crazyJoy_joy_moveOrMerge(parseInt(j),parseInt(i),1000);
                 }
               }
@@ -319,10 +326,31 @@ function crazyJoy_joy_moveOrMerge(fromBoxIndex,targetBoxIndex,timeout = 0) {
           if (data.resultCode === "0") {
             joyIds[targetBoxIndex]++
             joyIds[fromBoxIndex] = 0
-            console.log(`合并成功获得：${data.data.newJoyId}级，格子${parseInt(targetBoxIndex) + 1}`)
+            if (data.data.newJoyId > 34 ) {
+              let joy = ""
+              switch (data.data.newJoyId) {
+                case 1004 :
+                  joy = "多多JOY"
+                  break;
+                case 1005 :
+                  joy = "快乐JOY"
+                  break;
+                case 1006:
+                  joy = "好物JOY"
+                  break;
+                case 1003:
+                  joy = "省钱JOY"
+                  break;
+                default:
+                  joy = data.data.newJoyId
+                  break;
+              }
+              console.log(`合并成功获得：${joy}`)
+            } else {
+              console.log(`合并成功获得：${data.data.newJoyId}级，格子${parseInt(targetBoxIndex) + 1}`)
+            }
           } else {
             console.log(`执行合并失败：${data.message}`)
-            err = 1
           }
           //console.log(joyIds.toString())
         } catch (e) {
