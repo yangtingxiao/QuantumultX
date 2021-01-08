@@ -1,6 +1,6 @@
 /*
 京东疯狂的Joy
-更新时间：2021-01-07 17:14
+更新时间：2021-01-08 13:00
 脚本说明：
 可自动签到，看视频，生产金币，领金币宝箱，做任务，合并（34级不合并），自定义购买等级，互助
 可以到BoxJs中开启相应功能
@@ -245,6 +245,7 @@ function crazyJoy_user_gameState(timeout = 0) {
             for (let i in joyIds){
               if (!joyIds[i]||joyIds[i] === 34) continue
               for (let j = parseInt(i) + 1;j < joyIds.length;j++) {
+                if (!joyIds[j]||joyIds[j] === 34) break
                 if (joyIds[i] === joyIds[j]) {
                   canMerge = true
                   await crazyJoy_joy_moveOrMerge(parseInt(j),parseInt(i),1000);
