@@ -7,7 +7,7 @@
 */
 const $ = new Env('天天领白条券');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const printDetail = true;        //是否显示出参详情
+const printDetail = false;        //是否显示出参详情
 let cookieExpire = false;
 let lackCoin = false;
 //直接用NobyDa的jd cookie
