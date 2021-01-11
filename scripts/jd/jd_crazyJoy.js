@@ -245,7 +245,7 @@ function crazyJoy_user_gameState(timeout = 0) {
             for (let i in joyIds){
               if (!joyIds[i]||joyIds[i] === 34) continue
               for (let j = parseInt(i) + 1;j < joyIds.length;j++) {
-                if (!joyIds[j]||joyIds[j] === 34) break
+                if (!joyIds[j]||joyIds[j] === 34) continue
                 if (joyIds[i] === joyIds[j]) {
                   canMerge = true
                   await crazyJoy_joy_moveOrMerge(parseInt(j),parseInt(i),1000);
