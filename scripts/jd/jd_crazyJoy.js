@@ -1,6 +1,6 @@
 /*
 京东疯狂的Joy
-更新时间：2021-01-08 13:00
+更新时间：2021-01-14 14:53
 脚本说明：
 可自动签到，看视频，生产金币，领金币宝箱，做任务，合并（34级不合并），自定义购买等级，互助
 可以到BoxJs中开启相应功能
@@ -209,7 +209,7 @@ function crazyJoy_user_gameState(timeout = 0) {
             if (i === boxCount - 1) {
               minBoughtJoyId = 30;
               console.log(`仅剩一个格子：取最小等级JOY`)
-              for (let i in joyIds){
+              for (let i in joyIds) {
                 if (!joyIds[i]||joyIds[i] > 30) continue
                 if (joyIds[i] < minBoughtJoyId) {
                   minBoughtJoyId = joyIds[i];
@@ -252,6 +252,21 @@ function crazyJoy_user_gameState(timeout = 0) {
                 }
               }
             }
+          }
+          boxCount = 12;
+          let minJoy = {}
+          minJoy.id = 30
+          for (let i in joyIds) {
+            if (!joyIds[i]) break
+            if (joyIds[i]) boxCount--
+            if (joyIds[i] < minJoy.id) {
+              minJoy.id = joyIds[i];
+              minJoy.boxId = i
+            }
+          }
+          if (!boxCount) { //合并后无法继续
+            console.log(`无法自动继续：卖出${minJoy.id}级疯狗`)
+            await crazyJoy_joy_trade("SELL",minJoy.id,minJoy.boxId)
           }
           console.log(`下个宝箱时间：${data.data.hourCoinCountDown > 60 ? (data.data.hourCoinCountDown / 60).toFixed(0) + '分钟' : (data.data.hourCoinCountDown + '秒')} `)
           if (data.data.hourCoinCountDown === 0 || (autoProduce && !waitingOpenBox)) {
