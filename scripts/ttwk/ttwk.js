@@ -1,6 +1,6 @@
 /*
 天天挖矿
-更新时间：2020-11-13 08:30
+更新时间：2021-01-14 10:30
 脚本说明：支付宝天天挖矿小程序 beta
 首次运行脚本，会提示获取Cookie，点击直达小程序界面
 
@@ -19,8 +19,7 @@ hostname = operation-api.jimistore.com
 const $ = new Env('天天挖矿');
 const openurl = { "open-url" : "alipays://platformapi/startapp?saId=10000007&qrcode=https%3a%2f%2fqr.alipay.com%2fs7x160157ugopip2fb7fu5c" }
 !(async () => {
-
-  if (typeof $request != "undefined") {
+  if (typeof $request !== "undefined") {
     await setSignData()
   } else {
     await showSignInfo()
@@ -29,17 +28,6 @@ const openurl = { "open-url" : "alipays://platformapi/startapp?saId=10000007&qrc
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
 function setSignData() {
-
-  var header = $request.headers;
-  if ($request.url.indexOf("browToken=emptyBrowToken") > -1) {
-    if (typeof header.X-Playback-Session-Id === "undefined") header["X-Playback-Session-Id"] = "D5A86983-C4E4-436C-AEBF-8EDC130EB7FA";
-    header.Origin =  `https://hg14.live`
-    header.Referer = `https://hg14.live/`
-    header["Accept-Encoding"] = `identity`
-    header.Accept = `*/*`
-  }
-  $done(header);
-
   if ($request.url.indexOf("createSign") > -1) {
     $.setdata($request.url,'ttwksignurl')
     $.setdata(JSON.stringify($request.headers),'ttwksignheader')
