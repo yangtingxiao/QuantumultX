@@ -1,6 +1,6 @@
 /*
 全民炸年兽 过年活动
-更新时间：2021-01-18 11:12
+更新时间：2021-01-18 15:08
 做任务，收爆竹，年味小镇任务
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -51,7 +51,6 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       //await nian_myMap();
       await qryCompositeMaterials()
       await msgShow();
-      //break
     }
   }
 })()
@@ -734,7 +733,7 @@ function qryCompositeMaterials(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"viewLogo\\",\\"id\\":\\"05149412\\"}]","activityId":"2cKMj86srRdhgWcKonfExzK4ZMBy","pageId":"","reqSrc":"","applyKey":"21beast"}&client=wh5&clientVersion=1.0.0&uuid=e52a4caaec5f73d41afe51e92ced027a48e63a83`
+        body : `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"viewLogo\\",\\"id\\":\\"05149412\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"bottomLogo\\",\\"id\\":\\"05149413\\"}]","activityId":"2cKMj86srRdhgWcKonfExzK4ZMBy","pageId":"","reqSrc":"","applyKey":"21beast"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
@@ -742,6 +741,9 @@ function qryCompositeMaterials(timeout = 0) {
           data = JSON.parse(data);
           for (let i in data.data.viewLogo.list) {
             await nian_getTaskDetail(data.data.viewLogo.list[i].desc)
+          }
+          for (let i in data.data.bottomLogo.list) {
+            await nian_getTaskDetail(data.data.bottomLogo.list[i].desc)
           }
         } catch (e) {
           $.logErr(e, resp);
