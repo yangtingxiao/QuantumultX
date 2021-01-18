@@ -1,6 +1,6 @@
 /*
 全民炸年兽 过年活动
-更新时间：2021-01-18 10:05
+更新时间：2021-01-18 11:12
 做任务，收爆竹，年味小镇任务
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -48,6 +48,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       //await nian_pk_getHomeData();
       await nian_getHomeData();
+      //await nian_myMap();
       await qryCompositeMaterials()
       await msgShow();
       //break
@@ -185,11 +186,11 @@ function nian_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
 }
 
 //获取我的城市
-function nian_myShop(timeout = 0){
+function nian_myMap(timeout = 0){
   return new Promise((resolve) => {
     setTimeout( ()=>{
       let url = {
-        url : `${JD_API_HOST}nian_killCouponList`,
+        url : `${JD_API_HOST}nian_myMap`,
         headers : {
           'Origin' : `https://wbbny.m.jd.com`,
           'Cookie' : cookie,
@@ -200,16 +201,16 @@ function nian_myShop(timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=nian_killCouponList&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=nian_myMap&body={"ss":"{\\"extraData\\":{},\\"businessData\\":{},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
-          console.log('nian_killCouponList:' + data)
+          console.log('nian_myMap:' + data)
           data = JSON.parse(data);
           for (let i in data.data.result.shopList) {
             // (data.data.result.shopList[i].status === 1) {
               //console.log(data.data.result.shopList[i])
-            console.log('\n开始城市任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
+            console.log('\n开始小镇任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
             await nian_getTaskDetail(data.data.result.shopList[i].shopId)
             //}
           }
@@ -733,14 +734,14 @@ function qryCompositeMaterials(timeout = 0) {
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"domainShopData\\",\\"id\\":\\"05139136\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"domainShopData2\\",\\"id\\":\\"05144271\\"},{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"domainShopToT\\",\\"id\\":\\"05152048\\"}]","activityId":"2cKMj86srRdhgWcKonfExzK4ZMBy","pageId":"","reqSrc":"","applyKey":"21beast"}&client=wh5&clientVersion=1.0.0&uuid=e52a4caaec5f73d41afe51e92ced027a48e63a83`
+        body : `functionId=qryCompositeMaterials&body={"qryParam":"[{\\"type\\":\\"advertGroup\\",\\"mapTo\\":\\"viewLogo\\",\\"id\\":\\"05149412\\"}]","activityId":"2cKMj86srRdhgWcKonfExzK4ZMBy","pageId":"","reqSrc":"","applyKey":"21beast"}&client=wh5&clientVersion=1.0.0&uuid=e52a4caaec5f73d41afe51e92ced027a48e63a83`
       }
       $.post(url, async (err, resp, data) => {
         try {
           //console.log(data)
           data = JSON.parse(data);
-          for (let i in data.data.domainShopData.list) {
-            await nian_getTaskDetail(data.data.domainShopData.list[i].link)
+          for (let i in data.data.viewLogo.list) {
+            await nian_getTaskDetail(data.data.viewLogo.list[i].desc)
           }
         } catch (e) {
           $.logErr(e, resp);
