@@ -1,6 +1,6 @@
 /*
 天天挖矿
-更新时间：2021-01-16 08:03
+更新时间：2021-01-16 19:51
 脚本说明：支付宝天天挖矿小程序 beta
 首次运行脚本，会提示获取Cookie，点击直达小程序界面
 
@@ -49,7 +49,7 @@ function setSignData() {
           console.log(data)
           data = JSON.parse(data);
           $.result = data;
-          await showHelpInfo()
+          await goHelp()
         } catch (e) {
           $.logErr(e, resp);
         } finally {
@@ -60,11 +60,11 @@ function setSignData() {
   })
 }
 
-function showHelpInfo(timeout = 0) {
+function goHelp(timeout = 0) {
   return new Promise((resolve) => {
     setTimeout( ()=>{
       let url = {
-        url : $.getdata('ttwksignurl').replace('sign/createSign','help/showHelpInfo').replace('v1','v2'),
+        url : $.getdata('ttwksignurl').replace('sign/createSign','help/goHelp').replace('v2','v1'),
         headers : JSON.parse($.getdata('ttwksignheader')),
         body : JSON.stringify({"targetUserId":"8a28a661752b378701754d2ec1b31711","currentUserId":JSON.parse($.getdata('ttwksignheader')).userid})
       }
