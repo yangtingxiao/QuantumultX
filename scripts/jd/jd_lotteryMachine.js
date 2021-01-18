@@ -24,7 +24,7 @@ const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5
 const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','wfh','healthyDay','healthyDay']
 const collectScoreFunPrefixArr = ['','','','','wfh','','']
 const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','','interact_template','interact_template']
-const browseTimeArr = ['','','15','','','','']
+const browseTimeArr = ['','','15','','','','10']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
