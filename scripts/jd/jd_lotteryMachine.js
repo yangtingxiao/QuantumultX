@@ -1,7 +1,7 @@
 /*
 京东抽奖机
-更新时间：2021-01-20 06:13
-脚本说明：抽奖活动，【新店福利】【闪购盲盒】【疯狂砸金蛋】【健康服务】【东东福利屋】【东东焕新家】【OPPO】，点通知只能跳转一个，入口在京东APP玩一玩里面可以看到
+更新时间：2021-01-21 10:20
+脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
 [task_local]
@@ -19,12 +19,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTyg','1EFRSxA','1EFRSyw','1EFRVxA','1EFRUwg','1EFRVyg','1EFRUww','1EFRVxg']
-const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSloaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTn4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmoaW5kRrbA']
-const homeDataFunPrefixArr = ['','','healthyDay','wfh','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay']
-const collectScoreFunPrefixArr = ['','','','wfh','','','','','']
-const lotteryResultFunPrefixArr = ['','','interact_template','','interact_template','interact_template','interact_template','interact_template','interact_template']
-const browseTimeArr = ['','','','','','10','10','10','15','']
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTyg','1EFRSxA','1EFRSyw','1EFRVxA','1EFRUwg','1EFRVyg','1EFRUww','1EFRVxg','1EFRVxw']
+const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSloaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTn4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSm4aW5kRrbA']
+const homeDataFunPrefixArr = ['','','healthyDay','wfh','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay']
+const collectScoreFunPrefixArr = ['','','','wfh','','','','','','']
+const lotteryResultFunPrefixArr = ['','','interact_template','','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template']
+const browseTimeArr = ['','','','','','10','10','10','15','','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
