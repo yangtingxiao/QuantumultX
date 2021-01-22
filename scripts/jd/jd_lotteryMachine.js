@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-01-21 10:20
+更新时间：2021-01-22 10:59
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -151,6 +151,9 @@ function interact_template_getHomeData(timeout = 0) {
             }
             if ([14,6].includes(data.data.result.taskVos[i].taskType)) {
               //console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
+              if (cookiesArr.indexOf(cookie) === 0) {
+                shareCodeArr[appIdArr.indexOf(appId)] = data.data.result.taskVos[i].assistTaskDetailVo.taskToken
+              }
               if (shareCode) await harmony_collectScore(shareCode,data.data.result.taskVos[i].taskId);
               for (let j = 0;j <(data.data.result.userInfo.lotteryNum||0);j++) {
                 if (appId === "1EFRTxQ") {
