@@ -1,6 +1,6 @@
 /*
 全民炸年兽 过年活动
-更新时间：2021-01-18 15:08
+更新时间：2021-01-25 21:13
 做任务，收爆竹，年味小镇任务
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -33,6 +33,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
+
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
@@ -46,9 +47,8 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
-      //await nian_pk_getHomeData();
+      await nian_pk_getHomeData();
       await nian_getHomeData();
-      //await nian_myMap();
       await qryCompositeMaterials()
       await msgShow();
     }
@@ -126,16 +126,16 @@ function nian_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
               //console.log(list)
               //if (data.data.result.taskVos[i].taskType === 9) continue
               for (let k = data.data.result.taskVos[i].times; k < data.data.result.taskVos[i].maxTimes; k++) {
-                //body : `functionId=nian_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+                //body : `functionId=nian_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
                 for (let j in list) {
                   if (list[j].status === 1) {
                     let rnd = Math.round(Math.random()*1e6)
                     let nonstr = randomWord(false,10)
                     let time = Date.now()
                     let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
                     let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-                    let  taskBody = `functionId=nian_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"${list[j].itemId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+                    let  taskBody = `functionId=nian_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"${list[j].itemId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
                     console.log("\n"+(list[j].title||list[j].shopName))
                     await nian_collectScore(taskBody,2000)
                     //}
@@ -155,9 +155,9 @@ function nian_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
                 let nonstr = randomWord(false,10)
                 let time = Date.now()
                 let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${data.data.result.taskVos[i].taskId}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
                 let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-                let  taskBody = `functionId=nian_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
+                let  taskBody = `functionId=nian_collectScore&body={"taskId":${data.data.result.taskVos[i].taskId},"itemId":"1","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${data.data.result.taskVos[i].taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","actionType":"1","shopSign":${shopSign}}&client=wh5&clientVersion=1.0.0`
                 if (merge.black)  return ;
                   //if (typeof data.data.result.taskVos[i].simpleRecordInfoVo !== "undefined"){
                   //  taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskVos[i].simpleRecordInfoVo.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
@@ -231,7 +231,7 @@ function nian_shopSignInWrite(shopSign,timeout = 0){
     let nonstr = randomWord(false,10)
     let time = Date.now()
     let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${shopSign}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
     let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
 
     setTimeout( ()=>{
@@ -247,7 +247,7 @@ function nian_shopSignInWrite(shopSign,timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=nian_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=nian_shopSignInWrite&body={"shopSign":"${shopSign}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${shopSign}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
       }
       $.post(url, async (err, resp, data) => {
         try {
@@ -314,7 +314,7 @@ function nian_collectProduceScore(timeout = 0){
     let nonstr = randomWord(false,10)
     let time = Date.now()
     let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=collectProducedCoin&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+    let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=collectProducedCoin&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
     let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
     setTimeout( ()=>{
       let url = {
@@ -329,7 +329,7 @@ function nian_collectProduceScore(timeout = 0){
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`
         },
-        body : `functionId=nian_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+        body : `functionId=nian_collectProduceScore&body={"ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"fpb\\":\\"xAX3mMUyCgH120XCrQXIZUw==\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"collectProducedCoin\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
       }
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
@@ -466,9 +466,9 @@ function nian_getFeedDetail(taskId,timeout = 0){
                 let nonstr = randomWord(false,10)
                 let time = Date.now()
                 let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${taskId}&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                let msg = `inviteId=-1&rnd=${rnd}&stealId=-1&taskId=${taskId}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
                 let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-                let taskBody = `functionId=nian_collectScore&body={"taskId":${list[i].taskId},"itemId":"${list[i].productInfoVos[j].skuId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","shopSign":""}&client=wh5&clientVersion=1.0.0`
+                let taskBody = `functionId=nian_collectScore&body={"taskId":${list[i].taskId},"itemId":"${list[i].productInfoVos[j].skuId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"${taskId}\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"-1\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}","shopSign":""}&client=wh5&clientVersion=1.0.0`
                 console.log(list[i].productInfoVos[j].skuName)
                 await nian_collectScore(taskBody,1000)
               }
@@ -523,14 +523,30 @@ function qryViewkitCallbackResult(taskBody,timeout = 0) {
 }
 
 //群组助力
-function nian_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqosoNJHNIHp84xOJxNmUElr71Yu",timeout = 0) {
+function nian_pk_assistGroup(inviteId = "",timeout = 0) {
   return new Promise((resolve) => {
     let rnd = Math.round(Math.random()*1e6)
     let nonstr = randomWord(false,10)
     let time = Date.now()
     let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-    let msg = `inviteId=${inviteId}&rnd=${rnd}&stealId=-1&taskId=2&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+    let msg = `inviteId=${inviteId}&random=${rnd}&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
     let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
+    let body  = {"ss" : JSON.stringify({
+        "extraData": JSON.stringify({
+          "jj": 6,
+          "buttonid": "jmdd-react-smash_0",
+          "sceneid": "homePageh5",
+          "appid": '50073'
+        }),
+        "businessData": JSON.stringify({
+          "confirmFlag": 1,
+          "inviteId": inviteId,
+        }),
+        "secretp": secretp,
+      }),
+      inviteId:inviteId
+    }
+      //console.log(JSON.stringify(body))
     setTimeout( ()=>{
       let url = {
         url : `${JD_API_HOST}nian_pk_assistGroup`  ,
@@ -540,12 +556,13 @@ function nian_pk_assistGroup(inviteId = "XUkkFpUhDG0OdMYzp22uY_lyEaiFin-OxTLmhqo
           'Connection' : `keep-alive`,
           'Accept' : `application/json, text/plain, */*`,
           'Host' : `api.m.jd.com`,
-          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+          'User-Agent' : `jdapp;iPhone;9.2.6;14.1;`,
           'Accept-Encoding' : `gzip, deflate, br`,
           'Accept-Language' : `zh-cn`,
           'Refer' : `https://bunearth.m.jd.com/babelDiy/Zeus/4SJUHwGdUQYgg94PFzjZZbGZRjDd/index.html?jmddToSmartEntry=login`
         },
-        body : `functionId=nian_pk_assistGroup&client=wh5&clientVersion=1.0.0&body={"confirmFlag":1,"inviteId": "${inviteId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"2\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"${inviteId}\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}`
+       // body : `functionId=nian_pk_assistGroup&client=wh5&clientVersion=1.0.0&body={"confirmFlag":1,"inviteId": "${inviteId}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.2.1\\",\\"sceneid\\":\\"homePageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\}"`
+         body : `functionId=nian_pk_assistGroup&client=wh5&clientVersion=1.0.0&body=${(JSON.stringify(body))}`
       }
       //console.log(url.body)
       $.post(url, async (err, resp, data) => {
@@ -594,9 +611,9 @@ function nian_getHomeData(body= "",timeout = 0) {
                 let nonstr = randomWord(false,10)
                 let time = Date.now()
                 let key = minusByByte(nonstr.slice(0,5),String(time).slice(-5))
-                let msg = `inviteId=${body}&rnd=${rnd}&stealId=-1&taskId=2&token=dzbn7uttoxf3v6kowburzrashgxz9jpq&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
+                let msg = `inviteId=${body}&rnd=${rnd}&stealId=-1&taskId=2&token=d89985df35e6a2227fd2e85fe78116d2&time=${time}&nonce_str=${nonstr}&key=${key}&is_trust=true`
                 let sign = bytesToHex(wordsToBytes(getSign(msg))).toUpperCase()
-                let taskBody = `functionId=nian_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"dzbn7uttoxf3v6kowburzrashgxz9jpq\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"2\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"${body}\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
+                let taskBody = `functionId=nian_collectScore&body={"taskId":2,"itemId":"${data.data.result.homeMainInfo.guestInfo.itemId}","inviteId": "${body}","ss":"{\\"extraData\\":{\\"is_trust\\":true,\\"sign\\":\\"${sign}\\",\\"time\\":${time},\\"encrypt\\":\\"3\\",\\"nonstr\\":\\"${nonstr}\\",\\"jj\\":\\"\\",\\"token\\":\\"d89985df35e6a2227fd2e85fe78116d2\\",\\"cf_v\\":\\"1.0.1\\",\\"client_version\\":\\"2.1.3\\",\\"sceneid\\":\\"homePageh5\\",\\"appid\\":\\"50073\\"},\\"businessData\\":{\\"taskId\\":\\"2\\",\\"rnd\\":\\"${rnd}\\",\\"inviteId\\":\\"${body}\\",\\"stealId\\":\\"-1\\"},\\"secretp\\":\\"${secretp}\\"}"}&client=wh5&clientVersion=1.0.0`
                 await nian_collectScore(taskBody, 1000)
               }
               return
@@ -604,6 +621,7 @@ function nian_getHomeData(body= "",timeout = 0) {
             //console.log('nian_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await nian_collectProduceScore();
+            await nian_pk_getHomeData('cgxZdTXtI7rY7QzIDVGruT27sg3MZUNTPPXB0nSP-6UZYxVnPt82X4524ho\'')
             //await nian_pk_assistGroup()
             if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 2 ) await nian_raise(1000)
             await nian_getHomeData('cgxZdTXtI7rY7QzIDVGruT27sg3MZUNTPPXB0nSP-6UZYxVnPt82X4524ho');
@@ -778,11 +796,14 @@ function nian_pk_getHomeData(body = "",timeout = 0) {
             await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianShareCode.txt").then((text) => (shareCode = text.replace('\n','')))
             await nian_pk_assistGroup(shareCode);
           } else {
-            data = JSON.parse(data);
-            if (data.data.result.groupInfo.groupAssistInviteId.match(/XUkkFpUhDG0OdMYzp22uY_lyEaiFin/)){
-              console.log('您的商圈助力码：' + data.data.result.groupInfo.groupAssistInviteId)
-            }
+          data = JSON.parse(data);
+          //if (data.data.result.groupInfo.groupAssistInviteId.match(/XUkkFpUhDG0OdMYzp22uY_lyEaiFin/)){
+          console.log('您的商圈助力码：' + data.data.result.groupInfo.groupAssistInviteId)
+          //await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianShareCode.txt").then((text) => (shareCode = text.replace('\n','')))
+          //shareCode = "IgNWdiLGaPaAvmHOCAeu7X_L_ohVw_eWssS2lMLtcUX0Ce0rrcGpuo2GiazAmQeS"
+          //await nian_pk_assistGroup(shareCode);
           }
+          //}
         } catch (e) {
           $.logErr(e, resp);
         } finally {
