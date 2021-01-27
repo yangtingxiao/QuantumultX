@@ -17,7 +17,7 @@ const $ = new Env('全民炸年兽');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '',secretp = '',shareCode = '';
+let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -546,7 +546,7 @@ function nian_pk_assistGroup(inviteId = "",timeout = 0) {
       }),
       inviteId:inviteId
     }
-      //console.log(JSON.stringify(body))
+    //console.log(JSON.stringify(body))
     setTimeout( ()=>{
       let url = {
         url : `${JD_API_HOST}nian_pk_assistGroup`  ,
@@ -793,8 +793,10 @@ function nian_pk_getHomeData(body = "",timeout = 0) {
       $.post(url, async (err, resp, data) => {
         try {
           if (body !== "") {
-            await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianShareCode.txt").then((text) => (shareCode = text.replace('\n','')))
-            await nian_pk_assistGroup(shareCode);
+            await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianBeastShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
+            for (let i in shareCodeList) {
+              if (shareCodeList[i]) await nian_pk_assistGroup(shareCodeList[i]);
+            }
           } else {
           data = JSON.parse(data);
           //if (data.data.result.groupInfo.groupAssistInviteId.match(/XUkkFpUhDG0OdMYzp22uY_lyEaiFin/)){
