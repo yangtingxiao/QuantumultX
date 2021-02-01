@@ -1,6 +1,6 @@
 /*
 京东金融领白条券
-更新时间：2021-01-07 09:04
+更新时间：2021-02-01 15:07
 [task_local]
 # 京东金融领白条券  0点,9点执行（非天天领券要9点开始领，扫码券0点领）
 0 0,9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_baiTiao.js, tag=京东白条, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/baitiao.png, enabled=true
@@ -42,6 +42,8 @@ let prize =
   ]
 
 !(async () => {
+  $.msg($.name,'','活动已结束，请删除或禁用脚本，等待新活动开启！')
+  return
   if (!cookiesArr[0]) {
     $.msg($.name, '提示：请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
