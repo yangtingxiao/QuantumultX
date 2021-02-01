@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-02-01 16:51
+更新时间：2021-02-01 19:19
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,11 +17,11 @@ const $ = new Env('京东抽奖机');
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTyg','1EFRSyw','1EFRVxA','1EFRUwg','1EFRVyg','1EFRUww','1EFRVxg','1EFRVxw','1EFRUxA','1EFRUxg','1EFRUyw','1EFRVyw','1EFRUwQ']
-const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSloaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTn4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSm4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnYaW5kRrbA']
-const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay']
-const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','']
-const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template']
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTyg','1EFRSyw','1EFRVxA','1EFRUwg','1EFRVyg','1EFRUww','1EFRVxg','1EFRVxw','1EFRUxA','1EFRUxg','1EFRUyw','1EFRVyw','1EFRUwQ','1EFRVxQ']
+const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSloaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTn4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSm4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmYaW5kRrbA']
+const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay']
+const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','']
+const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
