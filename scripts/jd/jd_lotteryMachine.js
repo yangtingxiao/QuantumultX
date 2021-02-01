@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-02-01 16:10
+更新时间：2021-02-01 16:51
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -307,6 +307,18 @@ function requireConfig() {
     console.log(`共${cookiesArr.length}个京东账号\n`);
     resolve()
   })
+}
+
+function jsonParse(str) {
+  if (typeof str == "string") {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      console.log(e);
+      $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
+      return [];
+    }
+  }
 }
 
 //初始化
