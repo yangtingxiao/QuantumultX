@@ -21,6 +21,7 @@ BoxJs 订阅链接 ： https://raw.githubusercontent.com/yangtingxiao/Quantumult
 151.101.88.133    gist.githubusercontent.com  
 151.101.88.133    cloud.githubusercontent.com  
 151.101.88.133    camo.githubusercontent.com  
+151.101.88.133    avatars.githubusercontent.com 
 151.101.88.133    avatars0.githubusercontent.com  
 151.101.88.133    avatars1.githubusercontent.com  
 151.101.88.133    avatars2.githubusercontent.com  
