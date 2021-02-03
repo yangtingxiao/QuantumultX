@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-02-01 19:19
+更新时间：2021-02-03 16:28
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,11 +17,11 @@ const $ = new Env('京东抽奖机');
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTyg','1EFRSyw','1EFRVxA','1EFRUwg','1EFRVyg','1EFRUww','1EFRVxg','1EFRVxw','1EFRUxA','1EFRUxg','1EFRUyw','1EFRVyw','1EFRUwQ','1EFRVxQ']
-const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSloaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTn4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSm4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmYaW5kRrbA']
-const homeDataFunPrefixArr = ['','','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay','healthyDay']
-const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','']
-const lotteryResultFunPrefixArr = ['','','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template','interact_template']
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRTyg','1EFRSyw','1EFRVxA','1EFRUwg','1EFRVyg','1EFRUww','1EFRVxg','1EFRVxw','1EFRUxA','1EFRUxg','1EFRUyw','1EFRUwQ','1EFRVxQ','1EFRXwQ']
+const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','P04z54XCjVUloaW5m9cZ2f433tIlNDtvQURO58','T0225KkcRx4b8lbWJU72wvZZcwCjVVl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSloaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTn4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSm4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTmoaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTl4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVTnYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVSmYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVQnYaW5kRrbA']
+const homeDataFunPrefixArr = ['interact_template','interact_template','','','','','','','','','','','','','']
+const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','']
+const lotteryResultFunPrefixArr = ['','','','','','','','','','','','','','','']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -48,9 +48,9 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
         //j = appIdArr.length - 1
         appId = appIdArr[j]
         shareCode = shareCodeArr[j]
-        homeDataFunPrefix = homeDataFunPrefixArr[j]||'interact_template'
+        homeDataFunPrefix = homeDataFunPrefixArr[j]||'healthyDay'
         collectScoreFunPrefix = collectScoreFunPrefixArr[j]||'harmony'
-        lotteryResultFunPrefix = lotteryResultFunPrefixArr[j]||homeDataFunPrefix
+        lotteryResultFunPrefix = lotteryResultFunPrefixArr[j]||'interact_template'
         browseTime = 6
         if (parseInt(j)) console.log(`\n开始第${parseInt(j) + 1}个抽奖活动`)
         await interact_template_getHomeData();
@@ -341,7 +341,7 @@ function initial() {
 //通知
 function msgShow() {
   let message = "";//https://h5.m.jd.com/babelDiy/Zeus/YgnrqBaEmVHWppzCgW8zjZj3VjV/index.html
-  let url ={ "open-url" : `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/YgnrqBaEmVHWppzCgW8zjZj3VjV/index.html%22%20%7D`}
+  let url ={ "open-url" : `openapp.jdmobile://virtual?params=%7B%22category%22%3A%22jump%22%2C%22des%22%3A%22m%22%2C%22url%22%3A%22https%3A%2F%2Fbean.m.jd.com%2FbeanDetail%2Findex.action%3FresourceValue%3Dbean%22%7D`}
   let title = `京东账号：${merge.nickname}`;
   for (let i in merge) {
     if (typeof (merge[i]) !== "object" || !merge[i].show) continue;
