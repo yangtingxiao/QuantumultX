@@ -1,6 +1,6 @@
 /*
 京东删除优惠券
-更新时间：2021-02-04 17:41
+更新时间：2021-02-04 17:48
 脚本说明：误删除的去电脑端恢复
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -35,7 +35,7 @@ const JD_API_HOST = `https://wq.jd.com/activeapi/`;
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-  leaveList = leaveList.split(',');
+  leaveList = leaveList ? leaveList.split(',') : [] ;
   console.log('设置的保留关键字：' + leaveList.toString())
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
@@ -120,7 +120,6 @@ function dealCouponList(data,timeout = 0){
     setTimeout(async () => {
       try {
         if (printDetail) console.log(JSON.stringify(data))
-
         for (let i in data.coupon.useable) {
           if (data.coupon.useable[i].coupontype === 2) continue       //运费券
           if (data.coupon.useable[i].limitStr.match(/京贴/)) continue  //京贴 暂不处理
