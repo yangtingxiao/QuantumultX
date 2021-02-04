@@ -72,6 +72,17 @@
       "author": "@yangtingxiao",
       "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/jd/",
       "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/eliminate.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/eliminate.png"]
+    },
+    {
+      "id": "deleteCoupon",
+      "name": "删除优惠券",
+      "settings": [
+        { "id": "CFG_DELCOUPON_LEAVE", "name": "需要保留的优惠券关键字", "val": "", "type": "textarea", "desc": "需要保留的，英文逗号隔开，输入关键字即可" }
+      ],
+      "author": "@yangtingxiao",
+      "repo": "https://github.com/yangtingxiao/QuantumultX/tree/master/scripts/jd/",
+      "script": "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_deleteCoupon.js",
+      "icons": ["https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png", "https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png"]
     }
   ]
 }
