@@ -1,6 +1,6 @@
 /*
 京东删除优惠券
-更新时间：2021-02-04 17:48
+更新时间：2021-02-22 11:46
 脚本说明：误删除的去电脑端恢复
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -122,6 +122,7 @@ function dealCouponList(data,timeout = 0){
         if (printDetail) console.log(JSON.stringify(data))
         for (let i in data.coupon.useable) {
           if (data.coupon.useable[i].coupontype === 2) continue       //运费券
+          if (data.coupon.useable[i].coupontype === 1) continue       //支付券
           if (data.coupon.useable[i].limitStr.match(/京贴|全品类/)) continue  //京贴、全品类 暂不处理
           if (data.coupon.useable[i].discountInfo.info.length) {
             console.log(data.coupon.useable[i].limitStr + "  满" + parseFloat(data.coupon.useable[i].discountInfo.info[0].quota).toFixed(0) + "打" + parseFloat(data.coupon.useable[i].discountInfo.info[0].discountRate) * 10 + "折")
