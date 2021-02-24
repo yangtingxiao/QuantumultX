@@ -49,7 +49,7 @@ const JD_API_HOST = `https://wq.jd.com/activeapi/`;
         continue;
       }
       await queryJdCouponListWithFinance()
-      break
+      //break
     }
   }
 })()
