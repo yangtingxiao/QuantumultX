@@ -1,6 +1,6 @@
 /*
 京东删除优惠券
-更新时间：2021-02-22 11:46
+更新时间：2021-02-24 14:35
 脚本说明：误删除的去电脑端恢复
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -16,7 +16,7 @@ cron "11 0 * * 1" script-path=https://raw.githubusercontent.com/yangtingxiao/Qua
 const $ = new Env('京东删除优惠券');
 //Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-const printDetail = false  //是否显示出参详情
+const printDetail = true  //是否显示出参详情
 let leaveList =  $.getdata("CFG_DELCOUPON_LEAVE")||''
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -49,6 +49,7 @@ const JD_API_HOST = `https://wq.jd.com/activeapi/`;
         continue;
       }
       await queryJdCouponListWithFinance()
+      break
     }
   }
 })()
@@ -121,8 +122,8 @@ function dealCouponList(data,timeout = 0){
       try {
         if (printDetail) console.log(JSON.stringify(data))
         for (let i in data.coupon.useable) {
-          if (data.coupon.useable[i].coupontype === 2) continue       //运费券
-          if (data.coupon.useable[i].coupontype === 1) continue       //支付券
+          if (data.coupon.useable[i].couponStyle === 2) continue       //运费券
+          if (data.coupon.useable[i].couponStyle === 8) continue       //支付券
           if (data.coupon.useable[i].limitStr.match(/京贴|全品类/)) continue  //京贴、全品类 暂不处理
           if (data.coupon.useable[i].discountInfo.info.length) {
             console.log(data.coupon.useable[i].limitStr + "  满" + parseFloat(data.coupon.useable[i].discountInfo.info[0].quota).toFixed(0) + "打" + parseFloat(data.coupon.useable[i].discountInfo.info[0].discountRate) * 10 + "折")
