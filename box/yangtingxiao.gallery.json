@@ -23,6 +23,9 @@
       "config": "5 * * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_nianBeast.js, tag=全民炸年兽, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true"
     },
     {
+      "config": "5 * * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_zoo.js, tag=动物联萌, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true"
+    },
+    {
       "config": "11 0 * * 1 https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_deleteCoupon.js, tag=删除优惠券, img-url=https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/image/jd.png, enabled=true"
     }
   ],
