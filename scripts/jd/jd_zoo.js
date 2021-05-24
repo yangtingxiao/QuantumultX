@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-24 10:47
+更新时间：2021-05-24 16:58
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -18,22 +18,13 @@ const $ = new Env('动物联萌');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [];
-if ($.isNode()) {
-  Object.keys(jdCookieNode).forEach((item) => {
-    cookiesArr.push(jdCookieNode[item])
-  })
-} else {
-  cookiesArr.push($.getdata('CookieJD'));
-  cookiesArr.push($.getdata('CookieJD2'));
-}
-
 const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
 !(async () => {
+  await requireConfig()
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
     return;
   }
-
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
@@ -856,6 +847,43 @@ function randomWord(randomFlag, min, max){
     str += arr[pos];
   }
   return str;
+}
+
+function requireConfig() {
+  return new Promise(resolve => {
+    //Node.js用户请在jdCookie.js处填写京东ck;
+    const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+    //IOS等用户直接用NobyDa的jd cookie
+    if ($.isNode()) {
+      Object.keys(jdCookieNode).forEach((item) => {
+        if (jdCookieNode[item]) {
+          cookiesArr.push(jdCookieNode[item])
+        }
+      })
+    } else {
+      let cookiesData = $.getdata('CookiesJD') || "[]";
+      cookiesData = jsonParse(cookiesData);
+      cookiesArr = cookiesData.map(item => item.cookie);
+      cookiesArr.reverse();
+      cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
+      cookiesArr.reverse();
+      cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
+    }
+    console.log(`共${cookiesArr.length}个京东账号\n`);
+    resolve()
+  })
+}
+
+function jsonParse(str) {
+  if (typeof str == "string") {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      console.log(e);
+      $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
+      return [];
+    }
+  }
 }
 
 function minusByByte(t, n) {
