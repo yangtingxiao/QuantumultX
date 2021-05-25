@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-24 16:58
+更新时间：2021-05-25 09:08
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -815,7 +815,7 @@ function zoo_pk_getHomeData(body = "",timeout = 0) {
       $.post(url, async (err, resp, data) => {
         try {
           if (body !== "") {
-            await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_zooShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
+            await $.getScript("https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/memo/jd_nianBeastShareCode.txt").then((text) => (shareCodeList = text.split('\n')))
             for (let i in shareCodeList) {
               if (shareCodeList[i]) await zoo_pk_assistGroup(shareCodeList[i]);
             }
