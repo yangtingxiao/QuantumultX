@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-05-21 11:06
+更新时间：2021-05-25 08:28
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,8 +17,8 @@ const $ = new Env('京东抽奖机');
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRYxQ','1EFRXxg','1EFVRwA','1EFRYxA','1EFRZwA','1EFRZwQ','1EFRYwA']
-const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','T0225KkcRx4b8lbWJU72wvZZcwCjVXn627yx55awQ','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRWnIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVfmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVenIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVenYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVfnIaW5kRrbA']
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRYxQ','1EFRXxg','1EFVRwA','1EFVRxw','1EFRZwA','1EFRZwQ','1EFRYwA']
+const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','T0225KkcRx4b8lbWJU72wvZZcwCjVXn627yx55awQ','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRWnIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRWm4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVenIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVenYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVfnIaW5kRrbA']
 const homeDataFunPrefixArr = ['interact_template','interact_template','harmony_template','','','','','','','','','','','','','','','interact_template','interact_template']
 const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','','','','interact_template','interact_template']
 const lotteryResultFunPrefixArr = ['','','','','','','','','','','','','','','','','','','interact_template','interact_template']
@@ -46,7 +46,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action`;
       }
       for (let j in appIdArr) {
         //j = appIdArr.length - 1
-        //j = 4
+        //j = 5
         appId = appIdArr[j]
         shareCode = shareCodeArr[j]
         homeDataFunPrefix = homeDataFunPrefixArr[j]||'healthyDay'
