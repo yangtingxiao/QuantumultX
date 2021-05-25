@@ -858,7 +858,7 @@ function zoo_pk_getHomeData(body = "",timeout = 0) {
             }
             //await zoo_pk_assistGroup(body);
           } else {
-            console.log(data);
+            //console.log(data);
             data = JSON.parse(data);
             if (showCode) {
               console.log('您的队伍助力码：' + data.data.result.groupInfo.groupAssistInviteId);
