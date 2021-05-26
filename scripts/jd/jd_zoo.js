@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-26 09:29
+更新时间：2021-05-26 09:46
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,6 +17,7 @@ const $ = new Env('动物联萌');
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [],showCode = true;
+let doPkSkill = true;  //自动放技能，不需要的改为false
 const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
 !(async () => {
   await requireConfig()
@@ -864,6 +865,7 @@ function zoo_pk_getHomeData(body = "",timeout = 0) {
               showCode = false;
             }
             //if (data.data.result.groupPkInfo.aheadFinish) return ;
+            if (!doPkSkill) return ;
             if (typeof data.data.result.groupPkInfo.dayTotalValue !== "undefined") {
               if (data.data.result.groupPkInfo.dayTotalValue >= data.data.result.groupPkInfo.dayTargetSell) return;
             }
