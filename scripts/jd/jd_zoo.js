@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-26 09:46
+更新时间：2021-05-27 08:55
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -38,6 +38,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
+      await zoo_sign()
       await zoo_pk_getHomeData();
       await zoo_getHomeData();
       //await qryCompositeMaterials()
@@ -244,6 +245,38 @@ function zoo_pk_doPkSkill(skillType, timeout = 0){
           } else {
             console.log('技能释放失败：' + data.data.bizMsg);
           }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+//签到
+function zoo_sign(timeout = 0){
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `${JD_API_HOST}zoo_sign`,
+        headers : {
+          'Origin' : `https://wbbny.m.jd.com`,
+          'Cookie' : cookie,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json, text/plain, */*`,
+          'Host' : `api.m.jd.com`,
+          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        },
+        body : `functionId=zoo_sign&body={}&client=wh5&clientVersion=1.0.0`
+      }
+      $.post(url, async (err, resp, data) => {
+        try {
+          //console.log(data)
+          data = JSON.parse(data);
+          console.log('签到结果：' + data.data.bizMsg);
         } catch (e) {
           $.logErr(e, resp);
         } finally {
