@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-28 09:30
+更新时间：2021-05-29 09:57
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -39,8 +39,8 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await zoo_sign()
-      console.log('加密算法解密中。暂无法使用')
-      return ;
+      //console.log('加密算法解密中。暂无法使用')
+      //return ;
       await zoo_pk_getHomeData();
       await zoo_getHomeData();
       //await qryCompositeMaterials()
