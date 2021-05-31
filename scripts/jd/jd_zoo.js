@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-05-29 09:57
+更新时间：2021-05-31 11:02
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -39,10 +39,9 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await zoo_sign()
-      //console.log('加密算法解密中。暂无法使用')
-      //return ;
       await zoo_pk_getHomeData();
       await zoo_getHomeData();
+      if (merge.black) continue;
       //await qryCompositeMaterials()
       await msgShow();
       //break;
@@ -404,8 +403,8 @@ function zoo_collectProduceScore(timeout = 0){
           //console.log(data)
           data = JSON.parse(data);
           if (data.data.bizCode === -1002) {
-            //console.log('此账号暂不可使用脚本，脚本终止！')
-            //merge.black = true;
+            console.log('此账号暂不可使用脚本，脚本终止！')
+            merge.black = true;
             return ;
           }
           if (data.data.result) console.log(`\n收取金币：${data.data.result.produceScore}`)
@@ -715,6 +714,7 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             //console.log('zoo_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
             await zoo_collectProduceScore();
+            if (merge.black) return ;
             //await zoo_pk_doPkSkill("2");
             await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_mZneBluwe_DRzs1f90l6Q_p8OVxtoB-JJEErrVU4eHW7e2I')
             //await zoo_pk_assistGroup()
