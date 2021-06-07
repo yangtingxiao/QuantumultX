@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-06-05 06:31
+更新时间：2021-06-07 13:36
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -645,7 +645,7 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             //await zoo_pk_assistGroup()
             //if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 )
             if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) await zoo_raise(1000)
-            await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');
+            await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');//ZXTKT0225KkcRBka_FPTJBjzkv9YfAFjRWn6-7zx55awQ
             await zoo_getTaskDetail()
             await zoo_getTaskDetail("","app")
           } else {
@@ -826,7 +826,6 @@ function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
               console.log('您的队伍助力码：' + data.data.result.groupInfo.groupAssistInviteId);
               showCode = false;
             }
-            //if (data.data.result.groupPkInfo.aheadFinish) return ;
             if (!doPkSkill) return ;
             if (typeof data.data.result.groupPkInfo.dayTotalValue !== "undefined") {
               if (parseInt(data.data.result.groupPkInfo.dayTotalValue) >= parseInt(data.data.result.groupPkInfo.dayTargetSell)) return;
@@ -837,9 +836,10 @@ function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
             }
             else
               return;
-            for (let i in data.data.result.groupInfo.skillList) {
-              if (data.data.result.groupInfo.skillList[i].num > 0) {
-                await zoo_pk_doPkSkill(data.data.result.groupInfo.skillList[i].code,800);
+            let list = data.data.result.groupInfo.skillList;
+            for (let i = list.length -1; i>=0; i--) {
+              if (parseInt(list[i].num) > 0) {
+                await zoo_pk_doPkSkill(list[i].code,800);
                 await zoo_pk_getHomeData();
                 break;
               }
