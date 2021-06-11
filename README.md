@@ -1,6 +1,6 @@
 ![Anurag’s github stats](https://github-readme-stats.vercel.app/api?username=yangtingxiao&show_icons=true&icon_color=CE1D2D&text_color=718096&bg_color=ffffff&hide_title=true)
 # QuantumultX
-脚本，自用，仅限于学习和调试接口，请勿进行商业用途。所有下载、使用、复制本库所导致的后果，由使用人自行承担，如不同意，请立即停用并删除脚本，否则视为认可以上条件  
+脚本，自用，仅限于学习和调试接口，请勿进行商业用途。所有下载、使用、复制本库所导致的后果，由使用人自行承担，如不同意，请立即停用并删除脚本，否则视为认可以上条件。如果认为有脚本侵犯了您的权益，请发邮件联系，一旦确认后我们会立即处理
 
 如果本项目对您有帮助，欢迎大家打赏一下以资鼓励
 
@@ -11,7 +11,7 @@ BoxJs 订阅链接 ： https://raw.githubusercontent.com/yangtingxiao/Quantumult
 
 ## 友情提醒
 国内访问Github不顺畅的，无法访问raw的，可通过修改host解决。具体修改方式请自行百度  
-添加如下地址
+添加如下地址（ip不一定可用，请自行寻找可用ip）
 
 52.69.239.207 api.github.com  
 13.114.40.48 github.com  
@@ -31,8 +31,6 @@ BoxJs 订阅链接 ： https://raw.githubusercontent.com/yangtingxiao/Quantumult
 151.101.88.133    avatars6.githubusercontent.com  
 151.101.88.133    avatars7.githubusercontent.com  
 151.101.88.133    avatars8.githubusercontent.com  
-
-指定的为日本服务器，速度还可以，国内可以直连
 
 ## 关于智能替换（受可能被禁用的影响，不再提供自动化运行文件，请自行处理）
 
