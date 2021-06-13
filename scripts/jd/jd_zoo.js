@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-06-13 17:46
+更新时间：2021-06-13 18:14
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -437,8 +437,8 @@ function zoo_collectScore(taskBody,timeout = 0){
             //console.log('\n提示火爆，休息5秒')
             //await $.wait(5000)
             //await zoo_collectScore(taskBody)
-            console.log('此账号暂不可使用脚本，脚本终止！')
-            merge.black = true;
+            //console.log('此账号暂不可使用脚本，脚本终止！')
+            //merge.black = true;
             return ;
           }
           if (data.data.bizCode === 0 && typeof data.data.result.taskToken !== "undefined") {
@@ -649,11 +649,16 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             secretp = data.data.result.homeMainInfo.secretp
             await zoo_collectProduceScore();
             if (merge.black) return;
-            await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_mZneBluwe_DRzs1f90l6Q_p8OVxtoB-JJEErrVU4eHW7e2I')
+            let date = new Date($.time("yyyy/MM/dd HH:mm:ss"));
+            if (date.getHours() >= 9 && date.getHours() < 23) {
+              await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_mZneBluwe_DRzs1f90l6Q_p8OVxtoB-JJEErrVU4eHW7e2I')
+            }
             //await zoo_pk_assistGroup()
             //if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 )
             if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) await zoo_raise(1000)
-            //await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');//ZXTKT0225KkcRBka_FPTJBjzkv9YfAFjRWn6-7zx55awQ
+            if (date.getHours() >= 0 && date.getHours() < 1) {
+              //await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');//ZXTKT0225KkcRBka_FPTJBjzkv9YfAFjRWn6-7zx55awQ
+            }
             await zoo_getTaskDetail()
             await zoo_getTaskDetail("","app")
           } else {
