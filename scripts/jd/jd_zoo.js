@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-06-16 22:13
+更新时间：2021-06-16 22:26
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -817,7 +817,7 @@ function requireConfig() {
     if ($.isNode()) {
       Object.keys(jdCookieNode).forEach((item) => {
         if (jdCookieNode[item]) {
-          cookiesArr.push(jdCookieNode[item] + `joyytoken=50084${joyToken};`)
+          cookiesArr.push(jdCookieNode[item])
         }
       })
     } else {
@@ -829,6 +829,7 @@ function requireConfig() {
       cookiesArr.reverse();
       cookiesArr = cookiesArr.filter(item => item !== "" && item !== null && item !== undefined);
     }
+    cookiesArr = cookiesArr.map(ck => ck  + `joyytoken=50084${joyToken};`)
     console.log(`共${cookiesArr.length}个京东账号\n`);
     resolve()
   })
