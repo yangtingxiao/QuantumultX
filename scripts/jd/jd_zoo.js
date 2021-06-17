@@ -1,6 +1,6 @@
 /*
 动物联萌 618活动
-更新时间：2021-06-16 22:26
+更新时间：2021-06-17 13:53
 做任务，收金币
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -25,10 +25,11 @@ const $ = new Env('动物联萌');
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '',secretp = '',shareCodeList = [],showCode = true;
-let joyToken = "MDFJb0lXQzAxMQ==.eFl7ZHt7V39md3BceylzHi4eHRtxW30HPXhDf3t3ZV43ZT14ETkOBSFALWISIAV6Yic5InBiDXAuJjAkdFI3.66c2abd5";
+let joyToken = "";
 let doPkSkill = true;  //自动放技能，不需要的改为false
 const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
 !(async () => {
+  await getToken();
   await requireConfig()
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
@@ -121,7 +122,7 @@ function zoo_getTaskDetail(shopSign = "",appSign = "",timeout = 0){
           //console.log('zoo_getTaskDetail:' + data)
           data = JSON.parse(data);
           if (data.data.bizCode === -2) {
-            console.log(data.data.bizMsg)
+            if (appSign === "") console.log(data.data.bizMsg)
             return
           }
           if (shopSign === "") {
@@ -799,6 +800,29 @@ function zoo_pk_getHomeData(inviteId = "",timeout = 0) {
               }
             }
           }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+function getToken(timeout = 0){
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `https://bh.m.jd.com/gettoken`,
+        headers : {
+          'Content-Type' : `text/plain;charset=UTF-8`
+        },
+        body : `content={"appname":"50084","whwswswws":"","jdkey":"","body":{"platform":"1"}}`
+      }
+      $.post(url, async (err, resp, data) => {
+        try {
+          data = JSON.parse(data);
+          joyToken = data.joyytoken;
         } catch (e) {
           $.logErr(e, resp);
         } finally {
