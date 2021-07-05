@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-06-01 08:43
+更新时间：2021-07-05 15:57
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,11 +17,11 @@ const $ = new Env('京东抽奖机');
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRYxQ','1EFRXxg','1EFVRwA','1EFVRxw','1EFRZwA','1EFRZwQ','1EFRYwA','1EFVRxg','1EFVRxQ']
-const shareCodeArr = ['P04z54XCjVWmIaW5m9cZ2f433tIlJz4FjX2kfk','P04z54XCjVXnIaW5m9cZ2f433tIlLKXiUijZw4','T0225KkcRx4b8lbWJU72wvZZcwCjVXn627yx55awQ','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRWnIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRWm4aW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVenIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVenYaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVfnIaW5kRrbA','','T0225KkcRx4b8lbWJU72wvZZcwCjRWmYaW5kRrbA']
-const homeDataFunPrefixArr = ['interact_template','interact_template','harmony_template','','','','','','','','','','','','','','','interact_template','interact_template']
-const collectScoreFunPrefixArr = ['','','','','','','','','','','','','','','','','','interact_template','interact_template']
-const lotteryResultFunPrefixArr = ['','','','','','','','','','','','','','','','','','','interact_template','interact_template']
+const appIdArr = ['1EFRRxA','1EFRQwA','1EFRYxQ','1EFRXxg','1EFVRxg','1EFVQwQ']
+const shareCodeArr = ['T0225KkcRx4b8lbWJU72wvZZcwCjVWmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVXnIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRXnYaU5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRXnYaU5kRrbA']
+const homeDataFunPrefixArr = ['interact_template','interact_template','harmony_template','','','','','','','','','','interact_template','interact_template']
+const collectScoreFunPrefixArr = ['','','','','','','','','','','','','interact_template','interact_template']
+const lotteryResultFunPrefixArr = ['','','','','','','','','','','','','','interact_template','interact_template']
 let merge = {}
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '';
@@ -141,6 +141,7 @@ function interact_template_getHomeData(timeout = 0) {
             }
             if ([14,6].includes(data.data.result.taskVos[i].taskType)) {
               //console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
+              //shareCodeArr.push(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
               if (cookiesArr.indexOf(cookie) === 0) {
                 shareCodeArr[appIdArr.indexOf(appId)] = data.data.result.taskVos[i].assistTaskDetailVo.taskToken
               }
