@@ -1,6 +1,6 @@
 /*
 京东抽奖机
-更新时间：2021-07-05 15:57
+更新时间：2021-08-09 14:30
 脚本说明：抽奖活动,有新活动可以@我或者提Issues
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 // quantumultx
@@ -17,8 +17,8 @@ const $ = new Env('京东抽奖机');
 const STRSPLIT = "|";
 const needSum = false;            //是否需要显示汇总
 const printDetail = false;        //是否显示出参详情
-const appIdArr = ['1EFRRxA','1EFRQwA','1EFRYxQ','1EFRXxg','1EFVRxg','1EFVQwQ']
-const shareCodeArr = ['T0225KkcRx4b8lbWJU72wvZZcwCjVWmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVXnIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRXnYaU5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRXnYaU5kRrbA']
+const appIdArr = ['1EFRRxA','1EFRQwA','1E1NYwqc','1EFRXxg','1EFVRxg','1E1NYw6w']
+const shareCodeArr = ['T0225KkcRx4b8lbWJU72wvZZcwCjVWmIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjVXnIaW5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCTJfnqS7zDcjeQOc','T0225KkcRx4b8lbWJU72wvZZcwCjVQmoaT5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCjRXnYaU5kRrbA','T0225KkcRx4b8lbWJU72wvZZcwCTJfn6-7zDQjeQOc']
 const homeDataFunPrefixArr = ['interact_template','interact_template','harmony_template','','','','','','','','','','interact_template','interact_template']
 const collectScoreFunPrefixArr = ['','','','','','','','','','','','','interact_template','interact_template']
 const lotteryResultFunPrefixArr = ['','','','','','','','','','','','','','interact_template','interact_template']
@@ -140,7 +140,7 @@ function interact_template_getHomeData(timeout = 0) {
               continue
             }
             if ([14,6].includes(data.data.result.taskVos[i].taskType)) {
-              //console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
+              console.log(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
               //shareCodeArr.push(data.data.result.taskVos[i].assistTaskDetailVo.taskToken)
               if (cookiesArr.indexOf(cookie) === 0) {
                 shareCodeArr[appIdArr.indexOf(appId)] = data.data.result.taskVos[i].assistTaskDetailVo.taskToken
