@@ -3,6 +3,7 @@
 DOMAIN-SUFFIX,lncn.org,PROXY
 DOMAIN-KEYWORD,github,PROXY
 DOMAIN-KEYWORD,gmail,PROXY
+DOMAIN-SUFFIX,tiktokv.com,PROXY
 
 # 域名 REJECT
 DOMAIN-SUFFIX,bds.snssdk.com,REJECT
@@ -19,7 +20,6 @@ DOMAIN-SUFFIX,ulogs.umengcloud.com,REJECT
 DOMAIN-SUFFIX,pangolin-sdk-toutiao.com,REJECT
 
 # 域名 DIRECT
-#DOMAIN-SUFFIX,tiktokv.com,DIRECT
 DOMAIN-SUFFIX,ddrk.me,DIRECT
 DOMAIN-SUFFIX,live.com,DIRECT
 DOMAIN-KEYWORD,microsoft,DIRECT
