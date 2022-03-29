@@ -17,7 +17,7 @@
 hostname = operation-api.jimistore.com
 */
 const $ = new Env('天天挖矿');
-const openurl = { "open-url" : "alipays://platformapi/startapp?saId=10000007&qrcode=https%3a%2f%2fqr.alipay.com%2fs7x160157ugopip2fb7fu5c" }
+const openurl = { "open-url" : "alipays://platformapi/startapp?saId=10000007&qrcode=https%3A%2F%2Fur.alipay.com%2F2a1ckJuX" }
 !(async () => {
   if (typeof $request !== "undefined") {
     await setSignData()
